@@ -137,47 +137,57 @@
             // 
             // btnEstadisticas
             // 
+            this.btnEstadisticas.BackColor = System.Drawing.SystemColors.Control;
             this.btnEstadisticas.Image = global::CapaPresentacion.Properties.Resources.analysis_1_;
             this.btnEstadisticas.Location = new System.Drawing.Point(135, 292);
             this.btnEstadisticas.Name = "btnEstadisticas";
             this.btnEstadisticas.Size = new System.Drawing.Size(145, 132);
             this.btnEstadisticas.TabIndex = 27;
+            this.btnEstadisticas.UseVisualStyleBackColor = false;
             this.btnEstadisticas.Click += new System.EventHandler(this.btnEstadisticas_Click_1);
             // 
             // btnConfiguracion
             // 
+            this.btnConfiguracion.BackColor = System.Drawing.SystemColors.Control;
             this.btnConfiguracion.Image = global::CapaPresentacion.Properties.Resources.gear;
             this.btnConfiguracion.Location = new System.Drawing.Point(336, 292);
             this.btnConfiguracion.Name = "btnConfiguracion";
             this.btnConfiguracion.Size = new System.Drawing.Size(146, 132);
             this.btnConfiguracion.TabIndex = 28;
+            this.btnConfiguracion.UseVisualStyleBackColor = false;
             this.btnConfiguracion.Click += new System.EventHandler(this.btnConfiguracion_Click_1);
             // 
             // btnVentas
             // 
+            this.btnVentas.BackColor = System.Drawing.SystemColors.Control;
             this.btnVentas.Image = global::CapaPresentacion.Properties.Resources.acquisition;
             this.btnVentas.Location = new System.Drawing.Point(532, 80);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(130, 130);
             this.btnVentas.TabIndex = 31;
+            this.btnVentas.UseVisualStyleBackColor = false;
             this.btnVentas.Click += new System.EventHandler(this.btnVentas_Click_1);
             // 
             // btnCompras
             // 
+            this.btnCompras.BackColor = System.Drawing.SystemColors.Control;
             this.btnCompras.Image = global::CapaPresentacion.Properties.Resources.goods;
             this.btnCompras.Location = new System.Drawing.Point(336, 80);
             this.btnCompras.Name = "btnCompras";
             this.btnCompras.Size = new System.Drawing.Size(146, 130);
             this.btnCompras.TabIndex = 32;
+            this.btnCompras.UseVisualStyleBackColor = false;
             this.btnCompras.Click += new System.EventHandler(this.btnCompras_Click_1);
             // 
             // btnProductos
             // 
+            this.btnProductos.BackColor = System.Drawing.SystemColors.Control;
             this.btnProductos.Image = global::CapaPresentacion.Properties.Resources.box1;
             this.btnProductos.Location = new System.Drawing.Point(131, 83);
             this.btnProductos.Name = "btnProductos";
             this.btnProductos.Size = new System.Drawing.Size(149, 127);
             this.btnProductos.TabIndex = 34;
+            this.btnProductos.UseVisualStyleBackColor = false;
             this.btnProductos.Click += new System.EventHandler(this.btnProductos_Click);
             // 
             // label9
@@ -191,16 +201,19 @@
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.Location = new System.Drawing.Point(12, 506);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(41, 35);
             this.button1.TabIndex = 40;
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(819, 553);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.button1);

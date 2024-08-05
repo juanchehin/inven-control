@@ -34,8 +34,6 @@ namespace CapaPresentacion
             // Chequear permisos y ocultar botones
             if (this.IdRol != 1) // ¿Es admin?
             {
-                this.btnUsuarios.Visible = false;
-                this.lblUsuarios.Visible = false;
                 this.btnEstadisticas.Visible = false;
                 this.lblEstadisticas.Visible = false;
             }

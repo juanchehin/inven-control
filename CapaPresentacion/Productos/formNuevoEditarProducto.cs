@@ -35,6 +35,9 @@ namespace CapaPresentacion
         private string Categoria;
         private string Unidad;
 
+        private string NroRack;
+        private string Nivel;
+
         public formNuevoEditarProducto(int parametro,bool IsNuevoEditar)
         {
             InitializeComponent();
@@ -88,6 +91,8 @@ namespace CapaPresentacion
                 Categoria = Convert.ToString(row["Categoria"]);
                 Unidad = Convert.ToString(row["unidad"]);
 
+                NroRack = Convert.ToString(row["nro_rack"]);
+                Nivel = Convert.ToString(row["nivel"]);
 
                 txtNombre.Text = Producto;
                 txtCodigo.Text = Codigo;
@@ -97,6 +102,8 @@ namespace CapaPresentacion
                 txtPrecioVenta.Text = PrecioVenta;
                 txtPrecioOferta.Text = PrecioOferta;
                 txtDescripcion.Text = Descripcion;
+                txt_nro_rack.Text = NroRack;
+                txt_nivel.Text = Nivel;
                 cbCategorias.Text = Categoria;
                 cbUnidad.Text = Unidad;
             }
@@ -141,13 +148,15 @@ namespace CapaPresentacion
                         {
                             rpta = CN_Productos.Insertar(this.txtNombre.Text.Trim(), this.txtCodigo.Text.Trim(), this.txtPrecioCompra.Text.Trim(),
                                 this.txtPrecioVenta.Text.Trim(), this.txtPrecioOferta.Text.Trim(), this.txtDescripcion.Text.Trim(),
-                                this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text);
+                                this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text
+                                , this.txt_nro_rack.Text, this.txt_nivel.Text);
                         }
                         else
                         {
                             rpta = CN_Productos.Editar(this.IdProducto, this.txtNombre.Text.Trim(), this.txtCodigo.Text.Trim(),
                                 this.txtPrecioCompra.Text.Trim(), this.txtPrecioVenta.Text.Trim(), this.txtPrecioOferta.Text.Trim(), this.txtDescripcion.Text.Trim()
-                                , this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text);
+                                , this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text
+                            , this.txt_nro_rack.Text, this.txt_nivel.Text);
                         }
 
                         if (rpta.Equals("OK"))
@@ -316,9 +325,13 @@ namespace CapaPresentacion
                         j = j + 1;
                         string descripcion = dt.Rows[i][j].ToString();
                         j = j + 1;
+                        string nro_rack = dt.Rows[i][j].ToString();
+                        j = j + 1;
+                        string nivel = dt.Rows[i][j].ToString();
+                        j = j + 1;
 
                         rpta = CN_Productos.Insertar(producto.Trim(), codigo.Trim(), preciocompra.Trim(), precioventa.Trim(),"0",
-                            descripcion.Trim(), stock.Trim(), "0", categoria.Trim(),"-");
+                            descripcion.Trim(), stock.Trim(), "0", categoria.Trim(),"-", nro_rack.Trim(),nivel.Trim());
 
                         if (rpta == "Ok" || rpta == "OK")
                         {

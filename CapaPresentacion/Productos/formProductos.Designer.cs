@@ -45,11 +45,12 @@
             this.btnActualizarPrecios = new System.Windows.Forms.Button();
             this.btnCategorias = new System.Windows.Forms.Button();
             this.ttCategorias = new System.Windows.Forms.ToolTip(this.components);
+            this.btnBarcode = new System.Windows.Forms.Button();
             this.ttActPrecios = new System.Windows.Forms.ToolTip(this.components);
+            this.btnExportarExcel = new System.Windows.Forms.Button();
             this.ttRefrescar = new System.Windows.Forms.ToolTip(this.components);
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnAnterior = new System.Windows.Forms.Button();
-            this.btnExportarExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).BeginInit();
@@ -58,15 +59,15 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::CapaPresentacion.Properties.Resources.box1;
-            this.pictureBox2.Location = new System.Drawing.Point(831, 9);
+            this.pictureBox2.Location = new System.Drawing.Point(956, 9);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(81, 69);
+            this.pictureBox2.Size = new System.Drawing.Size(70, 69);
             this.pictureBox2.TabIndex = 20;
             this.pictureBox2.TabStop = false;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::CapaPresentacion.Properties.Resources.store;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(12, 9);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(100, 70);
@@ -137,12 +138,12 @@
             this.dataListadoProductos.AllowUserToAddRows = false;
             this.dataListadoProductos.AllowUserToDeleteRows = false;
             this.dataListadoProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataListadoProductos.Location = new System.Drawing.Point(34, 185);
+            this.dataListadoProductos.Location = new System.Drawing.Point(37, 184);
             this.dataListadoProductos.MultiSelect = false;
             this.dataListadoProductos.Name = "dataListadoProductos";
             this.dataListadoProductos.ReadOnly = true;
             this.dataListadoProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataListadoProductos.Size = new System.Drawing.Size(864, 332);
+            this.dataListadoProductos.Size = new System.Drawing.Size(992, 332);
             this.dataListadoProductos.TabIndex = 0;
             this.dataListadoProductos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataListadoProductos_CellFormatting);
             this.dataListadoProductos.SelectionChanged += new System.EventHandler(this.dataListadoProductos_SelectionChanged);
@@ -150,7 +151,7 @@
             // lblTotalProductos
             // 
             this.lblTotalProductos.AutoSize = true;
-            this.lblTotalProductos.Location = new System.Drawing.Point(767, 169);
+            this.lblTotalProductos.Location = new System.Drawing.Point(909, 168);
             this.lblTotalProductos.Name = "lblTotalProductos";
             this.lblTotalProductos.Size = new System.Drawing.Size(35, 13);
             this.lblTotalProductos.TabIndex = 7;
@@ -159,7 +160,7 @@
             // btnRefrescar
             // 
             this.btnRefrescar.Image = global::CapaPresentacion.Properties.Resources.refresh;
-            this.btnRefrescar.Location = new System.Drawing.Point(696, 132);
+            this.btnRefrescar.Location = new System.Drawing.Point(769, 127);
             this.btnRefrescar.Name = "btnRefrescar";
             this.btnRefrescar.Size = new System.Drawing.Size(47, 31);
             this.btnRefrescar.TabIndex = 19;
@@ -177,7 +178,7 @@
             // btnActualizarPrecios
             // 
             this.btnActualizarPrecios.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizarPrecios.Image")));
-            this.btnActualizarPrecios.Location = new System.Drawing.Point(801, 121);
+            this.btnActualizarPrecios.Location = new System.Drawing.Point(929, 121);
             this.btnActualizarPrecios.Name = "btnActualizarPrecios";
             this.btnActualizarPrecios.Size = new System.Drawing.Size(46, 42);
             this.btnActualizarPrecios.TabIndex = 15;
@@ -188,7 +189,7 @@
             // btnCategorias
             // 
             this.btnCategorias.Image = ((System.Drawing.Image)(resources.GetObject("btnCategorias.Image")));
-            this.btnCategorias.Location = new System.Drawing.Point(749, 121);
+            this.btnCategorias.Location = new System.Drawing.Point(877, 121);
             this.btnCategorias.Name = "btnCategorias";
             this.btnCategorias.Size = new System.Drawing.Size(46, 42);
             this.btnCategorias.TabIndex = 16;
@@ -200,9 +201,30 @@
             // 
             this.ttCategorias.Tag = "Categorias";
             // 
+            // btnBarcode
+            // 
+            this.btnBarcode.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode.Image")));
+            this.btnBarcode.Location = new System.Drawing.Point(825, 121);
+            this.btnBarcode.Name = "btnBarcode";
+            this.btnBarcode.Size = new System.Drawing.Size(46, 42);
+            this.btnBarcode.TabIndex = 23;
+            this.ttCategorias.SetToolTip(this.btnBarcode, "Categorias");
+            this.btnBarcode.UseVisualStyleBackColor = true;
+            // 
+            // btnExportarExcel
+            // 
+            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
+            this.btnExportarExcel.Location = new System.Drawing.Point(980, 121);
+            this.btnExportarExcel.Name = "btnExportarExcel";
+            this.btnExportarExcel.Size = new System.Drawing.Size(46, 42);
+            this.btnExportarExcel.TabIndex = 22;
+            this.ttActPrecios.SetToolTip(this.btnExportarExcel, "Actualizar precios");
+            this.btnExportarExcel.UseVisualStyleBackColor = true;
+            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            // 
             // btnSiguiente
             // 
-            this.btnSiguiente.Location = new System.Drawing.Point(823, 529);
+            this.btnSiguiente.Location = new System.Drawing.Point(951, 522);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(75, 23);
             this.btnSiguiente.TabIndex = 18;
@@ -212,7 +234,7 @@
             // 
             // btnAnterior
             // 
-            this.btnAnterior.Location = new System.Drawing.Point(741, 529);
+            this.btnAnterior.Location = new System.Drawing.Point(869, 522);
             this.btnAnterior.Name = "btnAnterior";
             this.btnAnterior.Size = new System.Drawing.Size(75, 23);
             this.btnAnterior.TabIndex = 17;
@@ -220,22 +242,12 @@
             this.btnAnterior.UseVisualStyleBackColor = true;
             this.btnAnterior.Click += new System.EventHandler(this.btnAnterior_Click);
             // 
-            // btnExportarExcel
-            // 
-            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
-            this.btnExportarExcel.Location = new System.Drawing.Point(852, 121);
-            this.btnExportarExcel.Name = "btnExportarExcel";
-            this.btnExportarExcel.Size = new System.Drawing.Size(46, 42);
-            this.btnExportarExcel.TabIndex = 22;
-            this.ttActPrecios.SetToolTip(this.btnExportarExcel, "Actualizar precios");
-            this.btnExportarExcel.UseVisualStyleBackColor = true;
-            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
-            // 
             // formProductos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 564);
+            this.ClientSize = new System.Drawing.Size(1041, 588);
+            this.Controls.Add(this.btnBarcode);
             this.Controls.Add(this.btnExportarExcel);
             this.Controls.Add(this.btnSiguiente);
             this.Controls.Add(this.btnAnterior);
@@ -287,6 +299,7 @@
         private System.Windows.Forms.Button btnSiguiente;
         private System.Windows.Forms.Button btnAnterior;
         private System.Windows.Forms.Button btnExportarExcel;
+        private System.Windows.Forms.Button btnBarcode;
     }
 }
 

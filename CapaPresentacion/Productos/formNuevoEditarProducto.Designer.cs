@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formNuevoEditarProducto));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_nivel = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txt_nro_rack = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.txtPrecioOferta = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.btnAltaUnidad = new System.Windows.Forms.Button();
@@ -99,6 +103,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txt_nivel);
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.txt_nro_rack);
+            this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.txtPrecioOferta);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.btnAltaUnidad);
@@ -126,10 +134,42 @@
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox1.Location = new System.Drawing.Point(31, 115);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(719, 258);
+            this.groupBox1.Size = new System.Drawing.Size(719, 325);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Productos";
+            // 
+            // txt_nivel
+            // 
+            this.txt_nivel.Location = new System.Drawing.Point(465, 223);
+            this.txt_nivel.Name = "txt_nivel";
+            this.txt_nivel.Size = new System.Drawing.Size(121, 20);
+            this.txt_nivel.TabIndex = 32;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(371, 226);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(37, 13);
+            this.label16.TabIndex = 34;
+            this.label16.Text = "Nivel :";
+            // 
+            // txt_nro_rack
+            // 
+            this.txt_nro_rack.Location = new System.Drawing.Point(465, 197);
+            this.txt_nro_rack.Name = "txt_nro_rack";
+            this.txt_nro_rack.Size = new System.Drawing.Size(121, 20);
+            this.txt_nro_rack.TabIndex = 31;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(371, 200);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(54, 13);
+            this.label17.TabIndex = 33;
+            this.label17.Text = "Nro rack :";
             // 
             // txtPrecioOferta
             // 
@@ -150,7 +190,7 @@
             // btnAltaUnidad
             // 
             this.btnAltaUnidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAltaUnidad.Location = new System.Drawing.Point(605, 228);
+            this.btnAltaUnidad.Location = new System.Drawing.Point(605, 286);
             this.btnAltaUnidad.Name = "btnAltaUnidad";
             this.btnAltaUnidad.Size = new System.Drawing.Size(27, 23);
             this.btnAltaUnidad.TabIndex = 12;
@@ -162,7 +202,7 @@
             // 
             this.cbUnidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbUnidad.FormattingEnabled = true;
-            this.cbUnidad.Location = new System.Drawing.Point(465, 230);
+            this.cbUnidad.Location = new System.Drawing.Point(465, 288);
             this.cbUnidad.Name = "cbUnidad";
             this.cbUnidad.Size = new System.Drawing.Size(121, 21);
             this.cbUnidad.TabIndex = 11;
@@ -170,7 +210,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(371, 233);
+            this.label14.Location = new System.Drawing.Point(371, 291);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(47, 13);
             this.label14.TabIndex = 26;
@@ -206,7 +246,7 @@
             // btnAgregarCategoria
             // 
             this.btnAgregarCategoria.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAgregarCategoria.Location = new System.Drawing.Point(605, 197);
+            this.btnAgregarCategoria.Location = new System.Drawing.Point(605, 255);
             this.btnAgregarCategoria.Name = "btnAgregarCategoria";
             this.btnAgregarCategoria.Size = new System.Drawing.Size(27, 23);
             this.btnAgregarCategoria.TabIndex = 10;
@@ -218,7 +258,7 @@
             // 
             this.cbCategorias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCategorias.FormattingEnabled = true;
-            this.cbCategorias.Location = new System.Drawing.Point(465, 199);
+            this.cbCategorias.Location = new System.Drawing.Point(465, 257);
             this.cbCategorias.Name = "cbCategorias";
             this.cbCategorias.Size = new System.Drawing.Size(121, 21);
             this.cbCategorias.TabIndex = 9;
@@ -226,7 +266,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(371, 202);
+            this.label7.Location = new System.Drawing.Point(371, 260);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 13);
             this.label7.TabIndex = 19;
@@ -336,9 +376,9 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(542, 379);
+            this.btnCancelar.Location = new System.Drawing.Point(524, 446);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(93, 43);
             this.btnCancelar.TabIndex = 14;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -346,9 +386,9 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(166, 379);
+            this.btnGuardar.Location = new System.Drawing.Point(136, 446);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.Size = new System.Drawing.Size(92, 43);
             this.btnGuardar.TabIndex = 13;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -376,7 +416,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::CapaPresentacion.Properties.Resources.store;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(0, 0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(100, 50);
@@ -430,7 +470,7 @@
             this.panelNuevoEditarCategoria.Controls.Add(this.label9);
             this.panelNuevoEditarCategoria.Controls.Add(this.groupBox2);
             this.panelNuevoEditarCategoria.Controls.Add(this.pictureBox4);
-            this.panelNuevoEditarCategoria.Location = new System.Drawing.Point(106, 22);
+            this.panelNuevoEditarCategoria.Location = new System.Drawing.Point(88, 59);
             this.panelNuevoEditarCategoria.Name = "panelNuevoEditarCategoria";
             this.panelNuevoEditarCategoria.Size = new System.Drawing.Size(627, 313);
             this.panelNuevoEditarCategoria.TabIndex = 18;
@@ -506,7 +546,7 @@
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Image = global::CapaPresentacion.Properties.Resources.store;
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
             this.pictureBox4.Location = new System.Drawing.Point(0, 0);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(100, 50);
@@ -522,7 +562,7 @@
             this.panelNuevaUnidad.Controls.Add(this.guardarUnidad);
             this.panelNuevaUnidad.Controls.Add(this.label11);
             this.panelNuevaUnidad.Controls.Add(this.groupBox3);
-            this.panelNuevaUnidad.Location = new System.Drawing.Point(88, 56);
+            this.panelNuevaUnidad.Location = new System.Drawing.Point(117, 45);
             this.panelNuevaUnidad.Name = "panelNuevaUnidad";
             this.panelNuevaUnidad.Size = new System.Drawing.Size(627, 313);
             this.panelNuevaUnidad.TabIndex = 31;
@@ -619,7 +659,7 @@
             this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 427);
+            this.ClientSize = new System.Drawing.Size(800, 501);
             this.Controls.Add(this.panelNuevaUnidad);
             this.Controls.Add(this.panelNuevoEditarCategoria);
             this.Controls.Add(this.btnImportarExcel);
@@ -715,5 +755,9 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtPrecioOferta;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txt_nivel;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txt_nro_rack;
+        private System.Windows.Forms.Label label17;
     }
 }

@@ -8,7 +8,7 @@
     <ProjectGuid>{E39A7657-35A0-4698-9048-FD8C96E2C3A2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CapaPresentacion</RootNamespace>
-    <AssemblyName>store_soft</AssemblyName>
+    <AssemblyName>inven-control</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -68,7 +68,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo_store_soft.ico</ApplicationIcon>
+    <ApplicationIcon>inventory.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=3.0.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
@@ -439,6 +439,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="inventory.ico" />
     <Content Include="logo_store_soft.ico" />
     <Content Include="TicketVenta.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

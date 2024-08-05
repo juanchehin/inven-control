@@ -11,7 +11,7 @@ namespace CapaNegocio
         //Método Insertar que llama al método Insertar de la clase DArticulo
         //de la CapaDatos
         public static string Insertar(string nombre, string Codigo, string PrecioCompra, string PrecioVenta, string PrecioOferta,
-            string Descripcion, string Stock, string StockAlerta, string Categoria, string unidad)
+            string Descripcion, string Stock, string StockAlerta, string Categoria, string unidad,string nro_rack, string nivel)
         {
             CD_Productos Obj = new CD_Productos();
             Obj.Producto = nombre;
@@ -24,6 +24,8 @@ namespace CapaNegocio
             Obj.StockAlerta = StockAlerta;
             Obj.Categoria = Categoria;
             Obj.Unidad = unidad;
+            Obj.NroRack = nro_rack;
+            Obj.Nivel = nivel;
 
             return Obj.Insertar(Obj);
         }
@@ -60,7 +62,8 @@ namespace CapaNegocio
 
 
         public static string Editar(int IdProducto, string Producto, string Codigo, string PrecioCompra, string PrecioVenta,
-            string PrecioOferta , string Descripcion, string Stock, string StockAlerta, string Categoria, string unidad)
+            string PrecioOferta , string Descripcion, string Stock, string StockAlerta, string Categoria, string unidad
+            , string nro_rack, string nivel)
         {
             CD_Productos Obj = new CD_Productos();
             Obj.IdProducto = IdProducto;
@@ -75,6 +78,8 @@ namespace CapaNegocio
             Obj.StockAlerta = StockAlerta;
             Obj.Categoria = Categoria;
             Obj.Unidad = unidad;
+            Obj.NroRack = nro_rack;
+            Obj.Nivel = nivel;
 
             return Obj.Editar(Obj);
         }

@@ -21,6 +21,8 @@ namespace CapaDatos
         private string _TextoBuscar;
         private string _Categoria;
         private string _Unidad;
+        private string _NroRack;
+        private string _Nivel;
 
 
         public int IdProducto { get => _IdProducto; set => _IdProducto = value; }
@@ -36,6 +38,8 @@ namespace CapaDatos
         public string PrecioOferta { get => _PrecioOferta; set => _PrecioOferta = value; }
         public string Categoria { get => _Categoria; set => _Categoria = value; }
         public string Unidad { get => _Unidad; set => _Unidad = value; }
+        public string NroRack { get => _NroRack; set => _NroRack = value; }
+        public string Nivel { get => _Nivel; set => _Nivel = value; }
 
         //Constructores
         public CD_Productos()
@@ -199,12 +203,24 @@ namespace CapaDatos
                 pPrecioVenta.MySqlDbType = MySqlDbType.Decimal;
                 pPrecioVenta.Value = Producto.PrecioVenta;
                 comando.Parameters.Add(pPrecioVenta);
-
+ 
                 MySqlParameter pPrecioOferta = new MySqlParameter();
                 pPrecioOferta.ParameterName = "@pPrecioOferta";
                 pPrecioOferta.MySqlDbType = MySqlDbType.Decimal;
                 pPrecioOferta.Value = Producto.PrecioOferta;
                 comando.Parameters.Add(pPrecioOferta);
+                
+                MySqlParameter pNroRack = new MySqlParameter();
+                pNroRack.ParameterName = "@pNroRack";
+                pNroRack.MySqlDbType = MySqlDbType.VarChar;
+                pNroRack.Value = Producto.NroRack;
+                comando.Parameters.Add(pNroRack);
+
+                MySqlParameter pNivel = new MySqlParameter();
+                pNivel.ParameterName = "@pNivel";
+                pNivel.MySqlDbType = MySqlDbType.VarChar;
+                pNivel.Value = Producto.Nivel;
+                comando.Parameters.Add(pNivel);
 
                 MySqlParameter pDescripcion = new MySqlParameter();
                 pDescripcion.ParameterName = "@pDescripcion";
