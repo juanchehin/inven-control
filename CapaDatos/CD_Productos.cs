@@ -341,6 +341,18 @@ namespace CapaDatos
                 pPrecioOferta.Value = Producto.PrecioOferta;
                 comando.Parameters.Add(pPrecioOferta);
 
+                MySqlParameter pNroRack = new MySqlParameter();
+                pNroRack.ParameterName = "@pNroRack";
+                pNroRack.MySqlDbType = MySqlDbType.VarChar;
+                pNroRack.Value = Producto.NroRack;
+                comando.Parameters.Add(pNroRack);
+
+                MySqlParameter pNivel = new MySqlParameter();
+                pNivel.ParameterName = "@pNivel";
+                pNivel.MySqlDbType = MySqlDbType.VarChar;
+                pNivel.Value = Producto.Nivel;
+                comando.Parameters.Add(pNivel);
+
                 MySqlParameter pStock = new MySqlParameter();
                 pStock.ParameterName = "@pStock";
                 pStock.MySqlDbType = MySqlDbType.Decimal;

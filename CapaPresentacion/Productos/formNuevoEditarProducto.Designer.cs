@@ -134,7 +134,7 @@
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox1.Location = new System.Drawing.Point(31, 115);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(719, 325);
+            this.groupBox1.Size = new System.Drawing.Size(740, 325);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Productos";
@@ -144,7 +144,7 @@
             this.txt_nivel.Location = new System.Drawing.Point(465, 223);
             this.txt_nivel.Name = "txt_nivel";
             this.txt_nivel.Size = new System.Drawing.Size(121, 20);
-            this.txt_nivel.TabIndex = 32;
+            this.txt_nivel.TabIndex = 10;
             // 
             // label16
             // 
@@ -160,7 +160,7 @@
             this.txt_nro_rack.Location = new System.Drawing.Point(465, 197);
             this.txt_nro_rack.Name = "txt_nro_rack";
             this.txt_nro_rack.Size = new System.Drawing.Size(121, 20);
-            this.txt_nro_rack.TabIndex = 31;
+            this.txt_nro_rack.TabIndex = 9;
             // 
             // label17
             // 
@@ -205,7 +205,7 @@
             this.cbUnidad.Location = new System.Drawing.Point(465, 288);
             this.cbUnidad.Name = "cbUnidad";
             this.cbUnidad.Size = new System.Drawing.Size(121, 21);
-            this.cbUnidad.TabIndex = 11;
+            this.cbUnidad.TabIndex = 12;
             // 
             // label14
             // 
@@ -261,7 +261,7 @@
             this.cbCategorias.Location = new System.Drawing.Point(465, 257);
             this.cbCategorias.Name = "cbCategorias";
             this.cbCategorias.Size = new System.Drawing.Size(121, 21);
-            this.cbCategorias.TabIndex = 9;
+            this.cbCategorias.TabIndex = 11;
             // 
             // label7
             // 
@@ -470,7 +470,7 @@
             this.panelNuevoEditarCategoria.Controls.Add(this.label9);
             this.panelNuevoEditarCategoria.Controls.Add(this.groupBox2);
             this.panelNuevoEditarCategoria.Controls.Add(this.pictureBox4);
-            this.panelNuevoEditarCategoria.Location = new System.Drawing.Point(88, 59);
+            this.panelNuevoEditarCategoria.Location = new System.Drawing.Point(71, 56);
             this.panelNuevoEditarCategoria.Name = "panelNuevoEditarCategoria";
             this.panelNuevoEditarCategoria.Size = new System.Drawing.Size(627, 313);
             this.panelNuevoEditarCategoria.TabIndex = 18;
@@ -562,7 +562,7 @@
             this.panelNuevaUnidad.Controls.Add(this.guardarUnidad);
             this.panelNuevaUnidad.Controls.Add(this.label11);
             this.panelNuevaUnidad.Controls.Add(this.groupBox3);
-            this.panelNuevaUnidad.Location = new System.Drawing.Point(117, 45);
+            this.panelNuevaUnidad.Location = new System.Drawing.Point(119, 41);
             this.panelNuevaUnidad.Name = "panelNuevaUnidad";
             this.panelNuevaUnidad.Size = new System.Drawing.Size(627, 313);
             this.panelNuevaUnidad.TabIndex = 31;
