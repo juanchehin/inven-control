@@ -73,9 +73,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(574, 230);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.Size = new System.Drawing.Size(45, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "Ventas";
+            this.label6.Text = "Egresos";
             // 
             // label8
             // 
@@ -160,7 +160,7 @@
             // btnVentas
             // 
             this.btnVentas.BackColor = System.Drawing.SystemColors.Control;
-            this.btnVentas.Image = global::CapaPresentacion.Properties.Resources.acquisition;
+            this.btnVentas.Image = ((System.Drawing.Image)(resources.GetObject("btnVentas.Image")));
             this.btnVentas.Location = new System.Drawing.Point(532, 80);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(130, 130);
@@ -171,7 +171,7 @@
             // btnCompras
             // 
             this.btnCompras.BackColor = System.Drawing.SystemColors.Control;
-            this.btnCompras.Image = global::CapaPresentacion.Properties.Resources.goods;
+            this.btnCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnCompras.Image")));
             this.btnCompras.Location = new System.Drawing.Point(336, 80);
             this.btnCompras.Name = "btnCompras";
             this.btnCompras.Size = new System.Drawing.Size(146, 130);
