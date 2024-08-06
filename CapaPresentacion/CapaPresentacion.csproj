@@ -16,7 +16,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>D:\descargas2\compilados\ic\</PublishUrl>
+    <PublishUrl>D:\descargas2\compilados\ic2\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -27,10 +27,10 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <SupportUrl>https://juanchehin.github.io/CR/</SupportUrl>
-    <ProductName>store_soft</ProductName>
+    <ProductName>inven_control</ProductName>
     <PublisherName>Ing Juan Chehin</PublisherName>
-    <SuiteName>store_soft</SuiteName>
-    <ApplicationRevision>85</ApplicationRevision>
+    <SuiteName>inven_control</SuiteName>
+    <ApplicationRevision>86</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
