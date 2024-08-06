@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 // Agregados
 using CapaNegocio;
 using CapaPresentacion.Productos;
+using OfficeOpenXml;
 using SpreadsheetLight;
 using MessageBox = System.Windows.Forms.MessageBox;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace CapaPresentacion
 {

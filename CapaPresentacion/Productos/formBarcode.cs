@@ -15,17 +15,6 @@ namespace CapaPresentacion.Productos
             this.p_barcode = g_barcode;
             generar_barcode();
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void formBarcode_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void generar_barcode()
         {
             Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
@@ -53,6 +42,14 @@ namespace CapaPresentacion.Productos
             bmp.Dispose();
         }
 
-        
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

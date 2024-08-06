@@ -3,7 +3,6 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using CapaNegocio;
-using CapaPresentacion.Productos;
 using ExcelDataReader;
 
 namespace CapaPresentacion
