@@ -30,8 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formProductos));
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtBuscar = new System.Windows.Forms.TextBox();
@@ -40,46 +38,29 @@
             this.btnNuevoProducto = new System.Windows.Forms.Button();
             this.dataListadoProductos = new System.Windows.Forms.DataGridView();
             this.lblTotalProductos = new System.Windows.Forms.Label();
-            this.btnRefrescar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnActualizarPrecios = new System.Windows.Forms.Button();
-            this.btnCategorias = new System.Windows.Forms.Button();
             this.ttCategorias = new System.Windows.Forms.ToolTip(this.components);
-            this.btnBarcode = new System.Windows.Forms.Button();
             this.ttActPrecios = new System.Windows.Forms.ToolTip(this.components);
-            this.btnExportarExcel = new System.Windows.Forms.Button();
             this.ttRefrescar = new System.Windows.Forms.ToolTip(this.components);
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnAnterior = new System.Windows.Forms.Button();
+            this.btnBarcode = new System.Windows.Forms.Button();
+            this.btnExportarExcel = new System.Windows.Forms.Button();
+            this.btnCategorias = new System.Windows.Forms.Button();
+            this.btnActualizarPrecios = new System.Windows.Forms.Button();
+            this.btnRefrescar = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::CapaPresentacion.Properties.Resources.box1;
-            this.pictureBox2.Location = new System.Drawing.Point(956, 9);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(70, 69);
-            this.pictureBox2.TabIndex = 20;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 9);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 70);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 21;
-            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 54.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(298, 9);
+            this.label1.Location = new System.Drawing.Point(354, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(397, 85);
             this.label1.TabIndex = 3;
@@ -157,15 +138,6 @@
             this.lblTotalProductos.TabIndex = 7;
             this.lblTotalProductos.Text = "label2";
             // 
-            // btnRefrescar
-            // 
-            this.btnRefrescar.Image = global::CapaPresentacion.Properties.Resources.refresh;
-            this.btnRefrescar.Location = new System.Drawing.Point(769, 127);
-            this.btnRefrescar.Name = "btnRefrescar";
-            this.btnRefrescar.Size = new System.Drawing.Size(47, 31);
-            this.btnRefrescar.TabIndex = 19;
-            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click_1);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -175,52 +147,9 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Busqueda por codigo o producto";
             // 
-            // btnActualizarPrecios
-            // 
-            this.btnActualizarPrecios.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizarPrecios.Image")));
-            this.btnActualizarPrecios.Location = new System.Drawing.Point(929, 121);
-            this.btnActualizarPrecios.Name = "btnActualizarPrecios";
-            this.btnActualizarPrecios.Size = new System.Drawing.Size(46, 42);
-            this.btnActualizarPrecios.TabIndex = 15;
-            this.ttActPrecios.SetToolTip(this.btnActualizarPrecios, "Actualizar precios");
-            this.btnActualizarPrecios.UseVisualStyleBackColor = true;
-            this.btnActualizarPrecios.Click += new System.EventHandler(this.btnActualizarPrecios_Click);
-            // 
-            // btnCategorias
-            // 
-            this.btnCategorias.Image = ((System.Drawing.Image)(resources.GetObject("btnCategorias.Image")));
-            this.btnCategorias.Location = new System.Drawing.Point(877, 121);
-            this.btnCategorias.Name = "btnCategorias";
-            this.btnCategorias.Size = new System.Drawing.Size(46, 42);
-            this.btnCategorias.TabIndex = 16;
-            this.ttCategorias.SetToolTip(this.btnCategorias, "Categorias");
-            this.btnCategorias.UseVisualStyleBackColor = true;
-            this.btnCategorias.Click += new System.EventHandler(this.btnCategorias_Click);
-            // 
             // ttCategorias
             // 
             this.ttCategorias.Tag = "Categorias";
-            // 
-            // btnBarcode
-            // 
-            this.btnBarcode.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode.Image")));
-            this.btnBarcode.Location = new System.Drawing.Point(825, 121);
-            this.btnBarcode.Name = "btnBarcode";
-            this.btnBarcode.Size = new System.Drawing.Size(46, 42);
-            this.btnBarcode.TabIndex = 23;
-            this.ttCategorias.SetToolTip(this.btnBarcode, "Categorias");
-            this.btnBarcode.UseVisualStyleBackColor = true;
-            // 
-            // btnExportarExcel
-            // 
-            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
-            this.btnExportarExcel.Location = new System.Drawing.Point(980, 121);
-            this.btnExportarExcel.Name = "btnExportarExcel";
-            this.btnExportarExcel.Size = new System.Drawing.Size(46, 42);
-            this.btnExportarExcel.TabIndex = 22;
-            this.ttActPrecios.SetToolTip(this.btnExportarExcel, "Actualizar precios");
-            this.btnExportarExcel.UseVisualStyleBackColor = true;
-            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
             // 
             // btnSiguiente
             // 
@@ -241,6 +170,78 @@
             this.btnAnterior.Text = "<< Anterior";
             this.btnAnterior.UseVisualStyleBackColor = true;
             this.btnAnterior.Click += new System.EventHandler(this.btnAnterior_Click);
+            // 
+            // btnBarcode
+            // 
+            this.btnBarcode.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode.Image")));
+            this.btnBarcode.Location = new System.Drawing.Point(825, 121);
+            this.btnBarcode.Name = "btnBarcode";
+            this.btnBarcode.Size = new System.Drawing.Size(46, 42);
+            this.btnBarcode.TabIndex = 23;
+            this.ttCategorias.SetToolTip(this.btnBarcode, "Categorias");
+            this.btnBarcode.UseVisualStyleBackColor = true;
+            this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);
+            // 
+            // btnExportarExcel
+            // 
+            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
+            this.btnExportarExcel.Location = new System.Drawing.Point(980, 121);
+            this.btnExportarExcel.Name = "btnExportarExcel";
+            this.btnExportarExcel.Size = new System.Drawing.Size(46, 42);
+            this.btnExportarExcel.TabIndex = 22;
+            this.ttActPrecios.SetToolTip(this.btnExportarExcel, "Actualizar precios");
+            this.btnExportarExcel.UseVisualStyleBackColor = true;
+            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            // 
+            // btnCategorias
+            // 
+            this.btnCategorias.Image = ((System.Drawing.Image)(resources.GetObject("btnCategorias.Image")));
+            this.btnCategorias.Location = new System.Drawing.Point(877, 121);
+            this.btnCategorias.Name = "btnCategorias";
+            this.btnCategorias.Size = new System.Drawing.Size(46, 42);
+            this.btnCategorias.TabIndex = 16;
+            this.ttCategorias.SetToolTip(this.btnCategorias, "Categorias");
+            this.btnCategorias.UseVisualStyleBackColor = true;
+            this.btnCategorias.Click += new System.EventHandler(this.btnCategorias_Click);
+            // 
+            // btnActualizarPrecios
+            // 
+            this.btnActualizarPrecios.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizarPrecios.Image")));
+            this.btnActualizarPrecios.Location = new System.Drawing.Point(929, 121);
+            this.btnActualizarPrecios.Name = "btnActualizarPrecios";
+            this.btnActualizarPrecios.Size = new System.Drawing.Size(46, 42);
+            this.btnActualizarPrecios.TabIndex = 15;
+            this.ttActPrecios.SetToolTip(this.btnActualizarPrecios, "Actualizar precios");
+            this.btnActualizarPrecios.UseVisualStyleBackColor = true;
+            this.btnActualizarPrecios.Click += new System.EventHandler(this.btnActualizarPrecios_Click);
+            // 
+            // btnRefrescar
+            // 
+            this.btnRefrescar.Image = global::CapaPresentacion.Properties.Resources.refresh;
+            this.btnRefrescar.Location = new System.Drawing.Point(769, 127);
+            this.btnRefrescar.Name = "btnRefrescar";
+            this.btnRefrescar.Size = new System.Drawing.Size(47, 31);
+            this.btnRefrescar.TabIndex = 19;
+            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click_1);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::CapaPresentacion.Properties.Resources.box1;
+            this.pictureBox2.Location = new System.Drawing.Point(956, 9);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(70, 69);
+            this.pictureBox2.TabIndex = 20;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(12, 9);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 70);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 21;
+            this.pictureBox1.TabStop = false;
             // 
             // formProductos
             // 
@@ -270,9 +271,9 @@
             this.Text = "                                                                                 " +
     "                                                          ..:: Productos ::..";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

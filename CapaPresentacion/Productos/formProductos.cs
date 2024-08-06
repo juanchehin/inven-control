@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Forms;
 // Agregados
 using CapaNegocio;
@@ -16,6 +15,7 @@ namespace CapaPresentacion
         CN_Productos objetoCN_productos = new CN_Productos();
 
         private int  IdProducto;
+        private string g_barcode;
         int desde = 0;
         int totalProductos = 0;
         DataSet dsProductos = new DataSet();
@@ -102,6 +102,7 @@ namespace CapaPresentacion
                 int selectedrowindex = dataListadoProductos.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = dataListadoProductos.Rows[selectedrowindex];
                 this.IdProducto = Convert.ToInt32(selectedRow.Cells["IdProducto"].Value);
+                this.g_barcode = selectedRow.Cells["Codigo"].Value.ToString();
             }
         }
 
@@ -249,6 +250,13 @@ namespace CapaPresentacion
                     System.Windows.MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void btnBarcode_Click(object sender, EventArgs e)
+        {
+            formBarcode frm = new formBarcode(this.g_barcode);
+            frm.MdiParent = this.MdiParent;
+            frm.Show();
         }
     }
 }
