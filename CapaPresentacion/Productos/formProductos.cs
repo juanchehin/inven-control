@@ -10,6 +10,7 @@ using OfficeOpenXml;
 using SpreadsheetLight;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Excel = Microsoft.Office.Interop.Excel;
+using OfficeOpenXml.Style;
 
 namespace CapaPresentacion
 {
@@ -176,6 +177,7 @@ namespace CapaPresentacion
         }
 
         private void dataListadoProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+
         {
             // Verifica si la celda actual es de la columna "stock" o "stock_alerta"
             if (e.ColumnIndex == dataListadoProductos.Columns["Stock"].Index || e.ColumnIndex == dataListadoProductos.Columns["stock_alerta"].Index)
@@ -202,57 +204,62 @@ namespace CapaPresentacion
 
         private void btnExportarExcel_Click(object sender, EventArgs e)
         {
-            SLDocument sl = new SLDocument();
-            SLStyle style = new SLStyle();
-            style.Font.FontSize = 12;
-            style.Font.Bold = true;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            sl.SetCellValue(1, 1, "Codigo");
-            sl.SetCellValue(1, 2, "Producto");
-            sl.SetCellValue(1, 3, "PrecioVenta");
-
-            sl.SetCellStyle(1, 1, style);
-            sl.SetCellStyle(1, 2, style);
-            sl.SetCellStyle(1, 3, style);
-
-            DataSet dataListadoTodosProductos = objetoCN_productos.ListarTodosProductos();
-
-            if (dataListadoTodosProductos.Tables.Count > 0)
+            // Crear un nuevo paquete de Excel
+            using (ExcelPackage package = new ExcelPackage())
             {
-                int i = 2;
-                // Iterar sobre las filas de la primera tabla del DataSet
-                foreach (DataRow row in dataListadoTodosProductos.Tables[0].Rows)
-                {
-                    sl.SetCellValue(i, 1, row["Codigo"].ToString());
-                    sl.SetCellValue(i, 2, row["Producto"].ToString());
-                    sl.SetCellValue(i, 3, row["PrecioVenta"].ToString());
+                // Crear una hoja de trabajo en el paquete
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Productos");
 
-                    i++;
-                }
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("El DataSet no contiene tablas - Productos - Tabla vacia");
-                return;
-            }
+                // Estilo para las celdas de encabezado
+                var headerStyle = worksheet.Cells["A1:C1"].Style;
+                headerStyle.Font.Size = 12;
+                headerStyle.Font.Bold = true;
+                headerStyle.Font.Color.SetColor(Color.Black);
+                headerStyle.Fill.PatternType = ExcelFillStyle.Solid;
+                headerStyle.Fill.BackgroundColor.SetColor(Color.LightGray);
 
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Title = "Guardar archivo";
-            saveFileDialog1.CheckPathExists = true;
-            saveFileDialog1.DefaultExt = "xlsx";
+                // Establecer los encabezados
+                worksheet.Cells[1, 1].Value = "Codigo";
+                worksheet.Cells[1, 2].Value = "Producto";
+                worksheet.Cells[1, 3].Value = "PrecioVenta";
 
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                try
+                DataSet dataListadoTodosProductos = objetoCN_productos.ListarTodosProductos();
+
+                if (dataListadoTodosProductos.Tables.Count > 0)
                 {
-                    sl.SaveAs(saveFileDialog1.FileName);
-                    System.Windows.MessageBox.Show("Archivo exportado con éxito");
+                    int i = 2;
+                    // Iterar sobre las filas de la primera tabla del DataSet
+                    foreach (DataRow row in dataListadoTodosProductos.Tables[0].Rows)
+                    {
+                        worksheet.Cells[i, 1].Value = row["Codigo"].ToString();
+                        worksheet.Cells[i, 2].Value = row["Producto"].ToString();
+                        worksheet.Cells[i, 3].Value = row["PrecioVenta"].ToString();
+
+                        i++;
+                    }
                 }
-                catch (Exception ex)
+
+                // Ajustar las columnas al contenido
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Mostrar el SaveFileDialog para que el usuario elija la ruta y el nombre del archivo
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Guardar archivo excel";
+
+                string fechaActual = DateTime.Now.ToString("dd-MM-yyyy");
+                saveFileDialog.FileName = $"productos-{fechaActual}.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    System.Windows.MessageBox.Show(ex.Message);
+                    FileInfo fileInfo = new FileInfo(saveFileDialog.FileName);
+                    package.SaveAs(fileInfo);
+                    MessageBox.Show("Archivo guardado exitosamente en: " + fileInfo.FullName);
                 }
-            }
+
+            }           
         }
 
         private void btnBarcode_Click(object sender, EventArgs e)
