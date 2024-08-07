@@ -11,6 +11,8 @@ using SpreadsheetLight;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Excel = Microsoft.Office.Interop.Excel;
 using OfficeOpenXml.Style;
+using System.Net.NetworkInformation;
+using ZXing;
 
 namespace CapaPresentacion
 {
@@ -224,6 +226,7 @@ namespace CapaPresentacion
                 worksheet.Cells[1, 1].Value = "Codigo";
                 worksheet.Cells[1, 2].Value = "Producto";
                 worksheet.Cells[1, 3].Value = "PrecioVenta";
+                worksheet.Cells[1, 4].Value = "Codigo de Barras";
 
                 DataSet dataListadoTodosProductos = objetoCN_productos.ListarTodosProductos();
 
@@ -236,6 +239,31 @@ namespace CapaPresentacion
                         worksheet.Cells[i, 1].Value = row["Codigo"].ToString();
                         worksheet.Cells[i, 2].Value = row["Producto"].ToString();
                         worksheet.Cells[i, 3].Value = row["PrecioVenta"].ToString();
+
+                        // Generar la imagen del código de barras
+                        var barcodeWriter = new BarcodeWriter
+                        {
+                            Format = BarcodeFormat.CODE_128,
+                            Options = new ZXing.Common.EncodingOptions
+                            {
+                                Height = 50,
+                                Width = 200
+                            }
+                        };
+
+                        using (Bitmap barcodeBitmap = barcodeWriter.Write(row["Codigo"].ToString()))
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            barcodeBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                            memoryStream.Position = 0;
+
+                            // Insertar la imagen en la celda correspondiente
+                            var picture = worksheet.Drawings.AddPicture($"barcode_{i}", memoryStream);
+                            picture.SetPosition(i - 1, 0, 3, 0); // i-1 porque EPPlus utiliza 0-based index, columna 4
+                            picture.SetSize(100, 50); // Ajustar el tamaño según sea necesario
+
+                            worksheet.Row(i).Height = 50 * 0.75;
+                        }
 
                         i++;
                     }
