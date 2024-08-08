@@ -215,7 +215,7 @@ namespace CapaPresentacion
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Productos");
 
                 // Estilo para las celdas de encabezado
-                var headerStyle = worksheet.Cells["A1:C1"].Style;
+                var headerStyle = worksheet.Cells["A1:F1"].Style;
                 headerStyle.Font.Size = 12;
                 headerStyle.Font.Bold = true;
                 headerStyle.Font.Color.SetColor(Color.Black);
@@ -223,10 +223,12 @@ namespace CapaPresentacion
                 headerStyle.Fill.BackgroundColor.SetColor(Color.LightGray);
 
                 // Establecer los encabezados
-                worksheet.Cells[1, 1].Value = "Codigo";
+                worksheet.Cells[1, 1].Value = "Item/Codigo";
                 worksheet.Cells[1, 2].Value = "Producto";
-                worksheet.Cells[1, 3].Value = "PrecioVenta";
-                worksheet.Cells[1, 4].Value = "Codigo de Barras";
+                worksheet.Cells[1, 3].Value = "Medida";
+                worksheet.Cells[1, 4].Value = "Existencia inicial";
+                worksheet.Cells[1, 5].Value = "Stock minimo";
+                worksheet.Cells[1, 6].Value = "Stock fisico";
 
                 DataSet dataListadoTodosProductos = objetoCN_productos.ListarTodosProductos();
 
@@ -236,34 +238,53 @@ namespace CapaPresentacion
                     // Iterar sobre las filas de la primera tabla del DataSet
                     foreach (DataRow row in dataListadoTodosProductos.Tables[0].Rows)
                     {
-                        worksheet.Cells[i, 1].Value = row["Codigo"].ToString();
-                        worksheet.Cells[i, 2].Value = row["Producto"].ToString();
-                        worksheet.Cells[i, 3].Value = row["PrecioVenta"].ToString();
 
-                        // Generar la imagen del código de barras
-                        var barcodeWriter = new BarcodeWriter
+                        // Obtener el valor del código
+                        string codigo = row["Codigo"].ToString();
+
+                        // Verificar si el código está vacío
+                        if (string.IsNullOrWhiteSpace(codigo))
                         {
-                            Format = BarcodeFormat.CODE_128,
-                            Options = new ZXing.Common.EncodingOptions
-                            {
-                                Height = 50,
-                                Width = 200
-                            }
-                        };
-
-                        using (Bitmap barcodeBitmap = barcodeWriter.Write(row["Codigo"].ToString()))
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            barcodeBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                            memoryStream.Position = 0;
-
-                            // Insertar la imagen en la celda correspondiente
-                            var picture = worksheet.Drawings.AddPicture($"barcode_{i}", memoryStream);
-                            picture.SetPosition(i - 1, 0, 3, 0); // i-1 porque EPPlus utiliza 0-based index, columna 4
-                            picture.SetSize(100, 50); // Ajustar el tamaño según sea necesario
-
-                            worksheet.Row(i).Height = 50 * 0.75;
+                            // Si está vacío, colocar "-" o dejar la celda vacía
+                            worksheet.Cells[i, 1].Value = "-"; // O puedes usar string.Empty para dejar la celda vacía
                         }
+                        else
+                        {
+
+                            worksheet.Cells[i, 1].Value = row["Codigo"].ToString();
+
+                            //// Generar la imagen del código de barras
+                            //var barcodeWriter = new BarcodeWriter
+                            //{
+                            //    Format = BarcodeFormat.CODE_128,
+                            //    Options = new ZXing.Common.EncodingOptions
+                            //    {
+                            //        Height = 50,
+                            //        Width = 200
+                            //    }
+                            //};
+
+                            //using (Bitmap barcodeBitmap = barcodeWriter.Write(row["Codigo"].ToString()))
+                            //using (MemoryStream memoryStream = new MemoryStream())
+                            //{
+                            //    barcodeBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                            //    memoryStream.Position = 0;
+
+                            //    // Insertar la imagen en la celda correspondiente
+                            //    var picture = worksheet.Drawings.AddPicture($"barcode_{i}", memoryStream);
+                            //    picture.SetPosition(i - 1, 0, 3, 0); // i-1 porque EPPlus utiliza 0-based index, columna 4
+                            //    picture.SetSize(100, 50); // Ajustar el tamaño según sea necesario
+
+                            //    worksheet.Row(i).Height = 50 * 0.75;
+                            //}
+
+                        }
+
+                        worksheet.Cells[i, 2].Value = row["Producto"].ToString();
+                        worksheet.Cells[i, 3].Value = row["unidad"].ToString();
+                        worksheet.Cells[i, 4].Value = row["stock_inicial"].ToString();
+                        worksheet.Cells[i, 5].Value = row["stock_alerta"].ToString();
+                        worksheet.Cells[i, 6].Value = row["Stock"].ToString();
 
                         i++;
                     }

@@ -40,14 +40,14 @@
             this.lblTotalProductos = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ttCategorias = new System.Windows.Forms.ToolTip(this.components);
+            this.btnBarcode = new System.Windows.Forms.Button();
+            this.btnCategorias = new System.Windows.Forms.Button();
             this.ttActPrecios = new System.Windows.Forms.ToolTip(this.components);
+            this.btnExportarExcel = new System.Windows.Forms.Button();
+            this.btnActualizarPrecios = new System.Windows.Forms.Button();
             this.ttRefrescar = new System.Windows.Forms.ToolTip(this.components);
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnAnterior = new System.Windows.Forms.Button();
-            this.btnBarcode = new System.Windows.Forms.Button();
-            this.btnExportarExcel = new System.Windows.Forms.Button();
-            this.btnCategorias = new System.Windows.Forms.Button();
-            this.btnActualizarPrecios = new System.Windows.Forms.Button();
             this.btnRefrescar = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -151,6 +151,50 @@
             // 
             this.ttCategorias.Tag = "Categorias";
             // 
+            // btnBarcode
+            // 
+            this.btnBarcode.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode.Image")));
+            this.btnBarcode.Location = new System.Drawing.Point(825, 121);
+            this.btnBarcode.Name = "btnBarcode";
+            this.btnBarcode.Size = new System.Drawing.Size(46, 42);
+            this.btnBarcode.TabIndex = 23;
+            this.ttCategorias.SetToolTip(this.btnBarcode, "Categorias");
+            this.btnBarcode.UseVisualStyleBackColor = true;
+            this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);
+            // 
+            // btnCategorias
+            // 
+            this.btnCategorias.Image = ((System.Drawing.Image)(resources.GetObject("btnCategorias.Image")));
+            this.btnCategorias.Location = new System.Drawing.Point(877, 121);
+            this.btnCategorias.Name = "btnCategorias";
+            this.btnCategorias.Size = new System.Drawing.Size(46, 42);
+            this.btnCategorias.TabIndex = 16;
+            this.ttCategorias.SetToolTip(this.btnCategorias, "Categorias");
+            this.btnCategorias.UseVisualStyleBackColor = true;
+            this.btnCategorias.Click += new System.EventHandler(this.btnCategorias_Click);
+            // 
+            // btnExportarExcel
+            // 
+            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
+            this.btnExportarExcel.Location = new System.Drawing.Point(980, 121);
+            this.btnExportarExcel.Name = "btnExportarExcel";
+            this.btnExportarExcel.Size = new System.Drawing.Size(46, 42);
+            this.btnExportarExcel.TabIndex = 22;
+            this.ttActPrecios.SetToolTip(this.btnExportarExcel, "Exportar excel");
+            this.btnExportarExcel.UseVisualStyleBackColor = true;
+            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            // 
+            // btnActualizarPrecios
+            // 
+            this.btnActualizarPrecios.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizarPrecios.Image")));
+            this.btnActualizarPrecios.Location = new System.Drawing.Point(929, 121);
+            this.btnActualizarPrecios.Name = "btnActualizarPrecios";
+            this.btnActualizarPrecios.Size = new System.Drawing.Size(46, 42);
+            this.btnActualizarPrecios.TabIndex = 15;
+            this.ttActPrecios.SetToolTip(this.btnActualizarPrecios, "Actualizar precios");
+            this.btnActualizarPrecios.UseVisualStyleBackColor = true;
+            this.btnActualizarPrecios.Click += new System.EventHandler(this.btnActualizarPrecios_Click);
+            // 
             // btnSiguiente
             // 
             this.btnSiguiente.Location = new System.Drawing.Point(951, 522);
@@ -170,50 +214,6 @@
             this.btnAnterior.Text = "<< Anterior";
             this.btnAnterior.UseVisualStyleBackColor = true;
             this.btnAnterior.Click += new System.EventHandler(this.btnAnterior_Click);
-            // 
-            // btnBarcode
-            // 
-            this.btnBarcode.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode.Image")));
-            this.btnBarcode.Location = new System.Drawing.Point(825, 121);
-            this.btnBarcode.Name = "btnBarcode";
-            this.btnBarcode.Size = new System.Drawing.Size(46, 42);
-            this.btnBarcode.TabIndex = 23;
-            this.ttCategorias.SetToolTip(this.btnBarcode, "Categorias");
-            this.btnBarcode.UseVisualStyleBackColor = true;
-            this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);
-            // 
-            // btnExportarExcel
-            // 
-            this.btnExportarExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExportarExcel.Image")));
-            this.btnExportarExcel.Location = new System.Drawing.Point(980, 121);
-            this.btnExportarExcel.Name = "btnExportarExcel";
-            this.btnExportarExcel.Size = new System.Drawing.Size(46, 42);
-            this.btnExportarExcel.TabIndex = 22;
-            this.ttActPrecios.SetToolTip(this.btnExportarExcel, "Actualizar precios");
-            this.btnExportarExcel.UseVisualStyleBackColor = true;
-            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
-            // 
-            // btnCategorias
-            // 
-            this.btnCategorias.Image = ((System.Drawing.Image)(resources.GetObject("btnCategorias.Image")));
-            this.btnCategorias.Location = new System.Drawing.Point(877, 121);
-            this.btnCategorias.Name = "btnCategorias";
-            this.btnCategorias.Size = new System.Drawing.Size(46, 42);
-            this.btnCategorias.TabIndex = 16;
-            this.ttCategorias.SetToolTip(this.btnCategorias, "Categorias");
-            this.btnCategorias.UseVisualStyleBackColor = true;
-            this.btnCategorias.Click += new System.EventHandler(this.btnCategorias_Click);
-            // 
-            // btnActualizarPrecios
-            // 
-            this.btnActualizarPrecios.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizarPrecios.Image")));
-            this.btnActualizarPrecios.Location = new System.Drawing.Point(929, 121);
-            this.btnActualizarPrecios.Name = "btnActualizarPrecios";
-            this.btnActualizarPrecios.Size = new System.Drawing.Size(46, 42);
-            this.btnActualizarPrecios.TabIndex = 15;
-            this.ttActPrecios.SetToolTip(this.btnActualizarPrecios, "Actualizar precios");
-            this.btnActualizarPrecios.UseVisualStyleBackColor = true;
-            this.btnActualizarPrecios.Click += new System.EventHandler(this.btnActualizarPrecios_Click);
             // 
             // btnRefrescar
             // 

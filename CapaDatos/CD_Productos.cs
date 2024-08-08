@@ -376,13 +376,10 @@ namespace CapaDatos
             }
             catch (Exception ex)
             {
-                
                 rpta = ex.Message;
-                Console.WriteLine("rpta es : " + rpta);
             }
             finally
             {
-                //if (conexion. == ConnectionState.Open) 
                 conexion.CerrarConexion();
             }
             comando.Parameters.Clear();

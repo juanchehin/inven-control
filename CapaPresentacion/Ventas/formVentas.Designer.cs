@@ -183,11 +183,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Consolas", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(310, 9);
+            this.label3.Location = new System.Drawing.Point(322, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(180, 55);
+            this.label3.Size = new System.Drawing.Size(206, 55);
             this.label3.TabIndex = 93;
-            this.label3.Text = "Ventas";
+            this.label3.Text = "Egresos";
             // 
             // lbl_transferencia
             // 
