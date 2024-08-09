@@ -569,6 +569,76 @@ namespace CapaDatos
 
         }
 
+        public DataSet productos_rack()
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "bsp_productos_rack";
+
+            MySqlDataAdapter da = new MySqlDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            comando.Parameters.Clear();
+
+            conexion.CerrarConexion();
+
+            return ds;
+
+        }
+
+        public DataSet cargar_ingresos_egresos()
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "bsp_ingresos_egresos";
+
+            MySqlDataAdapter da = new MySqlDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            comando.Parameters.Clear();
+
+            conexion.CerrarConexion();
+
+            return ds;
+
+        }
+
+        public DataSet top_ingresos_productos()
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "bsp_top_ingresos_productos";
+
+            MySqlDataAdapter da = new MySqlDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            comando.Parameters.Clear();
+
+            conexion.CerrarConexion();
+
+            return ds;
+        }
+
+        public DataSet top_egresos_productos()
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "bsp_top_egresos_productos";
+
+            MySqlDataAdapter da = new MySqlDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            comando.Parameters.Clear();
+
+            conexion.CerrarConexion();
+
+            return ds;
+        }
+
         // ========================
         // Categorias
         // =======================

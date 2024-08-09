@@ -121,6 +121,33 @@ namespace CapaNegocio
             return Obj.ActualizacionLineal(pValor, desde, hasta);
         }
 
+        public DataSet productos_rack()
+        {
+            DataSet tabla = new DataSet();
+            tabla = objetoCD.productos_rack();
+            return tabla;
+        }
+
+        public DataSet cargar_ingresos_egresos()
+        {
+            DataSet tabla = new DataSet();
+            tabla = objetoCD.cargar_ingresos_egresos();
+            return tabla;
+        }
+        
+        public DataSet top_ingresos_productos()
+        {
+            DataSet tabla = new DataSet();
+            tabla = objetoCD.top_ingresos_productos();
+            return tabla;
+        }
+
+        public DataSet top_egresos_productos()
+        {
+            DataSet tabla = new DataSet();
+            tabla = objetoCD.top_egresos_productos();
+            return tabla;
+        }
         // =========================
         // Categorias
         // =======================
