@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.dataListadoEstadisticas = new System.Windows.Forms.DataGridView();
+            this.btnDashboard = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoEstadisticas)).BeginInit();
             this.SuspendLayout();
@@ -122,11 +123,24 @@
             this.dataListadoEstadisticas.Size = new System.Drawing.Size(678, 345);
             this.dataListadoEstadisticas.TabIndex = 28;
             // 
+            // btnDashboard
+            // 
+            this.btnDashboard.BackColor = System.Drawing.SystemColors.Control;
+            this.btnDashboard.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnDashboard.Image = ((System.Drawing.Image)(resources.GetObject("btnDashboard.Image")));
+            this.btnDashboard.Location = new System.Drawing.Point(12, 93);
+            this.btnDashboard.Name = "btnDashboard";
+            this.btnDashboard.Size = new System.Drawing.Size(92, 79);
+            this.btnDashboard.TabIndex = 35;
+            this.btnDashboard.UseVisualStyleBackColor = false;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
+            // 
             // formEstadisticas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnDashboard);
             this.Controls.Add(this.dataListadoEstadisticas);
             this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.label3);
@@ -136,6 +150,7 @@
             this.Controls.Add(this.dtpFechaInicio);
             this.Controls.Add(this.dtpFechaFin);
             this.Controls.Add(this.pictureBox1);
+            this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "formEstadisticas";
             this.Text = "Estadisticas";
@@ -156,5 +171,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnConsultar;
         private System.Windows.Forms.DataGridView dataListadoEstadisticas;
+        private System.Windows.Forms.Button btnDashboard;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using CapaNegocio;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -8,6 +10,8 @@ namespace CapaPresentacion.Reportes
     public partial class formReportes : Form
     {
         CN_Productos objetoCN_productos = new CN_Productos();
+        private PrintDocument printDocument1 = new PrintDocument();
+
 
         public formReportes()
         {
@@ -173,6 +177,26 @@ namespace CapaPresentacion.Reportes
             chartArea.AxisX.Title = "Productos";
             chartArea.AxisY.Title = "Nro Egresos";
             chartArea.AxisX.Interval = 1;
+        }
+
+        private void btnPrinter_Click(object sender, System.EventArgs e)
+        {
+            printDocument1.PrintPage += new PrintPageEventHandler(PrintDocument1_PrintPage);
+
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.Document = printDocument1;
+
+            if (printDialog.ShowDialog() == DialogResult.OK)
+            {
+                printDocument1.Print();
+            }
+        }
+
+        private void PrintDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(this.Width, this.Height);
+            this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
+            e.Graphics.DrawImage(bitmap, 0, 0);
         }
     }
 }

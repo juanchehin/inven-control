@@ -1,4 +1,5 @@
 ﻿using CapaNegocio;
+using CapaPresentacion.Reportes;
 using System;
 using System.Windows.Forms;
 
@@ -53,6 +54,13 @@ namespace CapaPresentacion.Estadisticas
                 default:
                     break;
             }
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            formReportes frm = new formReportes();
+            frm.MdiParent = this.MdiParent;
+            frm.Show();
         }
     }
 }
