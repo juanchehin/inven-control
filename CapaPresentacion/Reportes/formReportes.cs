@@ -1,7 +1,11 @@
 ﻿using CapaNegocio;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -179,24 +183,95 @@ namespace CapaPresentacion.Reportes
             chartArea.AxisX.Interval = 1;
         }
 
-        private void btnPrinter_Click(object sender, System.EventArgs e)
+        private Bitmap bitmapToInsert;
+
+
+        private void btnPrinter_Click_1(object sender, EventArgs e)
         {
-            printDocument1.PrintPage += new PrintPageEventHandler(PrintDocument1_PrintPage);
+            // Calcula el área del cliente (contenido) excluyendo la barra de título y bordes
+            int titleBarHeight = this.RectangleToScreen(this.ClientRectangle).Top - this.Top;
+            int borderWidth = (this.Width - this.ClientSize.Width) / 2;
 
-            PrintDialog printDialog = new PrintDialog();
-            printDialog.Document = printDocument1;
+            // Crear un bitmap solo del contenido, excluyendo bordes y barra de título
+            Bitmap bitmapToInsert = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+            this.DrawToBitmap(bitmapToInsert, new Rectangle(borderWidth, titleBarHeight, this.ClientSize.Width, this.ClientSize.Height));
 
-            if (printDialog.ShowDialog() == DialogResult.OK)
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Crear un nuevo paquete de Excel
+            using (ExcelPackage package = new ExcelPackage())
             {
-                printDocument1.Print();
+                // Crear una hoja de trabajo en el paquete
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Productos");
+
+                // Estilo para las celdas de encabezado
+                var headerStyle = worksheet.Cells["A1:F1"].Style;
+                headerStyle.Font.Size = 12;
+                headerStyle.Font.Bold = true;
+                headerStyle.Font.Color.SetColor(Color.Black);
+                headerStyle.Fill.PatternType = ExcelFillStyle.Solid;
+                headerStyle.Fill.BackgroundColor.SetColor(Color.LightGray);
+
+                // Establecer los encabezados
+                worksheet.Cells[1, 1].Value = "Item/Codigo";
+                worksheet.Cells[1, 2].Value = "Producto";
+                worksheet.Cells[1, 3].Value = "Medida";
+                worksheet.Cells[1, 4].Value = "Existencia inicial";
+                worksheet.Cells[1, 5].Value = "Stock minimo";
+                worksheet.Cells[1, 6].Value = "Stock fisico";
+
+                DataSet dataListadoTodosProductos = objetoCN_productos.ListarTodosProductos();
+
+                if (dataListadoTodosProductos.Tables.Count > 0)
+                {
+                    int i = 2;
+                    foreach (DataRow row in dataListadoTodosProductos.Tables[0].Rows)
+                    {
+                        worksheet.Cells[i, 1].Value = row["Codigo"].ToString();
+                        worksheet.Cells[i, 2].Value = row["Producto"].ToString();
+                        worksheet.Cells[i, 3].Value = row["unidad"].ToString();
+                        worksheet.Cells[i, 4].Value = row["stock_inicial"].ToString();
+                        worksheet.Cells[i, 5].Value = row["stock_alerta"].ToString();
+                        worksheet.Cells[i, 6].Value = row["Stock"].ToString();
+                        i++;
+                    }
+                }
+
+                // Ajustar las columnas al contenido
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Insertar la imagen capturada del formulario en el Excel
+                if (bitmapToInsert != null)
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        bitmapToInsert.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                        memoryStream.Position = 0;
+
+                        // Insertar la imagen en la hoja de Excel
+                        var picture = worksheet.Drawings.AddPicture("FormImage", memoryStream);
+                        picture.SetPosition(0, 0, worksheet.Dimension.End.Column, 0); // Ajustar la posición
+                        picture.SetSize(700, 400); // Ajustar el tamaño según sea necesario
+                    }
+                }
+
+                // Mostrar el SaveFileDialog para que el usuario elija la ruta y el nombre del archivo
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Guardar archivo excel";
+
+                string fechaActual = DateTime.Now.ToString("dd-MM-yyyy");
+                saveFileDialog.FileName = $"productos-{fechaActual}.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    FileInfo fileInfo = new FileInfo(saveFileDialog.FileName);
+                    package.SaveAs(fileInfo);
+                    MessageBox.Show("Archivo guardado exitosamente en: " + fileInfo.FullName);
+                }
             }
         }
 
-        private void PrintDocument1_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            Bitmap bitmap = new Bitmap(this.Width, this.Height);
-            this.DrawToBitmap(bitmap, new Rectangle(0, 0, this.Width, this.Height));
-            e.Graphics.DrawImage(bitmap, 0, 0);
-        }
     }
 }
