@@ -402,13 +402,36 @@ namespace CapaPresentacion.Ventas
                 {
                     foreach (DataGridViewRow item in this.dataListadoProductos.SelectedRows)
                     {
-                        decimal precio = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["PrecioUnitario"].Value.ToString());
-                        decimal cantidad = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["Cantidad"].Value.ToString());
+                        // Chequeo si es un descuento
+                        if(this.dataListadoProductos.Rows[item.Index].Cells["IdProducto"].Value.ToString() == "1")
+                        {
+                            //decimal descuento = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["PrecioUnitario"].Value.ToString());
+                            //decimal cantidad = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["Cantidad"].Value.ToString());
 
-                        this.dataListadoProductos.Rows.RemoveAt(item.Index);
+                            this.dataListadoProductos.Rows.RemoveAt(item.Index);
 
-                        this.precioTotal = this.precioTotal - (precio * cantidad);
-                        this.lblSubTotal.Text = precioTotal.ToString();
+                            // Calcular el aumento
+                            //decimal aumento = this.precioTotal * (descuento / 100);
+                            //decimal nuevoValor = this.precioTotal + descuento;
+
+                            decimal subtotal = decimal.Parse(this.lblSubTotal.Text);
+
+                            this.precioTotal = subtotal;
+                            this.lblTotal.Text = this.lblSubTotal.Text;
+                            this.lblDescuento.Text = "0";
+                            //this.lblSubTotal.Text = nuevoValor.ToString();
+                        }
+                        else
+                        {
+                            decimal precio = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["PrecioUnitario"].Value.ToString());
+                            decimal cantidad = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["Cantidad"].Value.ToString());
+
+                            this.dataListadoProductos.Rows.RemoveAt(item.Index);
+
+                            this.precioTotal = this.precioTotal - (precio * cantidad);
+                            this.lblSubTotal.Text = precioTotal.ToString();
+                        }
+                        
                     }
 
                     this.MensajeOk("Se elimino de forma correcta el producto");
@@ -1000,34 +1023,6 @@ namespace CapaPresentacion.Ventas
                 e.Handled = true; // Cancelar la entrada si no es un número
                 return;
             }
-
-            // *** Calcular el descuento ***
-            // Validar que los valores ingresados en ambos TextBox son numéricos
-            if (decimal.TryParse(lblSubTotal.Text, out decimal precioOriginal) &&
-                decimal.TryParse(txtDescuento.Text, out decimal porcentajeDescuento))
-            {
-                // Verificar que el porcentaje de descuento esté entre 0 y 100
-                if (porcentajeDescuento >= 0 && porcentajeDescuento <= 100)
-                {
-                    // Calcular el descuento
-                    decimal descuento = precioOriginal * (porcentajeDescuento / 100);
-                    decimal precioFinal = precioOriginal - descuento;
-
-                    // Mostrar el resultado en un TextBox o Label
-                    lblTotal.Text = precioFinal.ToString("F2"); // Formato con 2 decimales
-                }
-                else
-                {
-                    MessageBox.Show("El porcentaje de descuento debe estar entre 0 y 100.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Por favor, ingrese valores válidos para el precio y el porcentaje de descuento.");
-            }
-
-            
-
         }
 
         private void txtDescuento_TextChanged(object sender, EventArgs e)
@@ -1047,18 +1042,59 @@ namespace CapaPresentacion.Ventas
                 txtDescuento.Text = "0"; // Limpiar el texto si no es numérico
             }
 
+        }
+
+        private void btnAplicarDescuento_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtDescuento.Text, out int value))
+            {
+                // Si el valor está fuera del rango 0-99, lo corriges
+                if (value < 0 || value > 99)
+                {
+                    MessageBox.Show("Solo se permiten valores entre 0 y 99.");
+                    txtDescuento.Text = "0"; // Limpiar el texto si el valor no es válido
+                    return;
+                }
+            }
+            else if (!string.IsNullOrEmpty(txtDescuento.Text)) // Verificar si no es vacío
+            {
+                MessageBox.Show("Solo se permiten valores numéricos.");
+                txtDescuento.Text = "0"; // Limpiar el texto si no es numérico
+                return;
+            }
+
 
             // *** poner valor ingresado en el lblDescuento ***
             lblDescuento.Text = txtDescuento.Text;
 
-        }
+            // *** Calcular el descuento ***
+            // Validar que los valores ingresados en ambos TextBox son numéricos
+            if (decimal.TryParse(lblSubTotal.Text, out decimal precioOriginal) &&
+                decimal.TryParse(txtDescuento.Text, out decimal porcentajeDescuento))
+            {
+                // Verificar que el porcentaje de descuento esté entre 0 y 100
+                if (porcentajeDescuento >= 0 && porcentajeDescuento <= 100)
+                {
+                    // Calcular el descuento
+                    decimal descuento = precioOriginal * (porcentajeDescuento / 100);
+                    decimal precioFinal = precioOriginal - descuento;
 
-        private void txtDescuento_Leave(object sender, EventArgs e)
-        {
+                    // Mostrar el resultado en un TextBox o Label
+                    lblTotal.Text = precioFinal.ToString("F2"); // Formato con 2 decimales
 
-            // ** agregar enn la fila en el listado de ventas **
-            this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, 1,
-                        1, "Descuento", 1, 1, 0, 0);
+                    // ** agregar enn la fila en el listado de ventas **
+                    this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, 1, 1, "Descuento " + porcentajeDescuento + " % ", 1, 1, descuento, 0);
+                }
+                else
+                {
+                    MessageBox.Show("El porcentaje de descuento debe estar entre 0 y 100.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingrese valores válidos para el precio y el porcentaje de descuento.");
+            }
+            txtDescuento.Text = "0";
         }
     }
 }
