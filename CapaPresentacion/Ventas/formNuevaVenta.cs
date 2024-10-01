@@ -1016,10 +1016,10 @@ namespace CapaPresentacion.Ventas
 
                     if (codigo_barra.Length > 12)   // caso lectura con pistola (codigo completo)
                     {
-                        string digitos = codigo_barra.Substring(0, 3);  // PLU
+                        string digitos = codigo_barra.Substring(0, 4);  // PLU
 
                         //
-                        string importe_ticket = codigo_barra.Substring(4, 11);
+                        string importe_ticket = codigo_barra.Substring(6, 6);
 
 
                         string importe_ticket_formateado = (int.Parse(importe_ticket) / 100.0).ToString("N2");
