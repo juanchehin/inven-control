@@ -9,10 +9,12 @@ namespace CapaPresentacion.Reportes
     public partial class formTicket : Form
     {
         DataGridView dataListadoProductos = new DataGridView();
-        public formTicket(int pIdUsuario,int IdCliente, DataGridView pProductos)
+        decimal precio_total;
+        public formTicket(int pIdUsuario,int IdCliente, DataGridView pProductos,decimal p_precio_total)
         {
             InitializeComponent();
             this.dataListadoProductos = pProductos;
+            this.precio_total = p_precio_total;
         }
 
 
@@ -27,7 +29,7 @@ namespace CapaPresentacion.Reportes
                 decimal precio = Convert.ToDecimal(dr.Cells[5].Value);
                 //decimal peso_balanza = Convert.ToDecimal(dr.Cells[6].Value);
 
-                ticketVenta.Add(new TicketVenta { Producto = producto, Cantidad = cantidad, Precio = precio });
+                ticketVenta.Add(new TicketVenta { Producto = producto, Cantidad = cantidad, Precio = precio, PrecioTotal = this.precio_total });
             }
 
             // this.reportViewer1.LocalReport.ReportPath = "../../Reportes/TicketVenta.rdlc";

@@ -773,7 +773,7 @@
             this.panelClientes.Controls.Add(this.btnAgregarCliente);
             this.panelClientes.Controls.Add(this.button1);
             this.panelClientes.Controls.Add(this.dataListadoClientes);
-            this.panelClientes.Location = new System.Drawing.Point(731, 4);
+            this.panelClientes.Location = new System.Drawing.Point(46, 8);
             this.panelClientes.Name = "panelClientes";
             this.panelClientes.Size = new System.Drawing.Size(851, 484);
             this.panelClientes.TabIndex = 50;
@@ -884,7 +884,7 @@
             this.panelProductos.Controls.Add(this.pictureBox6);
             this.panelProductos.Controls.Add(this.btnSeleccionarProducto);
             this.panelProductos.Controls.Add(this.dataListadoProductosPanel);
-            this.panelProductos.Location = new System.Drawing.Point(796, 12);
+            this.panelProductos.Location = new System.Drawing.Point(106, 4);
             this.panelProductos.Name = "panelProductos";
             this.panelProductos.Size = new System.Drawing.Size(851, 484);
             this.panelProductos.TabIndex = 63;

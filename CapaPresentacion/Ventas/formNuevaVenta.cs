@@ -538,18 +538,20 @@ namespace CapaPresentacion.Ventas
         {
             if (this.txtEntrega.Text != "")
             {
-                decimal result = (this.precioTotal - Convert.ToDecimal(this.txtEntrega.Text)) * -1;
+                //decimal d_total = this.lblTotal.Text;
+                decimal d_total = decimal.Parse(this.lblTotal.Text);
+                decimal result = (d_total - Convert.ToDecimal(this.txtEntrega.Text)) * -1;
                 this.lblVuelto.Text = result.ToString();
             }
             else
             {
-                this.lblVuelto.Text = this.precioTotal.ToString();
+                this.lblVuelto.Text = this.lblTotal.Text;
             }
         }
 
         private void btnImprimirTicket_Click(object sender, EventArgs e)
         {
-            formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos);
+            formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos, decimal.Parse(this.lblTotal.Text));
             frm.MdiParent = this.MdiParent;
             frm.Show();
 
@@ -638,7 +640,7 @@ namespace CapaPresentacion.Ventas
                 // Verificar la respuesta del usuario
                 if (resultado == DialogResult.OK)
                 {
-                    formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos);
+                    formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos, decimal.Parse(this.lblTotal.Text));
                     frm.MdiParent = this.MdiParent;
                     frm.Show();
                 }
@@ -650,7 +652,7 @@ namespace CapaPresentacion.Ventas
                 this.MensajeError(rpta);
             }
 
-            //this.Close();
+            this.Close();
         }
 
         private void btnCerrarPanelClientes_Click(object sender, EventArgs e)

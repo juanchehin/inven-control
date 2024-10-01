@@ -17,8 +17,8 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>=Sum(Fields!Precio.Value * Fields!Cantidad.Value)</Value>
-                <Style>
+				  <Value>=Fields!PrecioTotal.Value</Value>
+				  <Style>
                   <FontFamily>Consolas</FontFamily>
                   <FontSize>8pt</FontSize>
                   <FontWeight>Bold</FontWeight>
