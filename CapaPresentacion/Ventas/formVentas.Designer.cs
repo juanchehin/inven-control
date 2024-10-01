@@ -142,11 +142,11 @@
             // 
             // btnNuevaVenta
             // 
-            this.btnNuevaVenta.Location = new System.Drawing.Point(487, 174);
+            this.btnNuevaVenta.Location = new System.Drawing.Point(443, 174);
             this.btnNuevaVenta.Name = "btnNuevaVenta";
-            this.btnNuevaVenta.Size = new System.Drawing.Size(108, 23);
+            this.btnNuevaVenta.Size = new System.Drawing.Size(152, 23);
             this.btnNuevaVenta.TabIndex = 75;
-            this.btnNuevaVenta.Text = "Nueva venta";
+            this.btnNuevaVenta.Text = "Nueva venta (F2)";
             this.btnNuevaVenta.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnNuevaVenta.UseVisualStyleBackColor = true;
             this.btnNuevaVenta.Click += new System.EventHandler(this.btnNuevaVenta_Click_1);
@@ -262,6 +262,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "formVentas";
             this.Text = "Ventas";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.formVentas_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoVentas)).EndInit();
             this.ResumeLayout(false);

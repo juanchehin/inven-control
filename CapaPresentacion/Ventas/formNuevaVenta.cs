@@ -314,6 +314,12 @@ namespace CapaPresentacion.Ventas
             decimal dec = decimal.Parse(this.txtPrecioUnitario.Text);
             bool bandera = false;
 
+            if(dec <= 0)
+            {
+                MensajeError("Precio invalido");
+                return;
+            }
+
             if (dataListadoProductos.Rows.Count == 0)
             {
                 // Si no cargo la cantidad, cargo por defecto 1
@@ -377,7 +383,7 @@ namespace CapaPresentacion.Ventas
             // redondeo a 2 digitos despues de la coma
             this.precioTotal = Math.Round(this.precioTotal, 2);
 
-            this.lblTotal.Text = this.precioTotal.ToString();
+            this.lblSubTotal.Text = this.precioTotal.ToString();
         }
 
         private void btnQuitar_Click(object sender, EventArgs e)
@@ -402,7 +408,7 @@ namespace CapaPresentacion.Ventas
                         this.dataListadoProductos.Rows.RemoveAt(item.Index);
 
                         this.precioTotal = this.precioTotal - (precio * cantidad);
-                        this.lblTotal.Text = precioTotal.ToString();
+                        this.lblSubTotal.Text = precioTotal.ToString();
                     }
 
                     this.MensajeOk("Se elimino de forma correcta el producto");
@@ -935,10 +941,10 @@ namespace CapaPresentacion.Ventas
 
                     if (codigo_barra.Length > 12)
                     {
-                        string digitos = codigo_barra.Substring(0, 6);
+                        string digitos = codigo_barra.Substring(0, 3);  // PLU
 
                         //
-                        string importe_ticket = codigo_barra.Substring(6, 6);
+                        string importe_ticket = codigo_barra.Substring(4, 11);
 
 
                         string importe_ticket_formateado = (int.Parse(importe_ticket) / 100.0).ToString("N2");
@@ -983,6 +989,76 @@ namespace CapaPresentacion.Ventas
                 alta_log("Problemas con lectura de balanza 2 - leer_peso_balanza()" + ex.Message);
                 //MessageBox.Show("Problemas con lectura de balanza. Contactese con el administrador - " + ex.Message);
             }
+        }
+
+        private void txtDescuento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Verificar si el carácter presionado es un número o una tecla de control (como el backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                MessageBox.Show("Entrada invalida");
+                e.Handled = true; // Cancelar la entrada si no es un número
+                return;
+            }
+
+            // *** Calcular el descuento ***
+            // Validar que los valores ingresados en ambos TextBox son numéricos
+            if (decimal.TryParse(lblSubTotal.Text, out decimal precioOriginal) &&
+                decimal.TryParse(txtDescuento.Text, out decimal porcentajeDescuento))
+            {
+                // Verificar que el porcentaje de descuento esté entre 0 y 100
+                if (porcentajeDescuento >= 0 && porcentajeDescuento <= 100)
+                {
+                    // Calcular el descuento
+                    decimal descuento = precioOriginal * (porcentajeDescuento / 100);
+                    decimal precioFinal = precioOriginal - descuento;
+
+                    // Mostrar el resultado en un TextBox o Label
+                    lblTotal.Text = precioFinal.ToString("F2"); // Formato con 2 decimales
+                }
+                else
+                {
+                    MessageBox.Show("El porcentaje de descuento debe estar entre 0 y 100.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingrese valores válidos para el precio y el porcentaje de descuento.");
+            }
+
+            
+
+        }
+
+        private void txtDescuento_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtDescuento.Text, out int value))
+            {
+                // Si el valor está fuera del rango 0-99, lo corriges
+                if (value < 0 || value > 99)
+                {
+                    MessageBox.Show("Solo se permiten valores entre 0 y 99.");
+                    txtDescuento.Text = "0"; // Limpiar el texto si el valor no es válido
+                }
+            }
+            else if (!string.IsNullOrEmpty(txtDescuento.Text)) // Verificar si no es vacío
+            {
+                MessageBox.Show("Solo se permiten valores numéricos.");
+                txtDescuento.Text = "0"; // Limpiar el texto si no es numérico
+            }
+
+
+            // *** poner valor ingresado en el lblDescuento ***
+            lblDescuento.Text = txtDescuento.Text;
+
+        }
+
+        private void txtDescuento_Leave(object sender, EventArgs e)
+        {
+
+            // ** agregar enn la fila en el listado de ventas **
+            this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, 1,
+                        1, "Descuento", 1, 1, 0, 0);
         }
     }
 }

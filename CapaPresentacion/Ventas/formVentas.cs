@@ -21,6 +21,10 @@ namespace CapaPresentacion.Ventas
         public formVentas(int IdUsuario,string Usuario)
         {
             InitializeComponent();
+
+            this.KeyDown += formVentas_KeyDown;
+            this.KeyPreview = true;
+
             this.IdUsuario = IdUsuario;
             this.Usuario = Usuario;
             llenar_cb_tipos_pago();
@@ -300,6 +304,25 @@ namespace CapaPresentacion.Ventas
             {
                 System.Windows.MessageBox.Show(ex.Message + ex.StackTrace);
             }
+        }
+
+        private void formVentas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F2 && !e.Handled)
+            {
+                // Llamar directamente al método que quieres ejecutar en lugar de usar PerformClick
+                BotonClickManual();
+
+                // Marcar el evento como manejado para que no se procese de nuevo
+                e.Handled = true;
+            }
+        }
+
+        private void BotonClickManual()
+        {
+            formNuevaVenta frm = new formNuevaVenta(this.IdUsuario, this.Usuario);
+            frm.MdiParent = this.MdiParent;
+            frm.Show();
         }
     }
 }
