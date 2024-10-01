@@ -2,7 +2,6 @@
 using System.Data;
 using System.IO;
 using System.Threading;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using CapaNegocio;
 using CapaPresentacion.Reportes;
@@ -791,7 +790,7 @@ namespace CapaPresentacion.Ventas
 
         private void txtBuscarProductoForm_Leave(object sender, EventArgs e)
         {
-            this.dgvAutocompleteProducto.Visible = false;
+            //this.dgvAutocompleteProducto.Visible = false;
         }
 
         private void btnLeerPeso_Click(object sender, EventArgs e)
@@ -1011,8 +1010,9 @@ namespace CapaPresentacion.Ventas
                 if (!string.IsNullOrEmpty(codigo_barra))
                 {
                     dgvAutocompleteProducto.Visible = true;
+                    dgvAutocompleteProducto.BringToFront();
 
-                    if (codigo_barra.Length > 12)
+                    if (codigo_barra.Length > 12)   // caso lectura con pistola (codigo completo)
                     {
                         string digitos = codigo_barra.Substring(0, 3);  // PLU
 
@@ -1024,7 +1024,7 @@ namespace CapaPresentacion.Ventas
 
                         txtPrecioUnitario.Text = importe_ticket_formateado;
 
-                        leer_peso_balanza();
+                        //leer_peso_balanza();
 
                         this.dgvAutocompleteProducto.DataSource = objetoCN_productos.BuscarProducto(digitos);
 
@@ -1060,7 +1060,7 @@ namespace CapaPresentacion.Ventas
             catch (Exception ex)
             {
                 alta_log("Problemas con lectura de balanza 2 - leer_peso_balanza()" + ex.Message);
-                //MessageBox.Show("Problemas con lectura de balanza. Contactese con el administrador - " + ex.Message);
+                MessageBox.Show("Problemas con lectura de balanza. Contactese con el administrador - " + ex.Message);
             }
         }
 

@@ -369,7 +369,6 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnAplicarDescuento);
-            this.groupBox2.Controls.Add(this.dgvAutocompleteProducto);
             this.groupBox2.Controls.Add(this.txtDescuento);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.label14);
@@ -412,12 +411,12 @@
             this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
             this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(125, -54);
+            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 150);
             this.dgvAutocompleteProducto.MultiSelect = false;
             this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
             this.dgvAutocompleteProducto.ReadOnly = true;
             this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(377, 198);
+            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(454, 192);
             this.dgvAutocompleteProducto.TabIndex = 66;
             this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
             // 
@@ -474,6 +473,7 @@
             // 
             this.txtPrecioUnitario.Location = new System.Drawing.Point(115, 167);
             this.txtPrecioUnitario.Name = "txtPrecioUnitario";
+            this.txtPrecioUnitario.ReadOnly = true;
             this.txtPrecioUnitario.Size = new System.Drawing.Size(91, 20);
             this.txtPrecioUnitario.TabIndex = 4;
             this.txtPrecioUnitario.Text = "0";
@@ -773,7 +773,7 @@
             this.panelClientes.Controls.Add(this.btnAgregarCliente);
             this.panelClientes.Controls.Add(this.button1);
             this.panelClientes.Controls.Add(this.dataListadoClientes);
-            this.panelClientes.Location = new System.Drawing.Point(72, 29);
+            this.panelClientes.Location = new System.Drawing.Point(731, 4);
             this.panelClientes.Name = "panelClientes";
             this.panelClientes.Size = new System.Drawing.Size(851, 484);
             this.panelClientes.TabIndex = 50;
@@ -884,7 +884,7 @@
             this.panelProductos.Controls.Add(this.pictureBox6);
             this.panelProductos.Controls.Add(this.btnSeleccionarProducto);
             this.panelProductos.Controls.Add(this.dataListadoProductosPanel);
-            this.panelProductos.Location = new System.Drawing.Point(89, 20);
+            this.panelProductos.Location = new System.Drawing.Point(796, 12);
             this.panelProductos.Name = "panelProductos";
             this.panelProductos.Size = new System.Drawing.Size(851, 484);
             this.panelProductos.TabIndex = 63;
@@ -894,6 +894,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 566);
+            this.Controls.Add(this.dgvAutocompleteProducto);
             this.Controls.Add(this.panelProductos);
             this.Controls.Add(this.panelClientes);
             this.Controls.Add(this.label13);
