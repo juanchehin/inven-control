@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using System.Threading;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using CapaNegocio;
 using CapaPresentacion.Reportes;
@@ -160,6 +161,7 @@ namespace CapaPresentacion.Ventas
                     DataRow row = productos_venta.NewRow();
 
                     row["IdProducto"] = Convert.ToDouble(rowGrid.Cells[0].Value);
+                    row["IdProducto"] = Convert.ToDouble(rowGrid.Cells[0].Value);
                     row["Cantidad"] = rowGrid.Cells[3].Value;
                     string pesoConComas = rowGrid.Cells[6].Value.ToString().Replace('.', ',');
                     row["Peso"] = pesoConComas;
@@ -176,7 +178,9 @@ namespace CapaPresentacion.Ventas
                 }
 
                 panelVuelto.Visible = true;
-                this.lblImporte.Text = this.precioTotal.ToString();
+                panelVuelto.BringToFront();
+
+                this.lblImporte.Text = this.lblTotal.Text;
                 txtEntrega.Focus();
 
             }
@@ -305,44 +309,64 @@ namespace CapaPresentacion.Ventas
                 return;
             }
 
-            if (this.stock_pendiente_producto <= 0)
+            if ((this.stock_pendiente_producto <= 0)  && (this.IdProducto != 1))
             {
                 MensajeError("El producto no cuenta con stock suficiente");
                 return;
             }
 
-            decimal dec = decimal.Parse(this.txtPrecioUnitario.Text);
+            decimal precio_unitario_prod = decimal.Parse(this.txtPrecioUnitario.Text);
             bool bandera = false;
+            bool bandera_descuento_cargado = false;
 
-            if(dec <= 0)
+            if (precio_unitario_prod <= 0)
             {
                 MensajeError("Precio invalido");
                 return;
             }
 
-            if (dataListadoProductos.Rows.Count == 0)
+            if ((dataListadoProductos.Rows.Count == 0) && (this.IdProducto == 1))
+            {
+                MensajeError("Debe cargar productos para aplicar un descuento");
+                return;
+            }
+
+            if (dataListadoProductos.Rows.Count == 0)   // listado de productos vacio
             {
                 // Si no cargo la cantidad, cargo por defecto 1
                 if (String.IsNullOrEmpty(this.txtCantidad.Text))
                 {
                     this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, this.IdProducto,
                         codigo_pendiente_producto, this.lblNombreProd.Text, 1, unidad_pendiente_producto, this.txtPrecioUnitario.Text, peso_pendiente);
-                    this.precioTotal += dec;
+                    this.precioTotal += precio_unitario_prod;
+                    this.lblTotal.Text = this.precioTotal.ToString();
+                    this.lblSubTotal.Text = this.lblTotal.Text;
                 }
                 else
                 {
                     decimal cant = decimal.Parse(this.txtCantidad.Text);
                     this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, this.IdProducto, codigo_pendiente_producto,
                         this.lblNombreProd.Text, this.txtCantidad.Text, unidad_pendiente_producto, this.txtPrecioUnitario.Text, this.peso_pendiente);
-                    this.precioTotal += dec * cant;
+                    this.precioTotal += precio_unitario_prod * cant;
+                    this.lblTotal.Text = this.precioTotal.ToString();
+                    this.lblSubTotal.Text = this.lblTotal.Text;
+
                 }
             }
             else
             {
                 bandera = false;
+                bandera_descuento_cargado = false;
                 // Chequeo si ya existe el producto en el listado para poder aumentar la cantidad
                 foreach (DataGridViewRow row in dataListadoProductos.Rows)
                 {
+                    // chequeo si volvio a aplicar un descuento
+                    if (this.IdProducto == 1)
+                    {
+                        MensajeError("Descuento ya aplicado");
+                        return;
+                    }
+
                     if (Convert.ToInt32(row.Cells[0].Value) == this.IdProducto)
                     {
                         bandera = true;
@@ -350,32 +374,65 @@ namespace CapaPresentacion.Ventas
                         if (String.IsNullOrEmpty(this.txtCantidad.Text))
                         {
                             row.Cells["Cantidad"].Value = 1 + Convert.ToInt32(row.Cells[3].Value);
-                            this.precioTotal += dec;
+                            this.precioTotal += precio_unitario_prod;
                         }
                         else
                         {
                             decimal cant = decimal.Parse(this.txtCantidad.Text);
                             row.Cells["Cantidad"].Value = 1 + decimal.Parse(row.Cells[3].Value.ToString());
-                            this.precioTotal += dec * cant;
+                            this.precioTotal += precio_unitario_prod * cant;
                         }
                         break;
                     }
                 }
+
+                // Caso en que el producto no existia en el listado
                 if (bandera == false)
                 {
+                    // nuevo calculo para el descuento
+
+                    // chequeo si se habia aplicado un descuento
+                    foreach (DataGridViewRow row in dataListadoProductos.Rows)
+                    {
+                        // ¿se aplico descuento?
+                        if (Convert.ToInt32(row.Cells[0].Value) == 1)
+                        {
+                            // si se aplico , recalculo el monto total
+                            decimal subtotal = (Convert.ToDecimal(this.lblSubTotal.Text) + precio_unitario_prod);
+                            this.precioTotal = subtotal;
+
+                            this.lblSubTotal.Text = subtotal.ToString();
+                            // vuelvo a calcular el porcentaje
+                            decimal nuevo_descuento = this.precioTotal * (Convert.ToDecimal(this.lblDescuento.Text) / 100);
+
+                            this.precioTotal = this.precioTotal - nuevo_descuento;    // precio total - monto descuento
+                            this.lblTotal.Text = this.precioTotal.ToString();    // precio total - monto descuento
+
+                            bandera_descuento_cargado = true;
+
+                            break;
+                        }                       
+                    }
+
                     // Si no cargo la cantidad, cargo por defecto 1
                     if (String.IsNullOrEmpty(this.txtCantidad.Text))
                     {
                         this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, this.IdProducto, codigo_pendiente_producto,
                             this.lblNombreProd.Text, 1, unidad_pendiente_producto, this.txtPrecioUnitario.Text, this.peso_pendiente);
-                        this.precioTotal += dec;
+                        if(!bandera_descuento_cargado)
+                        { 
+                            this.precioTotal += precio_unitario_prod;
+                        }
                     }
                     else
                     {
                         decimal cant = decimal.Parse(this.txtCantidad.Text);
                         this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, this.IdProducto, codigo_pendiente_producto,
                             this.lblNombreProd.Text, this.txtCantidad.Text, unidad_pendiente_producto, this.txtPrecioUnitario.Text, this.peso_pendiente);
-                        this.precioTotal += dec * cant;
+                        if (!bandera_descuento_cargado)
+                        {
+                            this.precioTotal += precio_unitario_prod * cant;
+                        }
                     }
                 }
             }
@@ -383,7 +440,7 @@ namespace CapaPresentacion.Ventas
             // redondeo a 2 digitos despues de la coma
             this.precioTotal = Math.Round(this.precioTotal, 2);
 
-            this.lblSubTotal.Text = this.precioTotal.ToString();
+            //this.lblSubTotal.Text = this.precioTotal.ToString();
         }
 
         private void btnQuitar_Click(object sender, EventArgs e)
@@ -405,21 +462,13 @@ namespace CapaPresentacion.Ventas
                         // Chequeo si es un descuento
                         if(this.dataListadoProductos.Rows[item.Index].Cells["IdProducto"].Value.ToString() == "1")
                         {
-                            //decimal descuento = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["PrecioUnitario"].Value.ToString());
-                            //decimal cantidad = decimal.Parse(this.dataListadoProductos.Rows[item.Index].Cells["Cantidad"].Value.ToString());
-
                             this.dataListadoProductos.Rows.RemoveAt(item.Index);
-
-                            // Calcular el aumento
-                            //decimal aumento = this.precioTotal * (descuento / 100);
-                            //decimal nuevoValor = this.precioTotal + descuento;
 
                             decimal subtotal = decimal.Parse(this.lblSubTotal.Text);
 
                             this.precioTotal = subtotal;
                             this.lblTotal.Text = this.lblSubTotal.Text;
                             this.lblDescuento.Text = "0";
-                            //this.lblSubTotal.Text = nuevoValor.ToString();
                         }
                         else
                         {
@@ -485,6 +534,7 @@ namespace CapaPresentacion.Ventas
             dataListadoClientes.Columns[0].Visible = false;
         }
 
+        // Calculo de vuelto en "panel de vuelto"
         private void txtEntrega_TextChanged(object sender, EventArgs e)
         {
             if (this.txtEntrega.Text != "")
@@ -584,15 +634,15 @@ namespace CapaPresentacion.Ventas
             {
                 MessageBox.Show("Venta cargada con exito", "Mensaje", MessageBoxButtons.OKCancel);
 
-                //DialogResult resultado = MessageBox.Show("Venta cargada con exito \n\n ¿Desea imprimir el ticket?", "Confirmación", MessageBoxButtons.OKCancel);
+                DialogResult resultado = MessageBox.Show("Venta cargada con exito \n\n ¿Desea imprimir el ticket?", "Confirmación", MessageBoxButtons.OKCancel);
 
-                //// Verificar la respuesta del usuario
-                //if (resultado == DialogResult.OK)
-                //{
-                //    formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos);
-                //    frm.MdiParent = this.MdiParent;
-                //    frm.Show();
-                //}
+                // Verificar la respuesta del usuario
+                if (resultado == DialogResult.OK)
+                {
+                    formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos);
+                    frm.MdiParent = this.MdiParent;
+                    frm.Show();
+                }
             }
             else
             {
@@ -601,7 +651,7 @@ namespace CapaPresentacion.Ventas
                 this.MensajeError(rpta);
             }
 
-            this.Close();
+            //this.Close();
         }
 
         private void btnCerrarPanelClientes_Click(object sender, EventArgs e)
@@ -844,7 +894,7 @@ namespace CapaPresentacion.Ventas
             }
 
             // Permitir solo un punto decimal
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            if ((e.KeyChar == '.') && ((sender as System.Windows.Controls.TextBox).Text.IndexOf('.') > -1))
             {
                 e.Handled = true; // Bloquear la entrada
             }

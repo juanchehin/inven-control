@@ -26,6 +26,10 @@ namespace CapaPresentacion
         public frmPrincipal(int IdUsuario,string usuario,int IdRol)
         {
             InitializeComponent();
+
+            this.KeyDown += frmPrincipal_KeyDown;
+            this.KeyPreview = true;
+
             this.Usuario = usuario;
             lblUsuario.Text = usuario;
             this.IdRol = IdRol;
@@ -144,6 +148,64 @@ namespace CapaPresentacion
         {
             formGastos frm = new formGastos();
             frm.Show();
+        }
+
+        private void frmPrincipal_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 && !e.Handled)
+            {
+                // Llamar directamente al método que quieres ejecutar en lugar de usar PerformClick
+                formProductos frm = new formProductos();
+                frm.MdiParent = this.MdiParent;
+                frm.Show();
+
+                // Marcar el evento como manejado para que no se procese de nuevo
+                e.Handled = true;
+            }
+
+            if (e.KeyCode == Keys.F2 && !e.Handled)
+            {
+                // Llamar directamente al método que quieres ejecutar en lugar de usar PerformClick
+                formCompras frm = new formCompras(this.IdUsuario, this.Usuario);
+                frm.MdiParent = this.MdiParent;
+                frm.Show();
+
+                // Marcar el evento como manejado para que no se procese de nuevo
+                e.Handled = true;
+            }
+
+            if (e.KeyCode == Keys.F3 && !e.Handled)
+            {
+                // Llamar directamente al método que quieres ejecutar en lugar de usar PerformClick
+                formVentas frm = new formVentas(this.IdUsuario, this.Usuario);
+                frm.MdiParent = this.MdiParent;
+                frm.Show();
+
+                // Marcar el evento como manejado para que no se procese de nuevo
+                e.Handled = true;
+            }
+
+            if (e.KeyCode == Keys.F4 && !e.Handled)
+            {
+                // Llamar directamente al método que quieres ejecutar en lugar de usar PerformClick
+                formEstadisticas frm = new formEstadisticas();
+                frm.MdiParent = this.MdiParent;
+                frm.Show();
+
+                // Marcar el evento como manejado para que no se procese de nuevo
+                e.Handled = true;
+            }
+
+            if (e.KeyCode == Keys.F5 && !e.Handled)
+            {
+                // Llamar directamente al método que quieres ejecutar en lugar de usar PerformClick
+                formConfiguraciones frm = new formConfiguraciones();
+                frm.MdiParent = this.MdiParent;
+                frm.Show();
+
+                // Marcar el evento como manejado para que no se procese de nuevo
+                e.Handled = true;
+            }
         }
     }
 }

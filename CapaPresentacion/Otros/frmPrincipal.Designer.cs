@@ -53,47 +53,47 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(177, 230);
+            this.label3.Location = new System.Drawing.Point(168, 230);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.Size = new System.Drawing.Size(76, 13);
             this.label3.TabIndex = 14;
-            this.label3.Text = "Productos";
+            this.label3.Text = "Productos (F1)";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(361, 230);
+            this.label5.Location = new System.Drawing.Point(346, 230);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 13);
+            this.label5.Size = new System.Drawing.Size(117, 13);
             this.label5.TabIndex = 16;
-            this.label5.Text = "Compras/Ingresos";
+            this.label5.Text = "Compras/Ingresos  (F2)";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(574, 230);
+            this.label6.Location = new System.Drawing.Point(565, 230);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "Egresos";
+            this.label6.Text = "Egresos (F3)";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(370, 440);
+            this.label8.Location = new System.Drawing.Point(361, 440);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(72, 13);
+            this.label8.Size = new System.Drawing.Size(93, 13);
             this.label8.TabIndex = 21;
-            this.label8.Text = "Configuracion";
+            this.label8.Text = "Configuracion (F5)";
             // 
             // lblEstadisticas
             // 
             this.lblEstadisticas.AutoSize = true;
-            this.lblEstadisticas.Location = new System.Drawing.Point(177, 440);
+            this.lblEstadisticas.Location = new System.Drawing.Point(174, 440);
             this.lblEstadisticas.Name = "lblEstadisticas";
-            this.lblEstadisticas.Size = new System.Drawing.Size(63, 13);
+            this.lblEstadisticas.Size = new System.Drawing.Size(84, 13);
             this.lblEstadisticas.TabIndex = 23;
-            this.lblEstadisticas.Text = "Estadisticas";
+            this.lblEstadisticas.Text = "Estadisticas (F4)";
             // 
             // label10
             // 
@@ -236,6 +236,7 @@
             this.Text = "                                                                                 " +
     "              ..:: InvenControl ::..";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPrincipal_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPrincipal_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

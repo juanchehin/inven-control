@@ -677,7 +677,7 @@
             this.panelVuelto.Controls.Add(this.lblUsuario);
             this.panelVuelto.Controls.Add(this.groupBox4);
             this.panelVuelto.Controls.Add(this.groupBox5);
-            this.panelVuelto.Location = new System.Drawing.Point(318, 0);
+            this.panelVuelto.Location = new System.Drawing.Point(236, 4);
             this.panelVuelto.Name = "panelVuelto";
             this.panelVuelto.Size = new System.Drawing.Size(284, 408);
             this.panelVuelto.TabIndex = 51;
@@ -904,10 +904,10 @@
             this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.panelVuelto);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.panelVuelto);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "formNuevaVenta";
             this.Text = "                                                                                 " +
