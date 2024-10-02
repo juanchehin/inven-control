@@ -4,35 +4,38 @@
     <ReportItems>
       <Textbox Name="Textbox7">
         <CanGrow>true</CanGrow>
+        <CanShrink>true</CanShrink>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Total :             $</Value>
+                <Value>Total :    $</Value>
                 <Style>
                   <FontFamily>Consolas</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
               <TextRun>
-				  <Value>=Fields!PrecioTotal.Value</Value>
-				  <Style>
+                <Value>=Fields!PrecioTotal.Value</Value>
+                <Style>
                   <FontFamily>Consolas</FontFamily>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>7pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>3.33912cm</Top>
+        <Top>2.8225cm</Top>
         <Left>0.18204cm</Left>
-        <Height>0.57354cm</Height>
-        <Width>6.73271cm</Width>
+        <Height>0.6cm</Height>
+        <Width>4.64313cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -45,26 +48,29 @@
       </Textbox>
       <Textbox Name="Textbox10">
         <CanGrow>true</CanGrow>
+        <CanShrink>true</CanShrink>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>------------------------------------------------</Value>
+                <Value>------------------------------</Value>
                 <Style>
                   <FontSize>8pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>0.76356cm</Top>
+        <Top>0.14111cm</Top>
         <Left>0.16849cm</Left>
         <Height>0.6cm</Height>
-        <Width>8.40021cm</Width>
+        <Width>4.2598cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -80,13 +86,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.91792cm</Width>
+              <Width>1.55223cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.91792cm</Width>
+              <Width>1.55223cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.91792cm</Width>
+              <Width>1.55223cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -97,6 +103,7 @@
                   <CellContents>
                     <Textbox Name="Textbox3">
                       <CanGrow>true</CanGrow>
+                      <CanShrink>true</CanShrink>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
@@ -110,7 +117,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox3</rd:DefaultName>
@@ -119,10 +128,11 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
+                        <VerticalAlign>Top</VerticalAlign>
+                        <PaddingLeft>0.1pt</PaddingLeft>
+                        <PaddingRight>0.1pt</PaddingRight>
+                        <PaddingTop>0.1pt</PaddingTop>
+                        <PaddingBottom>0.1pt</PaddingBottom>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -318,10 +328,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSetTicketVenta</DataSetName>
-        <Top>1.53995cm</Top>
-        <Left>0.43307cm</Left>
+        <Top>0.9175cm</Top>
+        <Left>0.16849cm</Left>
         <Height>0.95222cm</Height>
-        <Width>5.75375cm</Width>
+        <Width>4.65669cm</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -330,26 +340,27 @@
         </Style>
       </Tablix>
       <Textbox Name="Textbox12">
-        <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>--------------------------------------------------------</Value>
+                <Value>---------------------------------</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox10</rd:DefaultName>
-        <Top>2.66856cm</Top>
+        <Top>2.04611cm</Top>
         <Left>0.16849cm</Left>
         <Height>0.6cm</Height>
-        <Width>8.40021cm</Width>
+        <Width>4.65668cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -362,40 +373,29 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2.25in</Height>
+    <Height>1.51411in</Height>
     <Style>
       <Border>
         <Style>None</Style>
       </Border>
-      <BottomBorder>
-        <Style>Solid</Style>
-        <Width>0.25pt</Width>
-      </BottomBorder>
     </Style>
   </Body>
-  <Width>3.75892in</Width>
+  <Width>2.51934in</Width>
   <Page>
     <PageHeader>
-      <Height>3.34349cm</Height>
+      <Height>2.8937cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
         <Textbox Name="Textbox13">
-          <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Direccion: </Value>
+                  <Value>Av. Pte Peron 3337</Value>
                   <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Value>=Fields!Direccion.Value</Value>
-                  <Style>
-                    <FontSize>8pt</FontSize>
+                    <FontSize>5pt</FontSize>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -403,10 +403,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>1.62315cm</Top>
+          <Top>1.28475cm</Top>
           <Left>0.18204cm</Left>
-          <Height>0.6cm</Height>
-          <Width>5.26458cm</Width>
+          <Height>0.46771cm</Height>
+          <Width>5.43307cm</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -418,27 +418,30 @@
           </Style>
         </Textbox>
         <Textbox Name="Textbox14">
-          <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
                   <Value>Fecha : </Value>
-                  <Style />
+                  <Style>
+                    <FontSize>5pt</FontSize>
+                  </Style>
                 </TextRun>
                 <TextRun>
                   <Value>=Fields!Fecha.Value</Value>
-                  <Style />
+                  <Style>
+                    <FontSize>5pt</FontSize>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style />
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox13</rd:DefaultName>
-          <Top>2.63766cm</Top>
+          <Top>1.92885cm</Top>
           <Left>0.18204cm</Left>
-          <Height>0.6cm</Height>
+          <Height>0.43569cm</Height>
           <Width>4.24625cm</Width>
           <ZIndex>1</ZIndex>
           <Style>
@@ -452,21 +455,12 @@
           </Style>
         </Textbox>
         <Textbox Name="Empresa">
-          <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>Empresa : </Value>
-                  <Style>
-                    <FontFamily>Consolas</FontFamily>
-                    <FontSize>8pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Value>=Fields!Empresa.Value</Value>
+                  <Value>Carniceria San Jorge</Value>
                   <Style>
                     <FontFamily>Consolas</FontFamily>
                     <FontSize>8pt</FontSize>
@@ -479,8 +473,9 @@
           </Paragraphs>
           <rd:DefaultName>Empresa</rd:DefaultName>
           <Top>0.45544cm</Top>
+          <Left>0.16849cm</Left>
           <Height>0.65292cm</Height>
-          <Width>8.38666cm</Width>
+          <Width>5.44662cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -505,7 +500,6 @@
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
         <Textbox Name="Textbox11">
-          <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
@@ -540,12 +534,12 @@
         </Border>
       </Style>
     </PageFooter>
-    <PageHeight>29.7cm</PageHeight>
-    <PageWidth>21cm</PageWidth>
-    <LeftMargin>2cm</LeftMargin>
-    <RightMargin>2cm</RightMargin>
-    <TopMargin>2cm</TopMargin>
-    <BottomMargin>2cm</BottomMargin>
+    <PageHeight>10cm</PageHeight>
+    <PageWidth>5.7cm</PageWidth>
+    <LeftMargin>0.1cm</LeftMargin>
+    <RightMargin>0.1cm</RightMargin>
+    <TopMargin>0.1cm</TopMargin>
+    <BottomMargin>0.1cm</BottomMargin>
     <ColumnSpacing>0.13cm</ColumnSpacing>
     <Style />
   </Page>

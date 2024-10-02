@@ -180,15 +180,13 @@ namespace CapaDatos
 
                 MySqlParameter pStock = new MySqlParameter();
                 pStock.ParameterName = "@pStock";
-                pStock.MySqlDbType = MySqlDbType.Decimal;
-                pStock.Size = 40;
+                pStock.MySqlDbType = MySqlDbType.Int32;
                 pStock.Value = Producto.Stock;
                 comando.Parameters.Add(pStock);
 
                 MySqlParameter pStockAlerta = new MySqlParameter();
                 pStockAlerta.ParameterName = "@pStockAlerta";
-                pStockAlerta.MySqlDbType = MySqlDbType.Decimal;
-                pStockAlerta.Size = 40;
+                pStockAlerta.MySqlDbType = MySqlDbType.Int32;
                 pStockAlerta.Value = Producto.StockAlerta;
                 comando.Parameters.Add(pStockAlerta);
 
@@ -225,11 +223,11 @@ namespace CapaDatos
                 MySqlParameter pDescripcion = new MySqlParameter();
                 pDescripcion.ParameterName = "@pDescripcion";
                 pDescripcion.MySqlDbType = MySqlDbType.VarChar;
-                pDescripcion.Size = 60;
+                pDescripcion.Size = 255;
                 pDescripcion.Value = Producto.Descripcion;
                 comando.Parameters.Add(pDescripcion);
 
-                rpta = comando.ExecuteScalar().ToString() == "OK" ? "OK" : "No se inserto el Registro";
+                rpta = comando.ExecuteScalar().ToString() == "OK" ? "OK" : "No se edito el Registro";
                 comando.Parameters.Clear();
             }
             catch (Exception ex)

@@ -616,9 +616,6 @@
     <EmbeddedResource Include="Reportes\formTicket.resx">
       <DependentUpon>formTicket.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reportes\TicketVenta.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Usuarios\formUsuarios.resx">
       <DependentUpon>formUsuarios.cs</DependentUpon>
     </EmbeddedResource>
