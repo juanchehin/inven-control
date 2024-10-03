@@ -373,7 +373,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.51411in</Height>
+    <Height>1.55578in</Height>
     <Style>
       <Border>
         <Style>None</Style>
@@ -383,7 +383,7 @@
   <Width>2.51934in</Width>
   <Page>
     <PageHeader>
-      <Height>2.8937cm</Height>
+      <Height>2.5762cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -495,7 +495,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>2.54cm</Height>
+      <Height>1.71979cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -506,17 +506,19 @@
               <TextRuns>
                 <TextRun>
                   <Value>Gracias por su compra!</Value>
-                  <Style />
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
                 </TextRun>
               </TextRuns>
               <Style />
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
-          <Top>0.81703cm</Top>
+          <Top>0.17639cm</Top>
           <Left>0.16849cm</Left>
-          <Height>0.6cm</Height>
-          <Width>3.79646cm</Width>
+          <Height>0.49417cm</Height>
+          <Width>3.59834cm</Width>
           <Style>
             <Border>
               <Style>None</Style>

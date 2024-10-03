@@ -53,7 +53,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(168, 230);
+            this.label3.Location = new System.Drawing.Point(172, 260);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 13);
             this.label3.TabIndex = 14;
@@ -62,7 +62,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(346, 230);
+            this.label5.Location = new System.Drawing.Point(440, 263);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(117, 13);
             this.label5.TabIndex = 16;
@@ -71,7 +71,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(565, 230);
+            this.label6.Location = new System.Drawing.Point(735, 263);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 17;
@@ -80,7 +80,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(361, 440);
+            this.label8.Location = new System.Drawing.Point(576, 496);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(93, 13);
             this.label8.TabIndex = 21;
@@ -89,7 +89,7 @@
             // lblEstadisticas
             // 
             this.lblEstadisticas.AutoSize = true;
-            this.lblEstadisticas.Location = new System.Drawing.Point(174, 440);
+            this.lblEstadisticas.Location = new System.Drawing.Point(296, 496);
             this.lblEstadisticas.Name = "lblEstadisticas";
             this.lblEstadisticas.Size = new System.Drawing.Size(84, 13);
             this.lblEstadisticas.TabIndex = 23;
@@ -139,7 +139,7 @@
             // 
             this.btnEstadisticas.BackColor = System.Drawing.SystemColors.Control;
             this.btnEstadisticas.Image = global::CapaPresentacion.Properties.Resources.analysis_1_;
-            this.btnEstadisticas.Location = new System.Drawing.Point(135, 292);
+            this.btnEstadisticas.Location = new System.Drawing.Point(257, 348);
             this.btnEstadisticas.Name = "btnEstadisticas";
             this.btnEstadisticas.Size = new System.Drawing.Size(145, 132);
             this.btnEstadisticas.TabIndex = 27;
@@ -150,7 +150,7 @@
             // 
             this.btnConfiguracion.BackColor = System.Drawing.SystemColors.Control;
             this.btnConfiguracion.Image = global::CapaPresentacion.Properties.Resources.gear;
-            this.btnConfiguracion.Location = new System.Drawing.Point(336, 292);
+            this.btnConfiguracion.Location = new System.Drawing.Point(551, 348);
             this.btnConfiguracion.Name = "btnConfiguracion";
             this.btnConfiguracion.Size = new System.Drawing.Size(146, 132);
             this.btnConfiguracion.TabIndex = 28;
@@ -161,7 +161,7 @@
             // 
             this.btnVentas.BackColor = System.Drawing.SystemColors.Control;
             this.btnVentas.Image = ((System.Drawing.Image)(resources.GetObject("btnVentas.Image")));
-            this.btnVentas.Location = new System.Drawing.Point(532, 80);
+            this.btnVentas.Location = new System.Drawing.Point(702, 113);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(130, 130);
             this.btnVentas.TabIndex = 31;
@@ -172,7 +172,7 @@
             // 
             this.btnCompras.BackColor = System.Drawing.SystemColors.Control;
             this.btnCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnCompras.Image")));
-            this.btnCompras.Location = new System.Drawing.Point(336, 80);
+            this.btnCompras.Location = new System.Drawing.Point(425, 113);
             this.btnCompras.Name = "btnCompras";
             this.btnCompras.Size = new System.Drawing.Size(146, 130);
             this.btnCompras.TabIndex = 32;
@@ -183,7 +183,7 @@
             // 
             this.btnProductos.BackColor = System.Drawing.SystemColors.Control;
             this.btnProductos.Image = global::CapaPresentacion.Properties.Resources.box1;
-            this.btnProductos.Location = new System.Drawing.Point(131, 83);
+            this.btnProductos.Location = new System.Drawing.Point(135, 113);
             this.btnProductos.Name = "btnProductos";
             this.btnProductos.Size = new System.Drawing.Size(149, 127);
             this.btnProductos.TabIndex = 34;
@@ -193,7 +193,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(59, 528);
+            this.label9.Location = new System.Drawing.Point(59, 632);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(202, 13);
             this.label9.TabIndex = 41;
@@ -203,7 +203,7 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Control;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(12, 506);
+            this.button1.Location = new System.Drawing.Point(12, 610);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(41, 35);
             this.button1.TabIndex = 40;
@@ -214,7 +214,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(819, 553);
+            this.ClientSize = new System.Drawing.Size(993, 657);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Data;
+using System.Drawing.Printing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using CapaNegocio;
 using CapaPresentacion.Reportes;
+// **
+using System.Drawing;
+using System.Data.SqlClient;
 
 namespace CapaPresentacion.Ventas
 {
@@ -24,6 +28,9 @@ namespace CapaPresentacion.Ventas
         private AutoCompleteStringCollection autoCompleteProductos = new AutoCompleteStringCollection();
 
         static ManualResetEvent evento = new ManualResetEvent(false);
+
+        // impresion ticket
+        private PrintDocument printDocument = new PrintDocument();
 
         bool bandera;
         bool IsNuevo = false;
@@ -63,6 +70,8 @@ namespace CapaPresentacion.Ventas
         public formNuevaVenta(int IdUsuario, string usuario)
         {
             InitializeComponent();
+            printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
+            printDocument.DefaultPageSettings.PaperSize = new PaperSize("Custom", 300, 800);
 
             this.KeyPreview = true; // Esto es importante para capturar eventos de teclado en el formulario
             this.KeyDown += formNuevaVenta_KeyDown;
@@ -140,6 +149,10 @@ namespace CapaPresentacion.Ventas
                 {
                     productos_venta.Columns.Add("IdProducto", typeof(System.Int32));
                 }
+                if (!productos_venta.Columns.Contains("Producto"))
+                {
+                    productos_venta.Columns.Add("Producto");
+                }
                 if (!productos_venta.Columns.Contains("Cantidad"))
                 {
                     productos_venta.Columns.Add("Cantidad", typeof(System.Decimal));
@@ -160,7 +173,7 @@ namespace CapaPresentacion.Ventas
                     DataRow row = productos_venta.NewRow();
 
                     row["IdProducto"] = Convert.ToDouble(rowGrid.Cells[0].Value);
-                    row["IdProducto"] = Convert.ToDouble(rowGrid.Cells[0].Value);
+                    row["Producto"] = rowGrid.Cells[2].Value;
                     row["Cantidad"] = rowGrid.Cells[3].Value;
                     string pesoConComas = rowGrid.Cells[6].Value.ToString().Replace('.', ',');
                     row["Peso"] = pesoConComas;
@@ -551,11 +564,67 @@ namespace CapaPresentacion.Ventas
 
         private void btnImprimirTicket_Click(object sender, EventArgs e)
         {
-            formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos, decimal.Parse(this.lblTotal.Text));
-            frm.MdiParent = this.MdiParent;
-            frm.Show();
+            // Abrir el diálogo de impresión
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.Document = printDocument;
 
-            this.Close();
+            if (printDialog.ShowDialog() == DialogResult.OK)
+            {
+                printDocument.Print();
+            }
+        }
+
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            // Establecer fuente y estilos
+            Font fontRegular = new Font("Arial", 10, FontStyle.Regular);
+            Font fontBold = new Font("Arial", 12, FontStyle.Bold);
+            float yPos = 12; // Posición inicial en el eje Y
+            float leftMargin = 10;
+
+            // Dibujar encabezado del ticket
+            e.Graphics.DrawString("FACTURA B", fontBold, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+            e.Graphics.DrawString("Carniceria San Jorge", fontRegular, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+            e.Graphics.DrawString("CUIT: 11111111112", fontRegular, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+            e.Graphics.DrawString("DIRECCIÓN: AV PTE J. D. PERON 3337", fontRegular, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+            e.Graphics.DrawString("LOCALIDAD: Los polvorines - bs as", fontRegular, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+
+            // Detalles del ticket (producto, cantidad, precio, etc.)
+            e.Graphics.DrawString("Descripción      Cantidad     Precio", fontBold, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+
+            // Recorremos el DataTable
+            for (int curRow = 0; curRow < productos_venta.Rows.Count; curRow++)
+            {
+
+                string descripcion = productos_venta.Rows[curRow][1].ToString();
+                string cantidad = productos_venta.Rows[curRow][2].ToString();
+                string precio = productos_venta.Rows[curRow][4].ToString();
+
+                // Formatear la cadena de salida para alineación simple (puedes mejorar esto si necesitas columnas precisas)
+                string lineaProducto = $"{descripcion.PadRight(15)} {cantidad.PadRight(10)} {precio.PadLeft(10)}";
+
+                // Imprimir cada producto en el ticket
+                e.Graphics.DrawString(lineaProducto, fontRegular, Brushes.Black, leftMargin, yPos);
+                yPos += 20; // Mover la posición vertical
+
+            }
+
+            // Total
+            e.Graphics.DrawString("TOTAL: $ " + this.precioTotal, fontBold, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+
+            // QR Code o CAE
+            e.Graphics.DrawString("CAE: 704799990807", fontRegular, Brushes.Black, leftMargin, yPos);
+            yPos += 20;
+            e.Graphics.DrawString("VTO CAE: 10/02/2024", fontRegular, Brushes.Black, leftMargin, yPos);
+
+            // Si quieres agregar un código QR puedes usar alguna librería para generarlo, como `QRCoder`.
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
@@ -640,9 +709,14 @@ namespace CapaPresentacion.Ventas
                 // Verificar la respuesta del usuario
                 if (resultado == DialogResult.OK)
                 {
-                    formTicket frm = new formTicket(this.IdUsuario, this.IdCliente, this.dataListadoProductos, decimal.Parse(this.lblTotal.Text));
-                    frm.MdiParent = this.MdiParent;
-                    frm.Show();
+                    // Abrir el diálogo de impresión
+                    PrintDialog printDialog = new PrintDialog();
+                    printDialog.Document = printDocument;
+
+                    if (printDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        printDocument.Print();
+                    }
                 }
             }
             else

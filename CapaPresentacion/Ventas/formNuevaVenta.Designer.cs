@@ -55,7 +55,6 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnAplicarDescuento = new System.Windows.Forms.Button();
-            this.dgvAutocompleteProducto = new System.Windows.Forms.DataGridView();
             this.txtDescuento = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -70,6 +69,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.dgvAutocompleteProducto = new System.Windows.Forms.DataGridView();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -405,21 +405,6 @@
             this.btnAplicarDescuento.UseVisualStyleBackColor = true;
             this.btnAplicarDescuento.Click += new System.EventHandler(this.btnAplicarDescuento_Click);
             // 
-            // dgvAutocompleteProducto
-            // 
-            this.dgvAutocompleteProducto.AllowUserToAddRows = false;
-            this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
-            this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 150);
-            this.dgvAutocompleteProducto.MultiSelect = false;
-            this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
-            this.dgvAutocompleteProducto.ReadOnly = true;
-            this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(454, 192);
-            this.dgvAutocompleteProducto.TabIndex = 66;
-            this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
-            // 
             // txtDescuento
             // 
             this.txtDescuento.Location = new System.Drawing.Point(116, 242);
@@ -558,6 +543,21 @@
             this.btnBuscar.Text = "Busqueda avanzada (F3)";
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // dgvAutocompleteProducto
+            // 
+            this.dgvAutocompleteProducto.AllowUserToAddRows = false;
+            this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
+            this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 150);
+            this.dgvAutocompleteProducto.MultiSelect = false;
+            this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
+            this.dgvAutocompleteProducto.ReadOnly = true;
+            this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(454, 192);
+            this.dgvAutocompleteProducto.TabIndex = 66;
+            this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
             // 
             // lblUsuario
             // 

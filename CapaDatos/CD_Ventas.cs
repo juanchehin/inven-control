@@ -232,19 +232,19 @@ namespace CapaDatos
                     MySqlParameter pCantidad = new MySqlParameter();
                     pCantidad.ParameterName = "@pCantidad";
                     pCantidad.MySqlDbType = MySqlDbType.Decimal;
-                    pCantidad.Value = pListadoProductos.Rows[curRow][1];
+                    pCantidad.Value = pListadoProductos.Rows[curRow][2];
                     comando.Parameters.Add(pCantidad);
 
                     MySqlParameter pPeso = new MySqlParameter();
                     pPeso.ParameterName = "@pPeso";
                     pPeso.MySqlDbType = MySqlDbType.Decimal;
-                    pPeso.Value = pListadoProductos.Rows[curRow][2];
+                    pPeso.Value = pListadoProductos.Rows[curRow][3];
                     comando.Parameters.Add(pPeso);
 
                     MySqlParameter pPrecioVenta = new MySqlParameter();
                     pPrecioVenta.ParameterName = "@pPrecioVenta";
                     pPrecioVenta.MySqlDbType = MySqlDbType.Decimal;
-                    pPrecioVenta.Value = pListadoProductos.Rows[curRow][3];
+                    pPrecioVenta.Value = pListadoProductos.Rows[curRow][4];
                     comando.Parameters.Add(pPrecioVenta);
 
                     rpta = (string)comando.ExecuteScalar();//  == "Ok";//  : "NO se Ingreso el Registro";
