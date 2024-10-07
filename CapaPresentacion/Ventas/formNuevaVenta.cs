@@ -71,7 +71,7 @@ namespace CapaPresentacion.Ventas
         {
             InitializeComponent();
             printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
-            printDocument.DefaultPageSettings.PaperSize = new PaperSize("Custom", 300, 800);
+            printDocument.DefaultPageSettings.PaperSize = new PaperSize("Custom_58mm", 228, 500);
 
             this.KeyPreview = true; // Esto es importante para capturar eventos de teclado en el formulario
             this.KeyDown += formNuevaVenta_KeyDown;
