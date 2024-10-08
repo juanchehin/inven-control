@@ -665,7 +665,7 @@ namespace CapaPresentacion.Ventas
             e.Graphics.DrawString("CAE: 704799990807", fontRegular, Brushes.Black, leftMarginIzquierda, yPos);
             yPos += 20;
             e.Graphics.DrawString("VTO CAE: 10/02/2024", fontRegular, Brushes.Black, leftMarginIzquierda, yPos);
-            yPos += 60;
+            yPos += 22;
             e.Graphics.DrawString("MUCHAS GRACIAS POR SU COMPRA!!!", fontRegular, Brushes.Black, leftMarginIzquierda, yPos);
 
             // Si quieres agregar un código QR puedes usar alguna librería para generarlo, como `QRCoder`.
