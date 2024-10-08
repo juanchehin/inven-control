@@ -577,20 +577,17 @@ namespace CapaPresentacion.Ventas
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             // Establecer fuente y estilos
-            Font fontRegular = new Font("Arial", 5, FontStyle.Bold);
-            Font fontBold = new Font("Arial", 5, FontStyle.Bold);
+            Font fontRegular = new Font("Arial", 7, FontStyle.Bold);
+            Font fontBold = new Font("Arial", 7, FontStyle.Bold);
             float yPos = 12; // Posición inicial en el eje Y
-            float leftMargin = 2;
+            float leftMarginCentrado = 22;
+            float leftMarginIzquierda = 8;
 
-            // Ancho total del ticket en puntos (1 mm ≈ 3.78 puntos)
-            float anchoTotalTicket = 58 * 3.78f;
+            //// Ancho total del ticket en puntos (1 mm ≈ 3.78 puntos)
+            //float anchoTotalTicket = 58 * 3.78f;
 
-            // Calcula el ancho que ocupará el texto "FACTURA B"
-            SizeF tamañoTexto = e.Graphics.MeasureString("FACTURA B", fontBold);
-
-            // Calcula el margen izquierdo para centrar el texto
-            float leftMarginCentrado = (anchoTotalTicket - tamañoTexto.Width) / 2;
-
+            //// Calcula el margen izquierdo para centrar el texto
+            //float leftMarginCentrado = (anchoTotalTicket - tamañoTexto.Width) / 2;
 
             // Obtener la fecha y hora actual
             string fechaHoraActual = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
@@ -598,18 +595,49 @@ namespace CapaPresentacion.Ventas
             // Dibujar encabezado del ticket
             e.Graphics.DrawString("CARNICERIA SAN JORGE", fontBold, Brushes.Black, leftMarginCentrado, yPos);
             yPos += 20;
-            e.Graphics.DrawString("CUIT: 11111111112", fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString("CUIT: 11111111112", fontRegular, Brushes.Black, leftMarginCentrado + 5, yPos);
             yPos += 20;
-            e.Graphics.DrawString("AV PTE J. D. PERON 3337", fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString("AV PTE J. D. PERON 3337", fontRegular, Brushes.Black, leftMarginCentrado - 3, yPos);
             yPos += 20;
-            e.Graphics.DrawString("LOS POLVORINES - BS AS", fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString("LOS POLVORINES - BS AS", fontRegular, Brushes.Black, leftMarginCentrado - 2, yPos);
             yPos += 20;
-            e.Graphics.DrawString($"FECHA: {fechaHoraActual}", fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString($"FECHA: {fechaHoraActual}", fontRegular, Brushes.Black, leftMarginCentrado - 6, yPos);
             yPos += 20;
 
 
             // Detalles del ticket (producto, cantidad, precio, etc.)
-            e.Graphics.DrawString("Descripción      Cantidad     Precio", fontBold, Brushes.Black, leftMarginCentrado, yPos);
+            //e.Graphics.DrawString("Descripción      Cantidad     Precio", fontBold, Brushes.Black, leftMarginCentrado, yPos);
+            //yPos += 20;
+
+            // Definir el texto
+            string textoEncabezado = "Descripción     Cantidad     Precio";
+
+            // Calcular el ancho total del ticket en puntos (1 mm ≈ 3.78 puntos)
+            //float anchoTotalTicket = 58 * 3.78f;
+
+            //// Definir el tamaño de la fuente
+            //Font font = new Font("Arial", 10);
+
+            //// Posición Y donde se comenzará a dibujar
+            //float yPos1 = 100;  // Ajusta según sea necesario
+
+            //// Medir el tamaño que ocupará el texto
+            SizeF tamañoTexto = e.Graphics.MeasureString(textoEncabezado, fontRegular);
+
+            //// Calcular la posición centrada para el recuadro y el texto
+            //float leftMargin = (anchoTotalTicket - tamañoTexto.Width) / 2;
+
+            //// Dibujar el texto en el centro
+            //e.Graphics.DrawString(textoEncabezado, font, Brushes.Black, leftMargin, yPos1);
+
+            // Dibujar el recuadro alrededor del texto
+            float padding = 5;  // Espacio adicional entre el texto y el borde del recuadro
+            RectangleF recuadro = new RectangleF(leftMarginIzquierda - padding, yPos - padding, tamañoTexto.Width + 2 * padding, tamañoTexto.Height + 2 * padding);
+
+            // Dibujar el borde del recuadro
+            e.Graphics.DrawRectangle(Pens.Black, recuadro.X, recuadro.Y, recuadro.Width, recuadro.Height);
+
+            e.Graphics.DrawString("Descripción      Cantidad     Precio", fontBold, Brushes.Black, leftMarginIzquierda, yPos);
             yPos += 20;
 
             // Recorremos el DataTable
@@ -621,22 +649,22 @@ namespace CapaPresentacion.Ventas
                 string precio = productos_venta.Rows[curRow][4].ToString();
 
                 //Formatear la cadena de salida para alineación simple(puedes mejorar esto si necesitas columnas precisas)
-                string lineaProducto = $"{descripcion.PadRight(15)} {cantidad.PadRight(10)} {precio.PadLeft(6)}";
+                string lineaProducto = $"{descripcion.PadRight(15)} {cantidad.PadRight(10)} {precio.PadLeft(2)}";
 
                 //Imprimir cada producto en el ticket
-                e.Graphics.DrawString(lineaProducto, fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+                e.Graphics.DrawString(lineaProducto, fontRegular, Brushes.Black, leftMarginIzquierda, yPos);
                 yPos += 20; // Mover la posición vertical
 
             }
 
             // Total
-            e.Graphics.DrawString("TOTAL: $ " + this.precioTotal, fontBold, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString("TOTAL: $ " + this.precioTotal, fontBold, Brushes.Black, leftMarginIzquierda, yPos);
             yPos += 20;
 
             // QR Code o CAE
-            e.Graphics.DrawString("CAE: 704799990807", fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString("CAE: 704799990807", fontRegular, Brushes.Black, leftMarginIzquierda, yPos);
             yPos += 20;
-            e.Graphics.DrawString("VTO CAE: 10/02/2024", fontRegular, Brushes.Black, leftMarginCentrado, yPos);
+            e.Graphics.DrawString("VTO CAE: 10/02/2024", fontRegular, Brushes.Black, leftMarginIzquierda, yPos);
 
             // Si quieres agregar un código QR puedes usar alguna librería para generarlo, como `QRCoder`.
         }
