@@ -5,10 +5,8 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using CapaNegocio;
-using CapaPresentacion.Reportes;
 // **
 using System.Drawing;
-using System.Data.SqlClient;
 
 namespace CapaPresentacion.Ventas
 {

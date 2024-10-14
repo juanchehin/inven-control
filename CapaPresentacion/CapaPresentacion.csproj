@@ -387,6 +387,12 @@
     <Compile Include="Ventas\formMisVentas.Designer.cs">
       <DependentUpon>formMisVentas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ventas\formValidacionEliminacionVenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\formValidacionEliminacionVenta.Designer.cs">
+      <DependentUpon>formValidacionEliminacionVenta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ventas\formVentas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -595,6 +601,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ventas\formMisVentas.resx">
       <DependentUpon>formMisVentas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ventas\formValidacionEliminacionVenta.resx">
+      <DependentUpon>formValidacionEliminacionVenta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ventas\formVentas.resx">
       <DependentUpon>formVentas.cs</DependentUpon>

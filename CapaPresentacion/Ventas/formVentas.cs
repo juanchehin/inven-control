@@ -292,10 +292,14 @@ namespace CapaPresentacion.Ventas
                         return;
                     }
 
-                    CN_Ventas.Eliminar(p_id_venta);
+                    formValidacionEliminacionVenta frm = new formValidacionEliminacionVenta(p_id_venta);
+                    frm.MdiParent = this.MdiParent;
+                    frm.Show();
+
+                    //CN_Ventas.Eliminar(p_id_venta);
                     listarTransacciones();
 
-                    MessageBox.Show("Se elimino de forma correcta la venta", "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("Se elimino de forma correcta la venta", "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
 

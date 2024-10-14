@@ -272,7 +272,7 @@ namespace CapaDatos
             {
                 comando.Connection = conexion.AbrirConexion();
                 comando.CommandType = CommandType.StoredProcedure;
-                comando.CommandText = "bsp_eliminar_transaccion";
+                comando.CommandText = "bsp_baja_transaccion";
 
                 MySqlParameter pIdTransaccion = new MySqlParameter();
                 pIdTransaccion.ParameterName = "@pIdTransaccion";
