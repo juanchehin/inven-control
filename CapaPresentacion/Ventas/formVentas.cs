@@ -328,5 +328,12 @@ namespace CapaPresentacion.Ventas
             frm.MdiParent = this.MdiParent;
             frm.Show();
         }
+
+        private void btnFacturaElect_Click(object sender, EventArgs e)
+        {
+            formFE frm = new formFE();
+            frm.MdiParent = this.MdiParent;
+            frm.Show();
+        }
     }
 }

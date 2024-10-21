@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formVentas));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_detalle_venta = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,7 +39,6 @@
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnNuevaVenta = new System.Windows.Forms.Button();
             this.lblTotalVentas = new System.Windows.Forms.Label();
-            this.btnRefrescar = new System.Windows.Forms.Button();
             this.cbTiposPago = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.lbl_transferencia = new System.Windows.Forms.Label();
@@ -48,23 +46,16 @@
             this.lbl_tarjeta = new System.Windows.Forms.Label();
             this.lbl_efectivo = new System.Windows.Forms.Label();
             this.btnEliminar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.btnFacturaElect = new System.Windows.Forms.Button();
+            this.btnRefrescar = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoVentas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::CapaPresentacion.Properties.Resources.acquisition;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 35;
-            this.pictureBox1.TabStop = false;
             // 
             // btn_detalle_venta
             // 
-            this.btn_detalle_venta.Location = new System.Drawing.Point(601, 174);
+            this.btn_detalle_venta.Location = new System.Drawing.Point(533, 175);
             this.btn_detalle_venta.Name = "btn_detalle_venta";
             this.btn_detalle_venta.Size = new System.Drawing.Size(75, 23);
             this.btn_detalle_venta.TabIndex = 72;
@@ -142,7 +133,7 @@
             // 
             // btnNuevaVenta
             // 
-            this.btnNuevaVenta.Location = new System.Drawing.Point(443, 174);
+            this.btnNuevaVenta.Location = new System.Drawing.Point(375, 175);
             this.btnNuevaVenta.Name = "btnNuevaVenta";
             this.btnNuevaVenta.Size = new System.Drawing.Size(152, 23);
             this.btnNuevaVenta.TabIndex = 75;
@@ -159,15 +150,6 @@
             this.lblTotalVentas.Size = new System.Drawing.Size(35, 13);
             this.lblTotalVentas.TabIndex = 76;
             this.lblTotalVentas.Text = "label3";
-            // 
-            // btnRefrescar
-            // 
-            this.btnRefrescar.Image = global::CapaPresentacion.Properties.Resources.refresh;
-            this.btnRefrescar.Location = new System.Drawing.Point(763, 167);
-            this.btnRefrescar.Name = "btnRefrescar";
-            this.btnRefrescar.Size = new System.Drawing.Size(47, 31);
-            this.btnRefrescar.TabIndex = 77;
-            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click);
             // 
             // cbTiposPago
             // 
@@ -227,7 +209,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(682, 174);
+            this.btnEliminar.Location = new System.Drawing.Point(614, 175);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 23);
             this.btnEliminar.TabIndex = 98;
@@ -235,11 +217,41 @@
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
+            // btnFacturaElect
+            // 
+            this.btnFacturaElect.Image = global::CapaPresentacion.Properties.Resources.factura_1_;
+            this.btnFacturaElect.Location = new System.Drawing.Point(695, 156);
+            this.btnFacturaElect.Name = "btnFacturaElect";
+            this.btnFacturaElect.Size = new System.Drawing.Size(51, 41);
+            this.btnFacturaElect.TabIndex = 99;
+            this.btnFacturaElect.UseVisualStyleBackColor = true;
+            this.btnFacturaElect.Click += new System.EventHandler(this.btnFacturaElect_Click);
+            // 
+            // btnRefrescar
+            // 
+            this.btnRefrescar.Image = global::CapaPresentacion.Properties.Resources.refresh;
+            this.btnRefrescar.Location = new System.Drawing.Point(752, 157);
+            this.btnRefrescar.Name = "btnRefrescar";
+            this.btnRefrescar.Size = new System.Drawing.Size(58, 41);
+            this.btnRefrescar.TabIndex = 77;
+            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::CapaPresentacion.Properties.Resources.acquisition;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 35;
+            this.pictureBox1.TabStop = false;
+            // 
             // formVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(832, 590);
+            this.Controls.Add(this.btnFacturaElect);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.lbl_efectivo);
             this.Controls.Add(this.lbl_tarjeta);
@@ -263,8 +275,8 @@
             this.Name = "formVentas";
             this.Text = "Ventas";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.formVentas_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoVentas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -290,5 +302,6 @@
         private System.Windows.Forms.Label lbl_tarjeta;
         private System.Windows.Forms.Label lbl_efectivo;
         private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnFacturaElect;
     }
 }
