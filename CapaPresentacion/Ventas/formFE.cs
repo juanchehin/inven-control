@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -89,7 +90,147 @@ namespace CapaPresentacion.Ventas
 
         private void btnEnviarFE_Click(object sender, EventArgs e)
         {
+            // Reemplaza estos TextBox con los nombres reales que estás usando en tu formulario
+            string token = txtToken.Text;
+            string sign = txtSign.Text;
+            long cuit = long.Parse("20296243230");
+            long id = long.Parse(txtId.Text);
+            int cantidadReg = 1;
+            int prestaServ = int.Parse(txtPrestaServ.Text);
 
+            // Datos del primer detalle
+            int tipoDoc1 = int.Parse(cbTipoDoc.Text);
+            long nroDoc1 = long.Parse(txtDocComp.Text);
+            int tipoCbte1 = int.Parse(cbTipoComp.Text);
+            int puntoVta1 = int.Parse(txtPtoVenta.Text);
+            long cbtDesde1 = long.Parse("1");
+            long cbtHasta1 = long.Parse("1");
+            double impTotal1 = double.Parse(txtImporteTotal.Text);
+            double impTotConc1 = double.Parse(txtImporteTotal.Text);
+            double impNeto1 = double.Parse(txtImporteTotal.Text);
+            double imptoLiq1 = double.Parse(txtImptoLiq1.Text);
+            double imptoLiqRni1 = double.Parse(txtImptoLiqRni1.Text);
+            double impOpEx1 = double.Parse(txtImpOpEx1.Text);
+            string fechaCbte1 = txtFechaCbte1.Text;
+            string fechaServDesde1 = txtFechaServDesde1.Text;
+            string fechaServHasta1 = txtFechaServHasta1.Text;
+            string fechaVencPago1 = txtFechaVencPago1.Text;
+
+            // Datos del segundo detalle
+            int tipoDoc2 = int.Parse(txtTipoDoc2.Text);
+            long nroDoc2 = long.Parse(txtNroDoc2.Text);
+            int tipoCbte2 = int.Parse(txtTipoCbte2.Text);
+            int puntoVta2 = int.Parse(txtPuntoVta2.Text);
+            long cbtDesde2 = long.Parse(txtCbtDesde2.Text);
+            long cbtHasta2 = long.Parse(txtCbtHasta2.Text);
+            double impTotal2 = double.Parse(txtImpTotal2.Text);
+            double impTotConc2 = double.Parse(txtImpTotConc2.Text);
+            double impNeto2 = double.Parse(txtImpNeto2.Text);
+            double imptoLiq2 = double.Parse(txtImptoLiq2.Text);
+            double imptoLiqRni2 = double.Parse(txtImptoLiqRni2.Text);
+            double impOpEx2 = double.Parse(txtImpOpEx2.Text);
+            string fechaCbte2 = txtFechaCbte2.Text;
+            string fechaServDesde2 = txtFechaServDesde2.Text;
+            string fechaServHasta2 = txtFechaServHasta2.Text;
+            string fechaVencPago2 = txtFechaVencPago2.Text;
+
+            // Construir el XML
+            StringBuilder xml = new StringBuilder();
+            xml.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+            xml.AppendLine("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            xml.AppendLine("  <soap:Body>");
+            xml.AppendLine("    <FEAutRequest xmlns=\"http://ar.gov.afip.dif.facturaelectronica/\">");
+            xml.AppendLine("      <argAuth>");
+            xml.AppendLine($"        <Token>{token}</Token>");
+            xml.AppendLine($"        <Sign>{sign}</Sign>");
+            xml.AppendLine($"        <cuit>{cuit}</cuit>");
+            xml.AppendLine("      </argAuth>");
+            xml.AppendLine("      <Fer>");
+            xml.AppendLine("        <Fecr>");
+            xml.AppendLine($"          <id>{id}</id>");
+            xml.AppendLine($"          <cantidadreg>{cantidadReg}</cantidadreg>");
+            xml.AppendLine($"          <presta_serv>{prestaServ}</presta_serv>");
+            xml.AppendLine("        </Fecr>");
+            xml.AppendLine("        <Fedr>");
+
+            // Primer detalle
+            xml.AppendLine("          <FEDetalleRequest>");
+            xml.AppendLine($"            <tipo_doc>{tipoDoc1}</tipo_doc>");
+            xml.AppendLine($"            <nro_doc>{nroDoc1}</nro_doc>");
+            xml.AppendLine($"            <tipo_cbte>{tipoCbte1}</tipo_cbte>");
+            xml.AppendLine($"            <punto_vta>{puntoVta1}</punto_vta>");
+            xml.AppendLine($"            <cbt_desde>{cbtDesde1}</cbt_desde>");
+            xml.AppendLine($"            <cbt_hasta>{cbtHasta1}</cbt_hasta>");
+            xml.AppendLine($"            <imp_total>{impTotal1}</imp_total>");
+            xml.AppendLine($"            <imp_tot_conc>{impTotConc1}</imp_tot_conc>");
+            xml.AppendLine($"            <imp_neto>{impNeto1}</imp_neto>");
+            xml.AppendLine($"            <impto_liq>{imptoLiq1}</impto_liq>");
+            xml.AppendLine($"            <impto_liq_rni>{imptoLiqRni1}</impto_liq_rni>");
+            xml.AppendLine($"            <imp_op_ex>{impOpEx1}</imp_op_ex>");
+            xml.AppendLine($"            <fecha_cbte>{fechaCbte1}</fecha_cbte>");
+            xml.AppendLine($"            <fecha_serv_desde>{fechaServDesde1}</fecha_serv_desde>");
+            xml.AppendLine($"            <fecha_serv_hasta>{fechaServHasta1}</fecha_serv_hasta>");
+            xml.AppendLine($"            <fecha_venc_pago>{fechaVencPago1}</fecha_venc_pago>");
+            xml.AppendLine("          </FEDetalleRequest>");
+
+            // Segundo detalle
+            xml.AppendLine("          <FEDetalleRequest>");
+            xml.AppendLine($"            <tipo_doc>{tipoDoc2}</tipo_doc>");
+            xml.AppendLine($"            <nro_doc>{nroDoc2}</nro_doc>");
+            xml.AppendLine($"            <tipo_cbte>{tipoCbte2}</tipo_cbte>");
+            xml.AppendLine($"            <punto_vta>{puntoVta2}</punto_vta>");
+            xml.AppendLine($"            <cbt_desde>{cbtDesde2}</cbt_desde>");
+            xml.AppendLine($"            <cbt_hasta>{cbtHasta2}</cbt_hasta>");
+            xml.AppendLine($"            <imp_total>{impTotal2}</imp_total>");
+            xml.AppendLine($"            <imp_tot_conc>{impTotConc2}</imp_tot_conc>");
+            xml.AppendLine($"            <imp_neto>{impNeto2}</imp_neto>");
+            xml.AppendLine($"            <impto_liq>{imptoLiq2}</impto_liq>");
+            xml.AppendLine($"            <impto_liq_rni>{imptoLiqRni2}</impto_liq_rni>");
+            xml.AppendLine($"            <imp_op_ex>{impOpEx2}</imp_op_ex>");
+            xml.AppendLine($"            <fecha_cbte>{fechaCbte2}</fecha_cbte>");
+            xml.AppendLine($"            <fecha_serv_desde>{fechaServDesde2}</fecha_serv_desde>");
+            xml.AppendLine($"            <fecha_serv_hasta>{fechaServHasta2}</fecha_serv_hasta>");
+            xml.AppendLine($"            <fecha_venc_pago>{fechaVencPago2}</fecha_venc_pago>");
+            xml.AppendLine("          </FEDetalleRequest>");
+
+            xml.AppendLine("        </Fedr>");
+            xml.AppendLine("      </Fer>");
+            xml.AppendLine("    </FEAutRequest>");
+            xml.AppendLine("  </soap:Body>");
+            xml.AppendLine("</soap:Envelope>");
+
+            // Enviar el XML
+            await EnviarXml(xml.ToString());
+        }
+
+        private async Task EnviarXml(string xml)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var requestUri = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambia la URL si es necesario
+
+                var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
+                {
+                    Content = new StringContent(xml, Encoding.UTF8, "text/xml")
+                };
+
+                request.Headers.Add("SOAPAction", "http://ar.gov.afip.dif.facturaelectronica/FEAutRequest");
+
+                try
+                {
+                    var response = await httpClient.SendAsync(request);
+
+                    // Verificar si la respuesta es exitosa
+                    response.EnsureSuccessStatusCode();
+
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(responseContent, "Respuesta del Servidor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error al enviar XML", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private async void txtTestServer_ClickAsync(object sender, EventArgs e)
