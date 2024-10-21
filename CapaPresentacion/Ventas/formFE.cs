@@ -10,14 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace CapaPresentacion.Ventas
 {
     public partial class formFE : Form
     {
-        private static readonly string baseDir = @"D:\dev\inven-control\CapaPresentacion\Resources\afip\xml"; // Cambiar por la ruta de tu base de directorios
+        //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
+        //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
+        private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\xml"; // Cambiar por la ruta de tu base de directorios
         private static readonly string urlWsdl = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambiar por la URL correcta
-        private static readonly string filename = Path.Combine(baseDir, "Resources", "FEDummy.xml");
+        private static readonly string filename = Path.Combine(baseDir, "FEDummy.xml");
+        private static readonly HttpClient client = new HttpClient();
 
         public formFE()
         {
@@ -88,71 +92,64 @@ namespace CapaPresentacion.Ventas
 
         }
 
-        private async Task txtTestServer_ClickAsync(object sender, EventArgs e)
+        private async void txtTestServer_ClickAsync(object sender, EventArgs e)
         {
-            // Define el nombre del archivo XML
+            // Define la URL del servicio web
+            string url = "https://servicios1.afip.gov.ar/wsfe/service.asmx";
 
-            if (!File.Exists(filename))
+            // Crea el contenido XML para la solicitud SOAP
+            string soapEnvelope = @"<?xml version=""1.0"" encoding=""utf-8""?>
+            <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
+                           xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
+                           xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+              <soap:Body>
+                <FEDummy xmlns=""http://ar.gov.afip.dif.facturaelectronica/"" />
+              </soap:Body>
+            </soap:Envelope>";
+
+            // Configura el contenido de la solicitud
+            HttpContent content = new StringContent(soapEnvelope, Encoding.UTF8, "text/xml");
+            content.Headers.Add("SOAPAction", "\"http://ar.gov.afip.dif.facturaelectronica/FEDummy\"");
+
+            try
             {
-                Console.WriteLine("Failed to open FEDummy.xml.");
-                alta_log("Failed to open FEDummy.xml - txtTestServer_Click()");
+                // Envía la solicitud POST
+                HttpResponseMessage response = await client.PostAsync(url, content);
 
-                //return false;
+                // Verifica si la respuesta fue exitosa
+                if (response.IsSuccessStatusCode)
+                {
+                    // Lee el contenido de la respuesta
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    // Cargar la respuesta en un objeto XElement para análisis
+                    XElement xmlResponse = XElement.Parse(responseBody);
+
+                    // Extraer los valores de appserver, dbserver y authserver
+                    var appserver = xmlResponse.Descendants()
+                        .FirstOrDefault(x => x.Name.LocalName == "appserver")?.Value;
+                    var dbserver = xmlResponse.Descendants()
+                        .FirstOrDefault(x => x.Name.LocalName == "dbserver")?.Value;
+                    var authserver = xmlResponse.Descendants()
+                        .FirstOrDefault(x => x.Name.LocalName == "authserver")?.Value;
+
+                    // Crear el mensaje para mostrar en el MessageBox
+                    string message = $"App Server: {appserver}\nDB Server: {dbserver}\nAuth Server: {authserver}";
+
+                    // Mostrar el mensaje en un MessageBox
+                    MessageBox.Show(message, "Respuesta Server AFIP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    alta_log("message response server AFIP : " + message);
+
+                }
+                else
+                {
+                    string errorResponse = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(errorResponse);
+                }
             }
-
-            string xml = File.ReadAllText(filename);
-
-            using (HttpClient client = new HttpClient())
+            catch (Exception ex)
             {
-                // Deshabilitar la verificación de SSL (similar a CURLOPT_SSL_VERIFYPEER => false)
-                HttpClientHandler handler = new HttpClientHandler
-                {
-                    ServerCertificateCustomValidationCallback = (sender2, cert, chain, sslPolicyErrors) => true
-                };
-
-                client.DefaultRequestHeaders.Add("Content-Type", "application/xml");
-
-                // Cuerpo de la solicitud
-                HttpContent content = new StringContent(xml, System.Text.Encoding.UTF8, "application/xml");
-
-                try
-                {
-                    // Crear y enviar la solicitud POST
-                    HttpResponseMessage response = await client.PostAsync($"{urlWsdl}/FEDummy", content);
-                    response.EnsureSuccessStatusCode(); // Verifica que la respuesta es exitosa
-
-                    // Obtener el contenido de la respuesta
-                    string resp = await response.Content.ReadAsStringAsync();
-
-                    // Cargar el XML de la respuesta
-                    XmlDocument xmlResponse = new XmlDocument();
-                    xmlResponse.LoadXml(resp);
-
-                    // Obtener valores del XML
-                    string appserver = xmlResponse.SelectSingleNode("//appserver")?.InnerText;
-                    string dbserver = xmlResponse.SelectSingleNode("//dbserver")?.InnerText;
-                    string authserver = xmlResponse.SelectSingleNode("//authserver")?.InnerText;
-
-                    // Verificar si todos los servidores están "OK"
-                    if (appserver == "OK" && dbserver == "OK" && authserver == "OK")
-                    {
-                        alta_log("log 1");
-
-                        //return true;
-                    }
-                    else
-                    {
-                        alta_log("log 2");
-                        //return false;
-                    }
-                }
-                catch (HttpRequestException ex)
-                {
-                    Console.WriteLine($"Request error: {ex.Message}");
-                    alta_log($"Request error: {ex.Message}");
-
-                    //return false;
-                }
+                alta_log($"Exception: {ex.Message}");
             }
         }
 

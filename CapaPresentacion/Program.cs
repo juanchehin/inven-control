@@ -1,4 +1,5 @@
 ﻿using CapaPresentacion.Reportes;
+using CapaPresentacion.Ventas;
 using System;
 using System.Windows.Forms;
 
@@ -18,11 +19,11 @@ namespace CapaPresentacion
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             OpenDetailFormOnClose = false;
-            Application.Run(new formLogin());   // Cambiar por new formLogin()
+            Application.Run(new formFE());   // Cambiar por new formLogin()
 
             if (OpenDetailFormOnClose)
             {
-                Application.Run(new formLogin());
+                Application.Run(new formFE());
             }
         }
     }
