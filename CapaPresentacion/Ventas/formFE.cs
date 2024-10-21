@@ -94,27 +94,31 @@ namespace CapaPresentacion.Ventas
 
         private async void txtTestServer_ClickAsync(object sender, EventArgs e)
         {
-            // Define la URL del servicio web
-            string url = "https://servicios1.afip.gov.ar/wsfe/service.asmx";
 
-            // Crea el contenido XML para la solicitud SOAP
-            string soapEnvelope = @"<?xml version=""1.0"" encoding=""utf-8""?>
-            <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
-                           xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
-                           xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
-              <soap:Body>
-                <FEDummy xmlns=""http://ar.gov.afip.dif.facturaelectronica/"" />
-              </soap:Body>
-            </soap:Envelope>";
+            // Define la ruta al archivo XML
+            //string filePath = @"ruta\a\tu\archivo\FEDummy.xml"; // Cambia esta línea a la ruta correcta
+
+            // Cargar el contenido del archivo XML
+            string soapEnvelope;
+            try
+            {
+                soapEnvelope = File.ReadAllText(filename);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al leer el archivo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Salir del método si no se puede leer el archivo
+            }
 
             // Configura el contenido de la solicitud
             HttpContent content = new StringContent(soapEnvelope, Encoding.UTF8, "text/xml");
             content.Headers.Add("SOAPAction", "\"http://ar.gov.afip.dif.facturaelectronica/FEDummy\"");
 
+
             try
             {
                 // Envía la solicitud POST
-                HttpResponseMessage response = await client.PostAsync(url, content);
+                HttpResponseMessage response = await client.PostAsync(urlWsdl, content);
 
                 // Verifica si la respuesta fue exitosa
                 if (response.IsSuccessStatusCode)
