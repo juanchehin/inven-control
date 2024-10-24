@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1.0">
+    <header>
+        <source>CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 20296243230</source>
+        <destination>SERIALNUMBER=CUIT 20296243230, CN=carniceria_csr</destination>
+        <uniqueId></uniqueId>
+        <generationTime>2023-10-24T13:15:13.411-03:00</generationTime>
+        <expirationTime>2023-10-25T01:15:13.411-03:00</expirationTime>
+    </header>
+    <credentials>
+        <token></token>
+        <sign></sign>
+    </credentials>
+</loginTicketResponse>

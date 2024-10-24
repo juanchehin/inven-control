@@ -12,6 +12,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+//
+using System.Collections.Generic;
+using AfipWsfeClient;
+using System.Security.Cryptography.Pkcs;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Sockets;
+using System.Net;
+using AfipServiceReference;
+using System.ServiceModel;
 
 namespace CapaPresentacion.Ventas
 {
@@ -19,10 +28,13 @@ namespace CapaPresentacion.Ventas
     {
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
-        private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\xml"; // Cambiar por la ruta de tu base de directorios
+        private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\20296243230"; // Cambiar por la ruta de tu base de directorios
         private static readonly string urlWsdl = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambiar por la URL correcta
         private static readonly string filename = Path.Combine(baseDir, "FEDummy.xml");
         private static readonly HttpClient client = new HttpClient();
+
+        private static readonly string URL_WSDL = "https://servicios1.afip.gov.ar/wsfe/service.asmx";   // produccion
+        // private static readonly string URL_WSDL = "https://wsaahomo.afip.gov.ar/wsfe/service.asmx";  // homologacion
 
         public formFE()
         {
@@ -88,121 +100,6 @@ namespace CapaPresentacion.Ventas
             this.Close();
         }
 
-        private void btnEnviarFE_Click(object sender, EventArgs e)
-        {
-            // Reemplaza estos TextBox con los nombres reales que estás usando en tu formulario
-            string token = txtToken.Text;
-            string sign = txtSign.Text;
-            long cuit = long.Parse("20296243230");
-            long id = long.Parse(txtId.Text);
-            int cantidadReg = 1;
-            int prestaServ = int.Parse(txtPrestaServ.Text);
-
-            // Datos del primer detalle
-            int tipoDoc1 = int.Parse(cbTipoDoc.Text);
-            long nroDoc1 = long.Parse(txtDocComp.Text);
-            int tipoCbte1 = int.Parse(cbTipoComp.Text);
-            int puntoVta1 = int.Parse(txtPtoVenta.Text);
-            long cbtDesde1 = long.Parse("1");
-            long cbtHasta1 = long.Parse("1");
-            double impTotal1 = double.Parse(txtImporteTotal.Text);
-            double impTotConc1 = double.Parse(txtImporteTotal.Text);
-            double impNeto1 = double.Parse(txtImporteTotal.Text);
-            double imptoLiq1 = double.Parse(txtImptoLiq1.Text);
-            double imptoLiqRni1 = double.Parse(txtImptoLiqRni1.Text);
-            double impOpEx1 = double.Parse(txtImpOpEx1.Text);
-            string fechaCbte1 = txtFechaCbte1.Text;
-            string fechaServDesde1 = txtFechaServDesde1.Text;
-            string fechaServHasta1 = txtFechaServHasta1.Text;
-            string fechaVencPago1 = txtFechaVencPago1.Text;
-
-            // Datos del segundo detalle
-            int tipoDoc2 = int.Parse(txtTipoDoc2.Text);
-            long nroDoc2 = long.Parse(txtNroDoc2.Text);
-            int tipoCbte2 = int.Parse(txtTipoCbte2.Text);
-            int puntoVta2 = int.Parse(txtPuntoVta2.Text);
-            long cbtDesde2 = long.Parse(txtCbtDesde2.Text);
-            long cbtHasta2 = long.Parse(txtCbtHasta2.Text);
-            double impTotal2 = double.Parse(txtImpTotal2.Text);
-            double impTotConc2 = double.Parse(txtImpTotConc2.Text);
-            double impNeto2 = double.Parse(txtImpNeto2.Text);
-            double imptoLiq2 = double.Parse(txtImptoLiq2.Text);
-            double imptoLiqRni2 = double.Parse(txtImptoLiqRni2.Text);
-            double impOpEx2 = double.Parse(txtImpOpEx2.Text);
-            string fechaCbte2 = txtFechaCbte2.Text;
-            string fechaServDesde2 = txtFechaServDesde2.Text;
-            string fechaServHasta2 = txtFechaServHasta2.Text;
-            string fechaVencPago2 = txtFechaVencPago2.Text;
-
-            // Construir el XML
-            StringBuilder xml = new StringBuilder();
-            xml.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            xml.AppendLine("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-            xml.AppendLine("  <soap:Body>");
-            xml.AppendLine("    <FEAutRequest xmlns=\"http://ar.gov.afip.dif.facturaelectronica/\">");
-            xml.AppendLine("      <argAuth>");
-            xml.AppendLine($"        <Token>{token}</Token>");
-            xml.AppendLine($"        <Sign>{sign}</Sign>");
-            xml.AppendLine($"        <cuit>{cuit}</cuit>");
-            xml.AppendLine("      </argAuth>");
-            xml.AppendLine("      <Fer>");
-            xml.AppendLine("        <Fecr>");
-            xml.AppendLine($"          <id>{id}</id>");
-            xml.AppendLine($"          <cantidadreg>{cantidadReg}</cantidadreg>");
-            xml.AppendLine($"          <presta_serv>{prestaServ}</presta_serv>");
-            xml.AppendLine("        </Fecr>");
-            xml.AppendLine("        <Fedr>");
-
-            // Primer detalle
-            xml.AppendLine("          <FEDetalleRequest>");
-            xml.AppendLine($"            <tipo_doc>{tipoDoc1}</tipo_doc>");
-            xml.AppendLine($"            <nro_doc>{nroDoc1}</nro_doc>");
-            xml.AppendLine($"            <tipo_cbte>{tipoCbte1}</tipo_cbte>");
-            xml.AppendLine($"            <punto_vta>{puntoVta1}</punto_vta>");
-            xml.AppendLine($"            <cbt_desde>{cbtDesde1}</cbt_desde>");
-            xml.AppendLine($"            <cbt_hasta>{cbtHasta1}</cbt_hasta>");
-            xml.AppendLine($"            <imp_total>{impTotal1}</imp_total>");
-            xml.AppendLine($"            <imp_tot_conc>{impTotConc1}</imp_tot_conc>");
-            xml.AppendLine($"            <imp_neto>{impNeto1}</imp_neto>");
-            xml.AppendLine($"            <impto_liq>{imptoLiq1}</impto_liq>");
-            xml.AppendLine($"            <impto_liq_rni>{imptoLiqRni1}</impto_liq_rni>");
-            xml.AppendLine($"            <imp_op_ex>{impOpEx1}</imp_op_ex>");
-            xml.AppendLine($"            <fecha_cbte>{fechaCbte1}</fecha_cbte>");
-            xml.AppendLine($"            <fecha_serv_desde>{fechaServDesde1}</fecha_serv_desde>");
-            xml.AppendLine($"            <fecha_serv_hasta>{fechaServHasta1}</fecha_serv_hasta>");
-            xml.AppendLine($"            <fecha_venc_pago>{fechaVencPago1}</fecha_venc_pago>");
-            xml.AppendLine("          </FEDetalleRequest>");
-
-            // Segundo detalle
-            xml.AppendLine("          <FEDetalleRequest>");
-            xml.AppendLine($"            <tipo_doc>{tipoDoc2}</tipo_doc>");
-            xml.AppendLine($"            <nro_doc>{nroDoc2}</nro_doc>");
-            xml.AppendLine($"            <tipo_cbte>{tipoCbte2}</tipo_cbte>");
-            xml.AppendLine($"            <punto_vta>{puntoVta2}</punto_vta>");
-            xml.AppendLine($"            <cbt_desde>{cbtDesde2}</cbt_desde>");
-            xml.AppendLine($"            <cbt_hasta>{cbtHasta2}</cbt_hasta>");
-            xml.AppendLine($"            <imp_total>{impTotal2}</imp_total>");
-            xml.AppendLine($"            <imp_tot_conc>{impTotConc2}</imp_tot_conc>");
-            xml.AppendLine($"            <imp_neto>{impNeto2}</imp_neto>");
-            xml.AppendLine($"            <impto_liq>{imptoLiq2}</impto_liq>");
-            xml.AppendLine($"            <impto_liq_rni>{imptoLiqRni2}</impto_liq_rni>");
-            xml.AppendLine($"            <imp_op_ex>{impOpEx2}</imp_op_ex>");
-            xml.AppendLine($"            <fecha_cbte>{fechaCbte2}</fecha_cbte>");
-            xml.AppendLine($"            <fecha_serv_desde>{fechaServDesde2}</fecha_serv_desde>");
-            xml.AppendLine($"            <fecha_serv_hasta>{fechaServHasta2}</fecha_serv_hasta>");
-            xml.AppendLine($"            <fecha_venc_pago>{fechaVencPago2}</fecha_venc_pago>");
-            xml.AppendLine("          </FEDetalleRequest>");
-
-            xml.AppendLine("        </Fedr>");
-            xml.AppendLine("      </Fer>");
-            xml.AppendLine("    </FEAutRequest>");
-            xml.AppendLine("  </soap:Body>");
-            xml.AppendLine("</soap:Envelope>");
-
-            // Enviar el XML
-            await EnviarXml(xml.ToString());
-        }
-
         private async Task EnviarXml(string xml)
         {
             using (var httpClient = new HttpClient())
@@ -235,7 +132,181 @@ namespace CapaPresentacion.Ventas
 
         private async void txtTestServer_ClickAsync(object sender, EventArgs e)
         {
+            if(await test_serverAsync())
+            {
+                MessageBox.Show("Server Ok", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Server Error", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private void get_last_comprobante(string p_pto_venta, string p_tipo_comprobante)
+        {
+            try
+            {
+
+            
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
+        }
+
+        private void solicitar_car()
+        {
+            try
+            {
+                // Configuración del binding (enlace) y endpoint del servicio
+                BasicHttpBinding binding = new BasicHttpBinding();
+                binding.Security.Mode = BasicHttpSecurityMode.Transport;  // Para HTTPS
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+
+                // Endpoint del servicio AFIP WSFE (URL del WSDL)
+                EndpointAddress endpointAddress = new EndpointAddress(URL_WSDL);
+
+                // Crear el cliente del servicio utilizando binding y endpoint
+                ServiceSoapClient wsfeClient = new ServiceSoapClient(binding, endpointAddress);
+
+
+                // Establecer las credenciales del servicio (Token y Sign obtenidos desde WSAA)
+                var auth = new FEAuthRequest
+                {
+                    Token = "TU_TOKEN",  // Token obtenido de WSAA
+                    Sign = "TU_SIGN",    // Sign obtenido de WSAA
+                    Cuit = 12345678901   // CUIT del contribuyente
+                };
+
+                // Parámetros para obtener el último comprobante autorizado
+                int puntoDeVenta = 1;  // El número de punto de venta que deseas consultar
+                int tipoComprobante = 1;  // Tipo de comprobante (Factura A = 1, Factura B = 6, etc.)
+
+                // Realizar la consulta
+                var resultado = wsfeClient.FECompUltimoAutorizado(auth, puntoDeVenta, tipoComprobante);
+
+                if (resultado != null)
+                {
+                    Console.WriteLine($"Último comprobante autorizado: {resultado.CbteNro}");
+                }
+                else
+                {
+                    Console.WriteLine("No se pudo obtener el último comprobante autorizado.");
+                }
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error solicitar_car - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
+        }
+
+        private void check_token()
+        {
+            try
+            {
+                string ta = Path.Combine(baseDir, "produccion", "xml", "TA.xml");
+                bool generateToken;
+
+                // ¿Genero el token?
+                if (!File.Exists(ta))
+                {
+                    generateToken = true;
+                }
+                else
+                {
+                    var TA = XDocument.Load(ta);
+                    DateTime expirationTime = DateTime.Parse(TA.Root.Element("header").Element("expirationTime").Value);
+                    DateTime actualTime = DateTime.UtcNow; // Usar UtcNow para mantener la consistencia con el tiempo UTC
+                    generateToken = actualTime >= expirationTime;
+                }
+
+                if (generateToken)
+                {
+                    // Renovamos el token
+                    var wsaaClient = new Wsaa(this.serviceName, this.modo, this.cuit, this.logXmls);
+                    wsaaClient.GenerateToken();
+
+                    // Recargamos con el nuevo token
+                    var TA = XDocument.Load(ta);
+                }
+
+                this.token = TA.Root.Element("credentials").Element("token").Value;
+                this.sign = TA.Root.Element("credentials").Element("sign").Value;
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error check_token - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error check_token");
+            }
+
+        }
+
+        private async Task dame_token_signAsync()
+        {
+            try
+            {
+                // Ruta al archivo CMS firmado previamente con OpenSSL
+                string cmsFilePath = @"ruta_al_archivo/LoginTicketRequest.cms";
+
+                // Cargar el contenido del archivo CMS
+                byte[] cmsData = File.ReadAllBytes(cmsFilePath);
+                string cmsBase64 = Convert.ToBase64String(cmsData);
+
+                // Crear la solicitud SOAP para WSAA
+                string soapRequest = $@"
+                <soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:wsaa='http://wsaa.view.sua.dvadac.desein.afip.gov'>
+                    <soapenv:Header/>
+                    <soapenv:Body>
+                        <wsaa:loginCms>
+                            <wsaa:in0>{cmsBase64}</wsaa:in0>
+                        </wsaa:loginCms>
+                    </soapenv:Body>
+                </soapenv:Envelope>";
+
+                // URL del WSAA (Producción o Homologación)
+                string wsaaUrl = "https://servicios1.afip.gov.ar/wsfe/service.asmx";  // Cambiar a la URL de producción si es necesario
+
+                // Hacer la solicitud HTTP POST
+                using (HttpClient client = new HttpClient())
+                {
+                    StringContent content = new StringContent(soapRequest, Encoding.UTF8, "text/xml");
+                    HttpResponseMessage response = await client.PostAsync(wsaaUrl, content);
+
+                    // Leer la respuesta
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Respuesta del WSAA:");
+                    Console.WriteLine(responseContent);
+
+                    // Procesar la respuesta para obtener Token y Sign
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.LoadXml(responseContent);
+
+                    // Extraer el Token y Sign del XML de respuesta
+                    string token = xmlDoc.SelectSingleNode("//token").InnerText;
+                    string sign = xmlDoc.SelectSingleNode("//sign").InnerText;
+
+                    Console.WriteLine("Token: " + token);
+                    Console.WriteLine("Sign: " + sign);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error dame_token_sign - " + ex.Message);
+                MessageBox.Show(ex.Message.ToString(), "Error dame_token_sign");
+            }
+        }
+        private async Task<bool> test_serverAsync()
+        {
             // Define la ruta al archivo XML
             //string filePath = @"ruta\a\tu\archivo\FEDummy.xml"; // Cambia esta línea a la ruta correcta
 
@@ -248,7 +319,7 @@ namespace CapaPresentacion.Ventas
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al leer el archivo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Salir del método si no se puede leer el archivo
+                return false;
             }
 
             // Configura el contenido de la solicitud
@@ -282,22 +353,33 @@ namespace CapaPresentacion.Ventas
                     string message = $"App Server: {appserver}\nDB Server: {dbserver}\nAuth Server: {authserver}";
 
                     // Mostrar el mensaje en un MessageBox
-                    MessageBox.Show(message, "Respuesta Server AFIP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show(message, "Respuesta Server AFIP", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     alta_log("message response server AFIP : " + message);
+
+                    if(appserver == "Ok" && dbserver == "Ok" && authserver == "Ok")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
 
                 }
                 else
                 {
                     string errorResponse = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(errorResponse);
+                    //MessageBox.Show(errorResponse);
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 alta_log($"Exception: {ex.Message}");
+                return false;
             }
-        }
 
+        }
         private void alta_log(string mensaje)
         {
             try
@@ -344,6 +426,23 @@ namespace CapaPresentacion.Ventas
             }
 
         }
+
+        private void funcion_base()
+        {
+            try
+            {
+
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
+        }
+
     }
 
 
