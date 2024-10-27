@@ -14,13 +14,14 @@ using System.Xml;
 using System.Xml.Linq;
 //
 using System.Collections.Generic;
-using AfipWsfeClient;
+//using AfipWsfeClient;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Sockets;
 using System.Net;
-using AfipServiceReference;
+//using AfipServiceReference;
 using System.ServiceModel;
+using System.Security.Cryptography.Xml;
 
 namespace CapaPresentacion.Ventas
 {
@@ -100,35 +101,116 @@ namespace CapaPresentacion.Ventas
             this.Close();
         }
 
-        private async Task EnviarXml(string xml)
+        // Obtiene el token y el sign
+        private async Task generar_ticket()
         {
-            using (var httpClient = new HttpClient())
+            //var rutaCertificado = Path.Combine(baseDir,"produccion","keys", "certificado.pfx");
+
+            string rutaCertificado = @"C:\afip\certificado.pfx";
+
+            FirmarTRA(CrearTRA("wsfe"), rutaCertificado, "20351975");
+        }
+        //
+        private string CrearTRA(string servicio)
+        {
+            var xmlDoc = new XDocument(
+                new XElement("loginTicketRequest",
+                    new XAttribute("version", "1.0"),
+                    new XElement("header",
+                        new XElement("uniqueId", Convert.ToInt32(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds)),
+                        new XElement("generationTime", DateTime.UtcNow.AddMinutes(-10).ToString("yyyy-MM-ddTHH:mm:ssZ")),
+                        new XElement("expirationTime", DateTime.UtcNow.AddMinutes(10).ToString("yyyy-MM-ddTHH:mm:ssZ"))
+                    ),
+                    new XElement("service", servicio)
+                )
+            );
+
+            return xmlDoc.ToString();
+        }
+
+        private byte[] FirmarTRA(string traXML, string rutaCertificado, string password)
+        {
+            try
             {
-                var requestUri = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambia la URL si es necesario
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(traXML);
 
-                var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
+                // Cargar el certificado digital
+                var certificado = new X509Certificate2(rutaCertificado, password);
+
+                // Crear una instancia de SignedXml y asociarla al documento
+                var signedXml = new SignedXml(xmlDoc) { SigningKey = certificado.PrivateKey };
+
+                // Agregar una referencia al XML a firmar
+                var reference = new Reference
                 {
-                    Content = new StringContent(xml, Encoding.UTF8, "text/xml")
+                    Uri = ""
                 };
+                //reference.AddTransform(new XmlDsigEnvelopedSignatureTransform());
+                signedXml.AddReference(reference);
 
-                request.Headers.Add("SOAPAction", "http://ar.gov.afip.dif.facturaelectronica/FEAutRequest");
+                // Agregar información clave
+                //var keyInfo = new KeyInfo();
+                //keyInfo.AddClause(new KeyInfoX509Data(certificado));
+                //signedXml.KeyInfo = keyInfo;
 
-                try
-                {
-                    var response = await httpClient.SendAsync(request);
+                // Firmar el documento
+                signedXml.ComputeSignature();
 
-                    // Verificar si la respuesta es exitosa
-                    response.EnsureSuccessStatusCode();
+                // Obtener el XML firmado
+                var xmlDigitalSignature = signedXml.GetXml();
+                xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
 
-                    string responseContent = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(responseContent, "Respuesta del Servidor", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}", "Error al enviar XML", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                return Encoding.UTF8.GetBytes(xmlDoc.OuterXml);
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error FirmarTRA - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error FirmarTRA");
+                return Encoding.UTF8.GetBytes("");
             }
         }
+
+
+
+        private (string token, string sign) ObtenerTokenYSign(string xmlFirmado)
+        {
+            // Configuración del endpoint WSAA
+            string wsaaUrl = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambia a producción si es necesario
+
+            // Crear solicitud HTTP POST
+            var request = WebRequest.Create(wsaaUrl);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            // Cargar el XML firmado
+            string soapRequest = $"<loginCmsRequest><loginCms>{Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlFirmado))}</loginCms></loginCmsRequest>";
+            byte[] soapBytes = Encoding.UTF8.GetBytes(soapRequest);
+            request.ContentLength = soapBytes.Length;
+
+            using (var dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(soapBytes, 0, soapBytes.Length);
+            }
+
+            // Obtener respuesta
+            using (var response = request.GetResponse())
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                string responseXml = reader.ReadToEnd();
+
+                // Procesar el XML de respuesta para obtener token y sign
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(responseXml);
+
+                string token = xmlDoc.SelectSingleNode("//token")?.InnerText;
+                string sign = xmlDoc.SelectSingleNode("//sign")?.InnerText;
+
+                return (token, sign);
+            }
+        }
+
 
         private async void txtTestServer_ClickAsync(object sender, EventArgs e)
         {
@@ -170,33 +252,33 @@ namespace CapaPresentacion.Ventas
                 // Endpoint del servicio AFIP WSFE (URL del WSDL)
                 EndpointAddress endpointAddress = new EndpointAddress(URL_WSDL);
 
-                // Crear el cliente del servicio utilizando binding y endpoint
-                ServiceSoapClient wsfeClient = new ServiceSoapClient(binding, endpointAddress);
+                //// Crear el cliente del servicio utilizando binding y endpoint
+                //ServiceSoapClient wsfeClient = new ServiceSoapClient(binding, endpointAddress);
 
 
-                // Establecer las credenciales del servicio (Token y Sign obtenidos desde WSAA)
-                var auth = new FEAuthRequest
-                {
-                    Token = "TU_TOKEN",  // Token obtenido de WSAA
-                    Sign = "TU_SIGN",    // Sign obtenido de WSAA
-                    Cuit = 12345678901   // CUIT del contribuyente
-                };
+                //// Establecer las credenciales del servicio (Token y Sign obtenidos desde WSAA)
+                //var auth = new FEAuthRequest
+                //{
+                //    Token = "TU_TOKEN",  // Token obtenido de WSAA
+                //    Sign = "TU_SIGN",    // Sign obtenido de WSAA
+                //    Cuit = 12345678901   // CUIT del contribuyente
+                //};
 
                 // Parámetros para obtener el último comprobante autorizado
                 int puntoDeVenta = 1;  // El número de punto de venta que deseas consultar
                 int tipoComprobante = 1;  // Tipo de comprobante (Factura A = 1, Factura B = 6, etc.)
 
                 // Realizar la consulta
-                var resultado = wsfeClient.FECompUltimoAutorizado(auth, puntoDeVenta, tipoComprobante);
+                //var resultado = wsfeClient.FECompUltimoAutorizado(auth, puntoDeVenta, tipoComprobante);
 
-                if (resultado != null)
-                {
-                    Console.WriteLine($"Último comprobante autorizado: {resultado.CbteNro}");
-                }
-                else
-                {
-                    Console.WriteLine("No se pudo obtener el último comprobante autorizado.");
-                }
+                //if (resultado != null)
+                //{
+                //    Console.WriteLine($"Último comprobante autorizado: {resultado.CbteNro}");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("No se pudo obtener el último comprobante autorizado.");
+                //}
             }
             catch (Exception ex)
             {
@@ -229,16 +311,16 @@ namespace CapaPresentacion.Ventas
 
                 if (generateToken)
                 {
-                    // Renovamos el token
-                    var wsaaClient = new Wsaa(this.serviceName, this.modo, this.cuit, this.logXmls);
-                    wsaaClient.GenerateToken();
+                    //// Renovamos el token
+                    //var wsaaClient = new Wsaa(this.serviceName, this.modo, this.cuit, this.logXmls);
+                    //wsaaClient.GenerateToken();
 
-                    // Recargamos con el nuevo token
-                    var TA = XDocument.Load(ta);
+                    //// Recargamos con el nuevo token
+                    //var TA = XDocument.Load(ta);
                 }
 
-                this.token = TA.Root.Element("credentials").Element("token").Value;
-                this.sign = TA.Root.Element("credentials").Element("sign").Value;
+                //this.token = TA.Root.Element("credentials").Element("token").Value;
+                //this.sign = TA.Root.Element("credentials").Element("sign").Value;
 
             }
             catch (Exception ex)
@@ -443,6 +525,12 @@ namespace CapaPresentacion.Ventas
 
         }
 
+        private void btnEnviarFE_Click(object sender, EventArgs e)
+        {
+            // chequear token AQUI
+
+            generar_ticket();
+        }
     }
 
 

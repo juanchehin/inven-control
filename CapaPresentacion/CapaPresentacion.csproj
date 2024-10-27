@@ -539,7 +539,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ventas\Wsaa.cs" />
+    <None Include="Ventas\Wsaa.old" />
     <Content Include="inventory.ico" />
     <Content Include="logo_store_soft.ico" />
     <None Include="Resources\afip\20296243230\produccion\keys\afip.p12" />
