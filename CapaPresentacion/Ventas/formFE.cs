@@ -29,7 +29,7 @@ namespace CapaPresentacion.Ventas
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
         private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\20296243230"; // Cambiar por la ruta de tu base de directorios
-        private static readonly string urlWsdl = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambiar por la URL correcta
+
         private static readonly string filename = Path.Combine(baseDir, "FEDummy.xml");
         private static readonly HttpClient client = new HttpClient();
 
@@ -426,7 +426,7 @@ namespace CapaPresentacion.Ventas
             try
             {
                 // Envía la solicitud POST
-                HttpResponseMessage response = await client.PostAsync(urlWsdl, content);
+                HttpResponseMessage response = await client.PostAsync(URL_WSDL, content);
 
                 // Verifica si la respuesta fue exitosa
                 if (response.IsSuccessStatusCode)
@@ -544,7 +544,7 @@ namespace CapaPresentacion.Ventas
             // chequear token AQUI
             string rutaCertificado = @"C:\afip\certificado.pfx";
 
-            login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms", rutaCertificado, 
+            login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL", rutaCertificado, 
                 ConvertToSecureString("20351975"),
                 null, null, null, true);
             //generar_ticket();
