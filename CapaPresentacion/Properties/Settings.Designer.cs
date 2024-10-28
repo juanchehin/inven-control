@@ -26,5 +26,17 @@ namespace CapaPresentacion.Properties
                 return defaultInstance;
             }
         }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://wsaahomo.afip.gov.ar/ws/services/LoginCms")]
+        public string ClienteLoginCms_CS_Wsaa_LoginCMSService
+        {
+            get
+            {
+                return ((string)(this["ClienteLoginCms_CS_Wsaa_LoginCMSService"]));
+            }
+        }
     }
 }

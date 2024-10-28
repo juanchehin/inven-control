@@ -204,6 +204,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -733,6 +734,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dev-wsaa-cliente-dotnet-cs\source\ClienteLoginCms_CS\ClienteLoginCms_CS.csproj">
+      <Project>{712c92bb-f975-46fd-817a-120f5cf55a53}</Project>
+      <Name>ClienteLoginCms_CS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
       <Project>{77210942-3543-403d-a5cf-f3c25f2c171c}</Project>
       <Name>CapaDatos</Name>

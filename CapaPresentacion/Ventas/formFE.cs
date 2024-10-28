@@ -1,9 +1,5 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -13,20 +9,23 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 //
-using System.Collections.Generic;
 //using AfipWsfeClient;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
-using System.Net.Sockets;
 using System.Net;
 //using AfipServiceReference;
 using System.ServiceModel;
 using System.Security.Cryptography.Xml;
+using System.Security;
+using ClienteLoginCms_CS;
+
 
 namespace CapaPresentacion.Ventas
 {
     public partial class formFE : Form
     {
+
+        LoginTicket login_ticket = new LoginTicket();
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
         private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\20296243230"; // Cambiar por la ruta de tu base de directorios
@@ -35,7 +34,20 @@ namespace CapaPresentacion.Ventas
         private static readonly HttpClient client = new HttpClient();
 
         private static readonly string URL_WSDL = "https://servicios1.afip.gov.ar/wsfe/service.asmx";   // produccion
-        // private static readonly string URL_WSDL = "https://wsaahomo.afip.gov.ar/wsfe/service.asmx";  // homologacion
+                                                                                                        // private static readonly string URL_WSDL = "https://wsaahomo.afip.gov.ar/wsfe/service.asmx";  // homologacion
+
+        public UInt32 UniqueId; // Entero de 32 bits sin signo que identifica el requerimiento
+        public DateTime GenerationTime; // Momento en que fue generado el requerimiento
+        public DateTime ExpirationTime; // Momento en el que expira la solicitud
+        public string Service; // Identificacion del WSN para el cual se solicita el TA
+        public string Sign; // Firma de seguridad recibida en la respuesta
+        public string Token; // Token de seguridad recibido en la respuesta
+        public XmlDocument XmlLoginTicketRequest = null;
+        public XmlDocument XmlLoginTicketResponse = null;
+        public string RutaDelCertificadoFirmante;
+        public string XmlStrLoginTicketRequestTemplate = "<loginTicketRequest><header><uniqueId></uniqueId><generationTime></generationTime><expirationTime></expirationTime></header><service></service></loginTicketRequest>";
+        private bool _verboseMode = true;
+        private static UInt32 _globalUniqueID = 0; // OJO! NO ES THREAD-SAFE
 
         public formFE()
         {
@@ -110,7 +122,8 @@ namespace CapaPresentacion.Ventas
 
             FirmarTRA(CrearTRA("wsfe"), rutaCertificado, "20351975");
         }
-        //
+
+        //Crea El archivo es necesario para realizar la firma
         private string CrearTRA(string servicio)
         {
             var xmlDoc = new XDocument(
@@ -128,6 +141,7 @@ namespace CapaPresentacion.Ventas
             return xmlDoc.ToString();
         }
 
+        // Esta funcion realiza la firma PKCS#7 usando como entrada el archivo TRA.xml, el certificado y la clave privada
         private byte[] FirmarTRA(string traXML, string rutaCertificado, string password)
         {
             try
@@ -528,8 +542,28 @@ namespace CapaPresentacion.Ventas
         private void btnEnviarFE_Click(object sender, EventArgs e)
         {
             // chequear token AQUI
+            string rutaCertificado = @"C:\afip\certificado.pfx";
 
-            generar_ticket();
+            login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms", rutaCertificado, 
+                ConvertToSecureString("20351975"),
+                null, null, null, true);
+            //generar_ticket();
+        }
+
+        public static SecureString ConvertToSecureString(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                throw new ArgumentNullException(nameof(input), "La cadena de entrada no puede ser nula o vacía.");
+
+            SecureString secureString = new SecureString();
+
+            foreach (char c in input)
+            {
+                secureString.AppendChar(c);
+            }
+
+            secureString.MakeReadOnly(); // Opcional: marca el SecureString como de solo lectura
+            return secureString;
         }
     }
 
