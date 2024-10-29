@@ -27,6 +27,9 @@ using DocumentFormat.OpenXml.Drawing;
 using System.Security.Policy;
 using System.Windows.Controls;
 using AfipServiceReference;
+using CapaNegocio;
+using System.Reflection.Emit;
+using DocumentFormat.OpenXml.Office2016.Drawing.Charts;
 
 namespace CapaPresentacion.Ventas
 {
@@ -44,7 +47,7 @@ namespace CapaPresentacion.Ventas
         public XmlDocument XmlLoginTicketResponse = null;
 
         private static readonly string CUIT = "20296243230";
-
+        CN_Ventas objeto_ventas = new CN_Ventas();
 
 
         public formFE()
@@ -115,7 +118,6 @@ namespace CapaPresentacion.Ventas
         {
             try
             {
-
                 // Obtiene la ruta de acceso a la carpeta AppData del usuario actual
                 string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -163,21 +165,21 @@ namespace CapaPresentacion.Ventas
             try
             {
                 string xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
-                    <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
-                      <soap:Body>
-                        <FERecuperaLastCMPRequest xmlns=""http://ar.gov.afip.dif.facturaelectronica/"">
-                          <argAuth>
+                <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+                    <soap:Body>
+                    <FERecuperaLastCMPRequest xmlns=""http://ar.gov.afip.dif.facturaelectronica/"">
+                        <argAuth>
                             <Token>{p_token}</Token>
                             <Sign>{p_sign}</Sign>
                             <cuit>20296243230</cuit>
-                          </argAuth>
-                          <argTCMP>
+                        </argAuth>
+                        <argTCMP>
                             <PtoVta>00016</PtoVta>
                             <TipoCbte>001</TipoCbte>
-                          </argTCMP>
-                        </FERecuperaLastCMPRequest>
-                      </soap:Body>
-                    </soap:Envelope>";
+                        </argTCMP>
+                    </FERecuperaLastCMPRequest>
+                    </soap:Body>
+                </soap:Envelope>";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -322,17 +324,94 @@ namespace CapaPresentacion.Ventas
             // chequear token AQUI
             string rutaCertificado = @"C:\afip\certificado.pfx";
 
-            string ticket_response = login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL", rutaCertificado, 
-                ConvertToSecureString("20351975"),
-                null, null, null, true);
+            // cheqeuar expiration time
+            if(this.check_expiration_time())
+            {
+               string ticket_response = login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL",
+               rutaCertificado,
+               ConvertToSecureString("20351975"),
+               null, null, null, true);
 
-            XmlLoginTicketResponse = new XmlDocument();
-            XmlLoginTicketResponse.LoadXml(ticket_response);
+                XmlLoginTicketResponse = new XmlDocument();
+                XmlLoginTicketResponse.LoadXml(ticket_response);
 
-            if (ticket_response != null) {
-                this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                if (ticket_response != null)
+                {
+                    this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+
+                    string UniqueId = XmlLoginTicketResponse.SelectSingleNode("//uniqueId").InnerText;
+                    string GenerationTime = XmlLoginTicketResponse.SelectSingleNode("//generationTime").InnerText;
+                    string ExpirationTime = XmlLoginTicketResponse.SelectSingleNode("//expirationTime").InnerText;
+                    string Sign = XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText;
+                    string Token = XmlLoginTicketResponse.SelectSingleNode("//token").InnerText;
+
+                    CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime);
+                }
+                else
+                {
+                    alta_log("Error ticket_response");
+
+                    MessageBox.Show("Error ticket_response");
+                }
             }
+            else
+            {
+                DataSet data_set_result;
+                data_set_result = objeto_ventas.dame_credencial_afip();
 
+                var unique_id = "";
+                var token = "";
+                var sign = "";
+                var expiration_time = "";
+
+                // Verificar si hay tablas en el DataSet
+                if (data_set_result.Tables.Count > 0)
+                {
+                    DataTable dataTable = data_set_result.Tables[0]; // Obtener la primera tabla
+
+                    // Recorrer las filas de la tabla
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        // Obtener los valores de las columnas, ajusta los nombres a los que tiene tu tabla
+                        unique_id = row["unique_id"].ToString(); // Cambia "Id" por el nombre de la columna real
+                        token = row["token"].ToString(); // Cambia "Token" por el nombre de la columna real
+                        unique_id = row["sign"].ToString(); // Cambia "Sign" por el nombre de la columna real
+                        unique_id = row["expiration_time"].ToString(); // Cambia "Expiration" por el nombre de la columna real
+
+                    }
+
+                    this.get_last_comprobanteAsync(token, sign);
+
+                }
+                else
+                {
+                    alta_log("No se encontraron resultados. dame_credencial_afip()");
+                }
+            }
+            // 
+
+        }
+
+        private Boolean check_expiration_time()
+        {
+            try
+            {
+                if(CN_Ventas.check_expiration_time() == "Ok")
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+                return false;
+            }
 
         }
 

@@ -90,6 +90,25 @@ namespace CapaDatos
             return ds;
 
         }
+
+        public DataSet dame_credencial_afip()
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "bsp_dame_credencial_afip";
+
+            MySqlDataAdapter da = new MySqlDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            comando.Parameters.Clear();
+
+            conexion.CerrarConexion();
+
+            return ds;
+
+        }
         public DataTable MostrarVentas()
         {
 
@@ -264,6 +283,59 @@ namespace CapaDatos
 
         }
 
+        public string alta_credencial_afip(string unique_id, string token, string sign, string expiration_time, string generation_time)
+        {
+            string rpta = "";
+
+            try
+            {
+                comando.Connection = conexion.AbrirConexion();
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "bsp_alta_credencial_afip";
+
+                MySqlParameter UniqueID = new MySqlParameter();
+                UniqueID.ParameterName = "@pUniqueID";
+                UniqueID.MySqlDbType = MySqlDbType.VarChar;
+                UniqueID.Value = unique_id;
+                comando.Parameters.Add(UniqueID);
+
+                MySqlParameter Token = new MySqlParameter();
+                Token.ParameterName = "@pToken";
+                Token.MySqlDbType = MySqlDbType.VarChar;
+                Token.Value = token;
+                comando.Parameters.Add(UniqueID);
+
+                MySqlParameter Sign = new MySqlParameter();
+                Sign.ParameterName = "@pSign";
+                Sign.MySqlDbType = MySqlDbType.VarChar;
+                Sign.Value = sign;
+                comando.Parameters.Add(UniqueID);
+
+                MySqlParameter ExpTime = new MySqlParameter();
+                ExpTime.ParameterName = "@pExpTime";
+                ExpTime.MySqlDbType = MySqlDbType.VarChar;
+                ExpTime.Value = expiration_time;
+                comando.Parameters.Add(UniqueID);
+
+                MySqlParameter GenerationTime = new MySqlParameter();
+                GenerationTime.ParameterName = "@pGenerationTime";
+                GenerationTime.MySqlDbType = MySqlDbType.VarChar;
+                GenerationTime.Value = generation_time;
+                comando.Parameters.Add(GenerationTime);
+
+                comando.Parameters.Clear();
+
+            }
+            catch (Exception ex)
+            {
+                rpta = ex.Message;
+                conexion.CerrarConexion();
+                return rpta;
+            }
+
+            return rpta;
+        }
+
         // Metodo ELIMINAR venta
         public string Eliminar(CD_Ventas Venta)
         {
@@ -283,6 +355,36 @@ namespace CapaDatos
                 //Ejecutamos nuestro comando
 
                 rpta = comando.ExecuteNonQuery() == 1 ? "Ok" : "NO se Elimino el Registro";
+
+            }
+            catch (Exception ex)
+            {
+                rpta = ex.Message;
+            }
+            finally
+            {
+                //if (conexion. == ConnectionState.Open) 
+                conexion.CerrarConexion();
+            }
+            comando.Parameters.Clear();
+            return rpta;
+        }
+
+        
+        // Metodo
+        public string check_expiration_time()
+        {
+            string rpta = "";
+            try
+            {
+                comando.Connection = conexion.AbrirConexion();
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "bsp_check_expiration_time";
+
+
+                //Ejecutamos nuestro comando
+
+                rpta = comando.ExecuteScalar().ToString() == "Ok" ? "OK" : "No se edito el Registro";
 
             }
             catch (Exception ex)

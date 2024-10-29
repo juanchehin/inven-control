@@ -23,10 +23,33 @@ namespace CapaNegocio
             //return null;
         }
 
+        public static string alta_credencial_afip(string unique_id,string token,string sign,string expiration_time,string generation_time)
+        {
+            CD_Ventas Obj = new CD_Ventas();
+
+            return Obj.alta_credencial_afip(unique_id, token, sign, expiration_time, generation_time);
+            //return null;
+        }
+        
+        public static string check_expiration_time()
+        {
+            CD_Ventas Obj = new CD_Ventas();
+
+            return Obj.check_expiration_time();
+            //return null;
+        }
+
         public DataSet listarTransacciones(int pDesde, string pFechaInicio, string pFechaFin, int p_id_tipo_pago_seleccionado)
         {
             DataSet tabla = new DataSet();
             tabla = objetoCD.ListarTransacciones(pDesde, pFechaInicio, pFechaFin, p_id_tipo_pago_seleccionado);
+            return tabla;
+        }
+
+        public DataSet dame_credencial_afip()
+        {
+            DataSet tabla = new DataSet();
+            tabla = objetoCD.dame_credencial_afip();
             return tabla;
         }
 
