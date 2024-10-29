@@ -741,6 +741,10 @@
       <Project>{cf81d933-3e07-4f19-a056-9eb467492bfe}</Project>
       <Name>CapaNegocio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ClienteLoginCms_CS\ClienteLoginCms_CS.csproj">
+      <Project>{712c92bb-f975-46fd-817a-120f5cf55a53}</Project>
+      <Name>ClienteLoginCms_CS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Logo_LeonCuchillos.jpg" />
