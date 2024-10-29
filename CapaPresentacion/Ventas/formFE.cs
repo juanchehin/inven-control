@@ -23,6 +23,10 @@ using System.Net;
 using System.ServiceModel;
 using System.Security.Cryptography.Xml;
 using System.Security;
+using DocumentFormat.OpenXml.Drawing;
+using System.Security.Policy;
+using System.Windows.Controls;
+using AfipServiceReference;
 
 namespace CapaPresentacion.Ventas
 {
@@ -32,11 +36,16 @@ namespace CapaPresentacion.Ventas
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
         private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\20296243230"; // Cambiar por la ruta de tu base de directorios
         private static readonly string urlWsdl = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambiar por la URL correcta
-        private static readonly string filename = Path.Combine(baseDir, "FEDummy.xml");
+        private static readonly string filename = System.IO.Path.Combine(baseDir, "FEDummy.xml");
         private static readonly HttpClient client = new HttpClient();
         LoginTicket login_ticket = new LoginTicket();
         private static readonly string URL_WSDL = "https://servicios1.afip.gov.ar/wsfe/service.asmx";   // produccion
         // private static readonly string URL_WSDL = "https://wsaahomo.afip.gov.ar/wsfe/service.asmx";  // homologacion
+        public XmlDocument XmlLoginTicketResponse = null;
+
+        private static readonly string CUIT = "20296243230";
+
+
 
         public formFE()
         {
@@ -111,10 +120,10 @@ namespace CapaPresentacion.Ventas
                 string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
                 // Crea la ruta completa para tu archivo dentro de la carpeta AppData
-                string filePath = Path.Combine(appDataFolder, "store-soft", "logs_facturacion_elect.txt");
+                string filePath = System.IO.Path.Combine(appDataFolder, "store-soft", "logs_facturacion_elect.txt");
 
                 // Verifica si el directorio del archivo existe, si no, lo crea
-                string directoryPath = Path.GetDirectoryName(filePath);
+                string directoryPath = System.IO.Path.GetDirectoryName(filePath);
                 if (!Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
@@ -149,6 +158,149 @@ namespace CapaPresentacion.Ventas
 
         }
 
+        private async Task get_last_comprobanteAsync(string p_token,string p_sign)
+        {
+            try
+            {
+                string xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+                    <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+                      <soap:Body>
+                        <FERecuperaLastCMPRequest xmlns=""http://ar.gov.afip.dif.facturaelectronica/"">
+                          <argAuth>
+                            <Token>{p_token}</Token>
+                            <Sign>{p_sign}</Sign>
+                            <cuit>20296243230</cuit>
+                          </argAuth>
+                          <argTCMP>
+                            <PtoVta>00016</PtoVta>
+                            <TipoCbte>001</TipoCbte>
+                          </argTCMP>
+                        </FERecuperaLastCMPRequest>
+                      </soap:Body>
+                    </soap:Envelope>";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    // Configurar la URL y los encabezados
+                    client.BaseAddress = new Uri("https://servicios1.afip.gov.ar/");
+                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.facturaelectronica/FEConsultaCAERequest");
+
+                    // Crear el contenido HTTP con el XML
+                    HttpContent content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
+
+                    // Enviar el POST
+                    HttpResponseMessage response = await client.PostAsync("wsfe/service.asmx", content);
+
+                    // Verificar la respuesta
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string result = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Respuesta del servidor:");
+                        Console.WriteLine(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
+                        alta_log("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
+        }
+
+        private async Task obtener_caeAsync(string p_token,string p_sign)
+        {
+            // Valores obtenidos de los campos de tu formulario
+            string token = "valorToken"; // txtToken.Text
+            string sign = "valorSign";   // txtSign.Text
+            string cuit = CUIT;   // txtCuit.Text
+
+            string tipoDoc = "valorTipoDoc"; // txtTipoDoc.Text
+            string nroDoc = "valorNroDoc";   // txtNroDoc.Text
+
+            try
+            {
+
+                /// XML que enviarás en la solicitud
+                string xmlData = @"<?xml version=""1.0"" encoding=""utf-8""?>
+                    <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+                      <soap:Body>
+                        <FEAutRequest xmlns=""http://ar.gov.afip.dif.facturaelectronica/"">
+                          <argAuth>
+                            <Token>{0}</Token>
+                            <Sign>{1}</Sign>
+                            <cuit>{2}</cuit>
+                          </argAuth>
+                          <Fer>
+                            <Fecr>
+                              <id>1</id>
+                              <cantidadreg>1</cantidadreg>
+                              <presta_serv>1</presta_serv>
+                            </Fecr>
+                            <Fedr>
+                              <FEDetalleRequest>
+                                <tipo_doc>80</tipo_doc>
+                                <nro_doc>2034561258</nro_doc>
+                                <tipo_cbte>int</tipo_cbte>
+                                <punto_vta>int</punto_vta>
+                                <cbt_desde>long</cbt_desde>
+                                <cbt_hasta>long</cbt_hasta>
+                                <imp_total>double</imp_total>
+                                <imp_tot_conc>double</imp_tot_conc>
+                                <imp_neto>double</imp_neto>
+                                <impto_liq>double</impto_liq>
+                                <impto_liq_rni>double</impto_liq_rni>
+                                <imp_op_ex>double</imp_op_ex>
+                                <fecha_cbte>string</fecha_cbte>
+                                <fecha_serv_desde>string</fecha_serv_desde>
+                                <fecha_serv_hasta>string</fecha_serv_hasta>
+                                <fecha_venc_pago>string</fecha_venc_pago>
+                              </FEDetalleRequest>
+                            </Fedr>
+                          </Fer>
+                        </FEAutRequest>
+                      </soap:Body>
+                    </soap:Envelope>";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    // Configurar el contenido de la solicitud
+                    HttpContent content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
+                    content.Headers.Add("SOAPAction", "http://ar.gov.afip.dif.facturaelectronica/FEAutRequest");
+
+                    // Enviar solicitud POST
+                    HttpResponseMessage response = await client.PostAsync(URL_WSDL, content);
+
+                    // Verificar la respuesta
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseXml = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Respuesta del servidor:");
+                        Console.WriteLine(responseXml);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error en la solicitud: {response.StatusCode}");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error obtener_cae - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error obtener_cae");
+            }
+
+        }
+
         private void funcion_base()
         {
             try
@@ -173,6 +325,13 @@ namespace CapaPresentacion.Ventas
             string ticket_response = login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL", rutaCertificado, 
                 ConvertToSecureString("20351975"),
                 null, null, null, true);
+
+            XmlLoginTicketResponse = new XmlDocument();
+            XmlLoginTicketResponse.LoadXml(ticket_response);
+
+            if (ticket_response != null) {
+                this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+            }
 
 
         }
