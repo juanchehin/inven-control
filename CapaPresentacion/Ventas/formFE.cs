@@ -320,20 +320,27 @@ namespace CapaPresentacion.Ventas
 
                 if (ticket_response != null)
                 {
-                    this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-
                     string UniqueId = XmlLoginTicketResponse.SelectSingleNode("//uniqueId").InnerText;
                     string GenerationTime = XmlLoginTicketResponse.SelectSingleNode("//generationTime").InnerText;
                     string ExpirationTime = XmlLoginTicketResponse.SelectSingleNode("//expirationTime").InnerText;
                     string Sign = XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText;
                     string Token = XmlLoginTicketResponse.SelectSingleNode("//token").InnerText;
 
-                    CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime);
+                    if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
+                    {
+                        this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+
+                    }
+                    else
+                    {
+                        alta_log("Error CN_Ventas.alta_credencial_afip");
+                        MessageBox.Show("Error ticket_response - Contactese con el administrador");
+                        return;
+                    }
                 }
                 else
                 {
                     alta_log("Error ticket_response");
-
                     MessageBox.Show("Error ticket_response");
                 }
             }
@@ -389,7 +396,7 @@ namespace CapaPresentacion.Ventas
         {
             try
             {
-                if(CN_Ventas.check_expiration_time() == "Ok")
+                if(CN_Ventas.check_expiration_time() == "OK")
                 {
                     return true;
                 }

@@ -119,9 +119,8 @@ namespace CapaDatos
                 conexion.CerrarConexion();
                 return null;
             }
-
-
         }
+
         public DataTable MostrarVentas()
         {
 
@@ -316,19 +315,19 @@ namespace CapaDatos
                 Token.ParameterName = "@pToken";
                 Token.MySqlDbType = MySqlDbType.VarChar;
                 Token.Value = token;
-                comando.Parameters.Add(UniqueID);
+                comando.Parameters.Add(Token);
 
                 MySqlParameter Sign = new MySqlParameter();
                 Sign.ParameterName = "@pSign";
                 Sign.MySqlDbType = MySqlDbType.VarChar;
                 Sign.Value = sign;
-                comando.Parameters.Add(UniqueID);
+                comando.Parameters.Add(Sign);
 
                 MySqlParameter ExpTime = new MySqlParameter();
                 ExpTime.ParameterName = "@pExpTime";
                 ExpTime.MySqlDbType = MySqlDbType.VarChar;
                 ExpTime.Value = expiration_time;
-                comando.Parameters.Add(UniqueID);
+                comando.Parameters.Add(ExpTime);
 
                 MySqlParameter GenerationTime = new MySqlParameter();
                 GenerationTime.ParameterName = "@pGenerationTime";
@@ -336,6 +335,7 @@ namespace CapaDatos
                 GenerationTime.Value = generation_time;
                 comando.Parameters.Add(GenerationTime);
 
+                rpta = (string)comando.ExecuteScalar();//  == "Ok";//  : "NO se Ingreso el Registro";
                 comando.Parameters.Clear();
 
             }
@@ -397,7 +397,7 @@ namespace CapaDatos
 
                 //Ejecutamos nuestro comando
 
-                rpta = comando.ExecuteScalar().ToString() == "Ok" ? "OK" : "No se edito el Registro";
+                rpta = comando.ExecuteScalar().ToString() == "Ok" ? "OK" : "No";
 
             }
             catch (Exception ex)
