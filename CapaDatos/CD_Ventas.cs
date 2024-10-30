@@ -2,6 +2,8 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.IO;
+using System.Windows;
 
 namespace CapaDatos
 {
@@ -93,20 +95,31 @@ namespace CapaDatos
 
         public DataSet dame_credencial_afip()
         {
-            comando.Connection = conexion.AbrirConexion();
-            comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion
-            comando.CommandType = CommandType.StoredProcedure;
-            comando.CommandText = "bsp_dame_credencial_afip";
+            try
+            {
+                comando.Connection = conexion.AbrirConexion();
+                comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "bsp_dame_credencial_afip";
 
-            MySqlDataAdapter da = new MySqlDataAdapter(comando);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
+                MySqlDataAdapter da = new MySqlDataAdapter(comando);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
 
-            comando.Parameters.Clear();
+                comando.Parameters.Clear();
 
-            conexion.CerrarConexion();
+                conexion.CerrarConexion();
 
-            return ds;
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                alta_log("Exception dame_credencial_afip - " + ex.Message);
+
+                conexion.CerrarConexion();
+                return null;
+            }
+
 
         }
         public DataTable MostrarVentas()
@@ -456,6 +469,52 @@ namespace CapaDatos
             }
             comando.Parameters.Clear();
             return rpta;
+        }
+
+        private void alta_log(string mensaje)
+        {
+            try
+            {
+                // Obtiene la ruta de acceso a la carpeta AppData del usuario actual
+                string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+                // Crea la ruta completa para tu archivo dentro de la carpeta AppData
+                string filePath = System.IO.Path.Combine(appDataFolder, "store-soft", "logs_cd_ventas.txt");
+
+                // Verifica si el directorio del archivo existe, si no, lo crea
+                string directoryPath = System.IO.Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+
+                // Verifica si el archivo existe
+                if (!File.Exists(filePath))
+                {
+                    // Si el archivo no existe, lo crea y escribe contenido
+                    using (StreamWriter writer = File.CreateText(filePath))
+                    {
+                        string mensaje_creacion = "Este es un nuevo archivo creado.";
+
+                        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
+                        writer.WriteLine($"[{timestamp}] - {mensaje_creacion}");
+                    }
+
+                    Console.WriteLine("Archivo creado exitosamente.");
+                }
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
+                    writer.WriteLine($"[{timestamp}] - {mensaje}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error al crear el archivo logs");
+            }
+
         }
     }
 }

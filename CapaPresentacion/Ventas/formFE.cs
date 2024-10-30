@@ -5,31 +5,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
-//
-using System.Collections.Generic;
-//using AfipWsfeClient;
-using System.Security.Cryptography.Pkcs;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Sockets;
-using System.Net;
-//using AfipServiceReference;
-using System.ServiceModel;
-using System.Security.Cryptography.Xml;
-using System.Security;
-using DocumentFormat.OpenXml.Drawing;
-using System.Security.Policy;
-using System.Windows.Controls;
-using AfipServiceReference;
+
 using CapaNegocio;
-using System.Reflection.Emit;
-using DocumentFormat.OpenXml.Office2016.Drawing.Charts;
+using System.Security;
 
 namespace CapaPresentacion.Ventas
 {
@@ -202,7 +185,7 @@ namespace CapaPresentacion.Ventas
                     }
                     else
                     {
-                        Console.WriteLine("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
+                        MessageBox.Show("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
                         alta_log("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
                     }
                 }
@@ -364,29 +347,39 @@ namespace CapaPresentacion.Ventas
                 var sign = "";
                 var expiration_time = "";
 
-                // Verificar si hay tablas en el DataSet
-                if (data_set_result.Tables.Count > 0)
+                if(data_set_result != null && data_set_result.Tables.Count > 0 && data_set_result.Tables[0].Rows.Count > 0)
                 {
-                    DataTable dataTable = data_set_result.Tables[0]; // Obtener la primera tabla
-
-                    // Recorrer las filas de la tabla
-                    foreach (DataRow row in dataTable.Rows)
+                    // Verificar si hay tablas en el DataSet
+                    if (data_set_result.Tables.Count > 0)
                     {
-                        // Obtener los valores de las columnas, ajusta los nombres a los que tiene tu tabla
-                        unique_id = row["unique_id"].ToString(); // Cambia "Id" por el nombre de la columna real
-                        token = row["token"].ToString(); // Cambia "Token" por el nombre de la columna real
-                        unique_id = row["sign"].ToString(); // Cambia "Sign" por el nombre de la columna real
-                        unique_id = row["expiration_time"].ToString(); // Cambia "Expiration" por el nombre de la columna real
+                        DataTable dataTable = data_set_result.Tables[0]; // Obtener la primera tabla
+
+                        // Recorrer las filas de la tabla
+                        foreach (DataRow row in dataTable.Rows)
+                        {
+                            // Obtener los valores de las columnas, ajusta los nombres a los que tiene tu tabla
+                            unique_id = row["unique_id"].ToString(); // Cambia "Id" por el nombre de la columna real
+                            token = row["token"].ToString(); // Cambia "Token" por el nombre de la columna real
+                            sign = row["sign"].ToString(); // Cambia "Sign" por el nombre de la columna real
+                            expiration_time = row["expiration_time"].ToString(); // Cambia "Expiration" por el nombre de la columna real
+
+                        }
+
+                        this.get_last_comprobanteAsync(token, sign);
 
                     }
-
-                    this.get_last_comprobanteAsync(token, sign);
-
+                    else
+                    {
+                        alta_log("No se encontraron resultados. dame_credencial_afip()");
+                    }
                 }
                 else
                 {
+                    MessageBox.Show("Error data_set_result dame_credencial_afip ");
+
                     alta_log("No se encontraron resultados. dame_credencial_afip()");
                 }
+
             }
             // 
 
