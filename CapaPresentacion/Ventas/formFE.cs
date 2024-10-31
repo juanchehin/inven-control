@@ -13,6 +13,7 @@ using System.Xml;
 
 using CapaNegocio;
 using System.Security;
+using System.Security.Policy;
 
 namespace CapaPresentacion.Ventas
 {
@@ -148,21 +149,20 @@ namespace CapaPresentacion.Ventas
             try
             {
                 string xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
-                <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
-                    <soap:Body>
-                    <FERecuperaLastCMPRequest xmlns=""http://ar.gov.afip.dif.facturaelectronica/"">
-                        <argAuth>
-                            <Token>{p_token}</Token>
-                            <Sign>{p_sign}</Sign>
-                            <cuit>20296243230</cuit>
-                        </argAuth>
-                        <argTCMP>
-                            <PtoVta>00016</PtoVta>
-                            <TipoCbte>001</TipoCbte>
-                        </argTCMP>
-                    </FERecuperaLastCMPRequest>
-                    </soap:Body>
-                </soap:Envelope>";
+                <soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ar=""http://ar.gov.afip.dif.FEV1/"">
+                    <soapenv:Header/>
+                    <soapenv:Body>
+                        <ar:FECompUltimoAutorizado>
+                            <ar:Auth>
+                                <ar:Token>{p_token}</ar:Token>
+                                <ar:Sign>{p_sign}</ar:Sign>
+                                <ar:Cuit>20296243230</ar:Cuit>
+                            </ar:Auth>
+                            <ar:PtoVta>00016</ar:PtoVta>
+                            <ar:CbteTipo>011</ar:CbteTipo>
+                        </ar:FECompUltimoAutorizado>
+                    </soapenv:Body>
+                </soapenv:Envelope>";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -187,6 +187,75 @@ namespace CapaPresentacion.Ventas
                     {
                         MessageBox.Show("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
                         alta_log("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
+        }
+
+        // ==============================================
+        // Solicitud de Código de Autorización Electrónico (CAE)
+        // ==============================================
+        private async Task fe_cae_solicitarAsync(string p_token, string p_sign)
+        {
+            try
+            {
+                var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx";
+
+                // Crear el XML usando interpolación de cadenas
+                var xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+                    <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
+                                   xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
+                                   xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+                      <soap:Body>
+                        <FECAESolicitar xmlns=""http://ar.gov.afip.dif.FEV1/"">
+                          <Auth>
+                            <Token>{p_token}</Token>
+                            <Sign>{p_sign}</Sign>
+                            <Cuit>20296243230</Cuit>
+                          </Auth>
+                          <FeCAEReq>
+                            <FeCabReq />
+                            <FeDetReq>
+                              <FECAEDetRequest />
+                              <FECAEDetRequest />
+                            </FeDetReq>
+                          </FeCAEReq>
+                        </FECAESolicitar>
+                      </soap:Body>
+                    </soap:Envelope>";
+
+                using (var client = new HttpClient())
+                {
+                    // Configurar los encabezados de la solicitud
+                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.FEV1/FECAESolicitar");
+
+                    // Crear el contenido de la solicitud usando el XML
+                    var content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
+
+                    // Enviar la solicitud y obtener la respuesta
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+
+                    // Verificar si la respuesta es exitosa
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Leer el contenido de la respuesta
+                        string responseContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Respuesta de AFIP: ");
+                        Console.WriteLine(responseContent);
+                    }
+                    else
+                    {
+                        // Imprimir el error en caso de fallo
+                        Console.WriteLine("Error: " + response.StatusCode);
+                        Console.WriteLine("Detalle: " + await response.Content.ReadAsStringAsync());
                     }
                 }
 
@@ -328,8 +397,8 @@ namespace CapaPresentacion.Ventas
 
                     if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
-                        this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-
+                        //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                        this.fe_cae_solicitarAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                     }
                     else
                     {
@@ -372,7 +441,9 @@ namespace CapaPresentacion.Ventas
 
                         }
 
-                        this.get_last_comprobanteAsync(token, sign);
+                        //this.get_last_comprobanteAsync(token, sign);
+                        this.fe_cae_solicitarAsync(token, sign);
+
 
                     }
                     else
