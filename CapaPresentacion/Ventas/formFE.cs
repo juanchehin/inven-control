@@ -21,7 +21,7 @@ namespace CapaPresentacion.Ventas
     {
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
-        private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\20296243230"; // Cambiar por la ruta de tu base de directorios
+        private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\{cuit}"; // Cambiar por la ruta de tu base de directorios
         private static readonly string urlWsdl = "https://servicios1.afip.gov.ar/wsfe/service.asmx"; // Cambiar por la URL correcta
         private static readonly string filename = System.IO.Path.Combine(baseDir, "FEDummy.xml");
         private static readonly HttpClient client = new HttpClient();
@@ -30,9 +30,14 @@ namespace CapaPresentacion.Ventas
         // private static readonly string URL_WSDL = "https://wsaahomo.afip.gov.ar/wsfe/service.asmx";  // homologacion
         public XmlDocument XmlLoginTicketResponse = null;
 
-        private static readonly string CUIT = "20296243230";
+        //private static readonly string CUIT = "{cuit}";
         CN_Ventas objeto_ventas = new CN_Ventas();
-
+        DataSet datos_contribuyente;
+        // info contributente
+        string direccion_empresa;
+        string cuit;
+        string razon_social;
+        string pto_venta;
 
         public formFE()
         {
@@ -65,7 +70,7 @@ namespace CapaPresentacion.Ventas
             // Llenar el ComboBox con la lista de ítems
             cbTipoDoc.DataSource = items_tipos_doc;
             cbTipoComp.DataSource = items_tipos_fact_comp;
-
+            dame_info_contribuyente();
         }
 
         public class ComboBoxItem
@@ -113,7 +118,7 @@ namespace CapaPresentacion.Ventas
                             <ar:Auth>
                                 <ar:Token>{p_token}</ar:Token>
                                 <ar:Sign>{p_sign}</ar:Sign>
-                                <ar:Cuit>20296243230</ar:Cuit>
+                                <ar:Cuit>{cuit}</ar:Cuit>
                             </ar:Auth>
                             <ar:PtoVta>00016</ar:PtoVta>
                             <ar:CbteTipo>{cbTipoComp.Text}</ar:CbteTipo>
@@ -176,7 +181,7 @@ namespace CapaPresentacion.Ventas
                           <Auth>
                             <Token>{p_token}</Token>
                             <Sign>{p_sign}</Sign>
-                            <Cuit>20296243230</Cuit>
+                            <Cuit>{cuit}</Cuit>
                           </Auth>
                           <FeCAEReq>
                             <FeCabReq />
@@ -242,7 +247,7 @@ namespace CapaPresentacion.Ventas
                           <Auth>
                             <Token>{p_token}</Token>
                             <Sign>{p_sign}</Sign>
-                            <Cuit>20296243230</Cuit>
+                            <Cuit>{cuit}</Cuit>
                           </Auth>
                         </FEParamGetPtosVenta>
                       </soap:Body>
@@ -498,6 +503,37 @@ namespace CapaPresentacion.Ventas
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Error al crear el archivo logs");
+            }
+
+        }
+
+        private void dame_info_contribuyente()
+        {
+            try
+            {
+                datos_contribuyente = objeto_ventas.dame_info_contribuyente();
+
+                if (datos_contribuyente.Tables[0].Rows.Count > 0)
+                {
+                    DataRow firstRow = datos_contribuyente.Tables[0].Rows[0];
+
+                    object value = firstRow[0];
+                    direccion_empresa = firstRow[1].ToString();
+                    cuit = firstRow[2].ToString();
+                    razon_social = firstRow[5].ToString();
+                    pto_venta = firstRow[6].ToString();
+                }
+                else
+                {
+                    alta_log("Error dame_info_contribuyente");
+                    MessageBox.Show("Error dame_info_contribuyente");
+                }
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
             }
 
         }

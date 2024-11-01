@@ -15,6 +15,13 @@ namespace CapaNegocio
 
         //Método Insertar que llama al método Insertar de la clase
         //de la CapaDatos
+
+        public DataSet dame_info_contribuyente()
+        {
+            DataSet tabla = new DataSet();
+            tabla = objetoCD.dame_info_contribuyente();
+            return tabla;
+        }
         public static string AltaVenta(int pIdUsuario, int pIdCliente,string tipoPago,DataTable pListadoProductos,decimal pMontoTotal)
         {
             CD_Ventas Obj = new CD_Ventas();

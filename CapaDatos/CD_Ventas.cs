@@ -93,6 +93,37 @@ namespace CapaDatos
 
         }
 
+        
+        public DataSet dame_info_contribuyente()
+        {
+            try
+            {
+                comando.Connection = conexion.AbrirConexion();
+                comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "bsp_dame_info_contribuyente";
+
+                MySqlDataAdapter da = new MySqlDataAdapter(comando);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+
+                comando.Parameters.Clear();
+
+                conexion.CerrarConexion();
+
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Exception dame_info_contribuyente - " + ex.Message);
+
+                conexion.CerrarConexion();
+                return null;
+            }
+
+        }
+
         public DataSet dame_credencial_afip()
         {
             try
