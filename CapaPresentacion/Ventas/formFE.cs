@@ -14,6 +14,7 @@ using System.Xml;
 using CapaNegocio;
 using System.Security;
 using System.Security.Policy;
+using AfipServiceReference;
 
 namespace CapaPresentacion.Ventas
 {
@@ -38,6 +39,8 @@ namespace CapaPresentacion.Ventas
         string cuit;
         string razon_social;
         string pto_venta;
+        DateTime fecha_actual = DateTime.Now;
+
 
         public formFE()
         {
@@ -110,6 +113,8 @@ namespace CapaPresentacion.Ventas
         {
             try
             {
+                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
+
                 string xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
                 <soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ar=""http://ar.gov.afip.dif.FEV1/"">
                     <soapenv:Header/>
@@ -121,7 +126,7 @@ namespace CapaPresentacion.Ventas
                                 <ar:Cuit>{cuit}</ar:Cuit>
                             </ar:Auth>
                             <ar:PtoVta>00016</ar:PtoVta>
-                            <ar:CbteTipo>{cbTipoComp.Text}</ar:CbteTipo>
+                            <ar:CbteTipo>{cbTipoCompSeleccionado}</ar:CbteTipo>
                         </ar:FECompUltimoAutorizado>
                     </soapenv:Body>
                 </soapenv:Envelope>";
@@ -356,7 +361,7 @@ namespace CapaPresentacion.Ventas
                     if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
                         //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-                        this.get_ptos_venta_Async(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                        this.solicitar_caeAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                     }
                     else
                     {
@@ -400,7 +405,7 @@ namespace CapaPresentacion.Ventas
                         }
 
                         //this.get_last_comprobanteAsync(token, sign);
-                        this.get_ptos_venta_Async(token, sign);
+                        this.solicitar_caeAsync(token, sign);
 
 
                     }
@@ -458,6 +463,209 @@ namespace CapaPresentacion.Ventas
 
             secureString.MakeReadOnly(); // Opcional: marca el SecureString como de solo lectura
             return secureString;
+        }
+
+        // ==============================================
+        // Recibe la información de un comprobante o lote de comprobantes.
+        // FECAESolicitar
+        // ==============================================
+        private async Task solicitar_caeAsync(string p_token, string p_sign)
+        {
+            try
+            {
+                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
+
+                // Construcción del XML
+                XmlDocument xmlDoc = new XmlDocument();
+
+                XmlElement envelope = xmlDoc.CreateElement("soapenv", "Envelope", "http://schemas.xmlsoap.org/soap/envelope/");
+                xmlDoc.AppendChild(envelope);
+
+                XmlElement header = xmlDoc.CreateElement("soapenv", "Header", "http://schemas.xmlsoap.org/soap/envelope/");
+                envelope.AppendChild(header);
+
+                XmlElement body = xmlDoc.CreateElement("soapenv", "Body", "http://schemas.xmlsoap.org/soap/envelope/");
+                envelope.AppendChild(body);
+
+                XmlElement solicitar = xmlDoc.CreateElement("ar", "FECAESolicitar", "http://ar.gov.afip.dif.FEV1/");
+                body.AppendChild(solicitar);
+
+                // Auth
+                XmlElement auth = xmlDoc.CreateElement("ar", "Auth", "http://ar.gov.afip.dif.FEV1/");
+                solicitar.AppendChild(auth);
+
+                XmlElement xmlToken = xmlDoc.CreateElement("ar", "Token", "http://ar.gov.afip.dif.FEV1/");
+                xmlToken.InnerText = p_token;
+                auth.AppendChild(xmlToken);
+
+                XmlElement xmlSign = xmlDoc.CreateElement("ar", "Sign", "http://ar.gov.afip.dif.FEV1/");
+                xmlSign.InnerText = p_sign;
+                auth.AppendChild(xmlSign);
+
+                XmlElement xmlCuit = xmlDoc.CreateElement("ar", "Cuit", "http://ar.gov.afip.dif.FEV1/");
+                xmlCuit.InnerText = cuit.ToString();
+                auth.AppendChild(xmlCuit);
+
+                // FeCAEReq
+                XmlElement feCAEReq = xmlDoc.CreateElement("ar", "FeCAEReq", "http://ar.gov.afip.dif.FEV1/");
+                solicitar.AppendChild(feCAEReq);
+
+                // FeCabReq
+                XmlElement feCabReq = xmlDoc.CreateElement("ar", "FeCabReq", "http://ar.gov.afip.dif.FEV1/");
+                feCAEReq.AppendChild(feCabReq);
+
+                XmlElement xmlCantReg = xmlDoc.CreateElement("ar", "CantReg", "http://ar.gov.afip.dif.FEV1/");
+                xmlCantReg.InnerText = "1";
+                feCabReq.AppendChild(xmlCantReg);
+
+                XmlElement xmlPtoVta = xmlDoc.CreateElement("ar", "PtoVta", "http://ar.gov.afip.dif.FEV1/");
+                xmlPtoVta.InnerText = pto_venta.ToString();
+                feCabReq.AppendChild(xmlPtoVta);
+
+                XmlElement xmlCbteTipo = xmlDoc.CreateElement("ar", "CbteTipo", "http://ar.gov.afip.dif.FEV1/");
+                xmlCbteTipo.InnerText = cbTipoCompSeleccionado;
+                feCabReq.AppendChild(xmlCbteTipo);
+
+                // FeDetReq
+                XmlElement feDetReq = xmlDoc.CreateElement("ar", "FeDetReq", "http://ar.gov.afip.dif.FEV1/");
+                feCAEReq.AppendChild(feDetReq);
+
+                // FECAEDetRequest
+                XmlElement feCAEDetRequest = xmlDoc.CreateElement("ar", "FECAEDetRequest", "http://ar.gov.afip.dif.FEV1/");
+                feDetReq.AppendChild(feCAEDetRequest);
+
+                // https://www.afip.gob.ar/ws/WSFEV1/documentos/manual-desarrollador-COMPG-v3-4-2.pdf
+                // Detalles del comprobante
+                AppendElement(feCAEDetRequest, "ar", "Concepto", "1");
+                AppendElement(feCAEDetRequest, "ar", "DocTipo", cbTipoDoc.ToString());
+                AppendElement(feCAEDetRequest, "ar", "DocNro", txtDocComp.Text);
+                AppendElement(feCAEDetRequest, "ar", "CbteDesde", "1");
+                AppendElement(feCAEDetRequest, "ar", "CbteHasta", "1");
+                AppendElement(feCAEDetRequest, "ar", "CbteFch", fecha_actual.ToString());
+                AppendElement(feCAEDetRequest, "ar", "ImpTotal", txtImporteTotal.ToString());
+                AppendElement(feCAEDetRequest, "ar", "ImpTotConc", "0");    // cero comprobante C
+                AppendElement(feCAEDetRequest, "ar", "ImpNeto", txtImporteTotal.ToString());
+                AppendElement(feCAEDetRequest, "ar", "ImpOpEx", "0");
+                AppendElement(feCAEDetRequest, "ar", "ImpTrib", txtImporteTotal.ToString());
+                AppendElement(feCAEDetRequest, "ar", "ImpIVA", txtImporteTotal.ToString());
+                AppendElement(feCAEDetRequest, "ar", "FchServDesde", fecha_actual.ToString());
+                AppendElement(feCAEDetRequest, "ar", "FchServHasta", fecha_actual.ToString());
+                AppendElement(feCAEDetRequest, "ar", "FchVtoPago", fecha_actual.ToString());
+                AppendElement(feCAEDetRequest, "ar", "MonId", "1");
+                AppendElement(feCAEDetRequest, "ar", "MonCotiz", "1");
+
+                // CbtesAsoc
+                XmlElement cbtesAsoc = xmlDoc.CreateElement("ar", "CbtesAsoc", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(cbtesAsoc);
+
+                XmlElement cbteAsoc = xmlDoc.CreateElement("ar", "CbteAsoc", "http://ar.gov.afip.dif.FEV1/");
+                cbtesAsoc.AppendChild(cbteAsoc);
+
+                //string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
+
+                AppendElement(cbteAsoc, "ar", "Tipo", cbTipoCompSeleccionado);
+                AppendElement(cbteAsoc, "ar", "PtoVta", pto_venta);
+                AppendElement(cbteAsoc, "ar", "Nro","1");
+                AppendElement(cbteAsoc, "ar", "Cuit", cuit);
+                AppendElement(cbteAsoc, "ar", "CbteFch", fecha_actual.ToString());
+
+                // Tributos
+                XmlElement tributos = xmlDoc.CreateElement("ar", "Tributos", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(tributos);
+
+                XmlElement tributo = xmlDoc.CreateElement("ar", "Tributo", "http://ar.gov.afip.dif.FEV1/");
+                tributos.AppendChild(tributo);
+
+                AppendElement(tributo, "ar", "Id", "1");
+                AppendElement(tributo, "ar", "Desc", "0");
+                AppendElement(tributo, "ar", "BaseImp", "1");
+                AppendElement(tributo, "ar", "Alic", "1");
+                AppendElement(tributo, "ar", "Importe", txtImporteTotal.ToString());
+
+                // IVA
+                XmlElement iva = xmlDoc.CreateElement("ar", "Iva", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(iva);
+
+                XmlElement alicIva = xmlDoc.CreateElement("ar", "AlicIva", "http://ar.gov.afip.dif.FEV1/");
+                iva.AppendChild(alicIva);
+
+                AppendElement(alicIva, "ar", "Id", txtIva.ToString());
+                AppendElement(alicIva, "ar", "BaseImp", "0");
+                AppendElement(alicIva, "ar", "Importe", "1");
+
+                // Opcionales
+                XmlElement opcionales = xmlDoc.CreateElement("ar", "Opcionales", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(opcionales);
+
+                XmlElement opcional = xmlDoc.CreateElement("ar", "Opcional", "http://ar.gov.afip.dif.FEV1/");
+                opcionales.AppendChild(opcional);
+
+                AppendElement(opcional, "ar", "Id", "1");
+                AppendElement(opcional, "ar", "Valor", "1");
+
+                // Comprador
+                XmlElement comprador = xmlDoc.CreateElement("ar", "Comprador", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(comprador);
+
+                AppendElement(comprador, "ar", "DocTipo", cbTipoDoc.ToString());
+                AppendElement(comprador, "ar", "DocNro", txtDocComp.ToString());
+                AppendElement(comprador, "ar", "Porcentaje", "1");
+
+                // Filtro
+                XmlElement filtro = xmlDoc.CreateElement("ar", "Filtro", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(filtro);
+
+                AppendElement(filtro, "ar", "FchDesde", fecha_actual.ToString());
+                AppendElement(filtro, "ar", "FchHasta", fecha_actual.ToString());
+
+                // Actividad
+                XmlElement actividad = xmlDoc.CreateElement("ar", "Actividad", "http://ar.gov.afip.dif.FEV1/");
+                feCAEDetRequest.AppendChild(actividad);
+
+                AppendElement(actividad, "ar", "Id", "1");
+
+                // Convertir el XML a string
+                string xmlString = xmlDoc.OuterXml;
+
+                // Mostrar el XML en un MessageBox
+                MessageBox.Show(xmlString, "XML Solicitud Comprobante", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx";
+
+                // Crear un objeto HttpClient
+                using (var client = new HttpClient())
+                {
+                    // Configurar los encabezados de la solicitud
+                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.FEV1/FEParamGetPtosVenta");
+
+                    // Crear el contenido de la solicitud usando el XML
+                    var content = new StringContent(xmlString, Encoding.UTF8, "text/xml");
+
+                    // Enviar la solicitud y obtener la respuesta
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+
+                    // Verificar si la respuesta es exitosa
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Leer el contenido de la respuesta
+                        string responseContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Respuesta de AFIP: ");
+                        Console.WriteLine(responseContent);
+                    }
+                    else
+                    {
+                        // Imprimir el error en caso de fallo
+                        Console.WriteLine("Error: " + response.StatusCode);
+                        Console.WriteLine("Detalle: " + await response.Content.ReadAsStringAsync());
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
         }
 
 
@@ -536,6 +744,14 @@ namespace CapaPresentacion.Ventas
                 MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
             }
 
+        }
+
+
+        private void AppendElement(XmlElement parent, string prefix, string name, string value)
+        {
+            XmlElement element = parent.OwnerDocument.CreateElement(prefix, name, parent.NamespaceURI);
+            element.InnerText = value;
+            parent.AppendChild(element);
         }
 
     }
