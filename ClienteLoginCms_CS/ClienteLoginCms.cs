@@ -84,6 +84,7 @@ public class LoginTicket
         }
         catch (Exception excepcionAlGenerarLoginTicketRequest) 
         {
+            alta_log(ID_FNC + "***Error GENERANDO el LoginTicketRequest : " + excepcionAlGenerarLoginTicketRequest.Message + excepcionAlGenerarLoginTicketRequest.StackTrace);
             throw new Exception(ID_FNC + "***Error GENERANDO el LoginTicketRequest : " + excepcionAlGenerarLoginTicketRequest.Message + excepcionAlGenerarLoginTicketRequest.StackTrace);
         }
 
@@ -108,6 +109,7 @@ public class LoginTicket
         }
         catch (Exception excepcionAlFirmar)
         {
+            alta_log(ID_FNC + "***Error FIRMANDO el LoginTicketRequest : " + excepcionAlFirmar.Message);
             throw new Exception(ID_FNC + "***Error FIRMANDO el LoginTicketRequest : " + excepcionAlFirmar.Message);
         }
 
@@ -146,6 +148,8 @@ public class LoginTicket
         }
         catch (Exception excepcionAlInvocarWsaa)
         {
+            alta_log(ID_FNC + "***Error INVOCANDO al servicio WSAA : " + excepcionAlInvocarWsaa.Message);
+
             throw new Exception(ID_FNC + "***Error INVOCANDO al servicio WSAA : " + excepcionAlInvocarWsaa.Message);
         }
 
@@ -163,9 +167,58 @@ public class LoginTicket
         }
         catch (Exception excepcionAlAnalizarLoginTicketResponse)
         {
+            alta_log(ID_FNC + "***Error ANALIZANDO el LoginTicketResponse : " + excepcionAlAnalizarLoginTicketResponse.Message);
+
             throw new Exception(ID_FNC + "***Error ANALIZANDO el LoginTicketResponse : " + excepcionAlAnalizarLoginTicketResponse.Message);
         }
         return loginTicketResponse;
+    }
+
+
+    private void alta_log(string mensaje)
+    {
+        try
+        {
+            // Obtiene la ruta de acceso a la carpeta AppData del usuario actual
+            string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            // Crea la ruta completa para tu archivo dentro de la carpeta AppData
+            string filePath = System.IO.Path.Combine(appDataFolder, "store-soft", "logs_cliente_login_cms.txt");
+
+            // Verifica si el directorio del archivo existe, si no, lo crea
+            string directoryPath = System.IO.Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+
+            // Verifica si el archivo existe
+            if (!File.Exists(filePath))
+            {
+                // Si el archivo no existe, lo crea y escribe contenido
+                using (StreamWriter writer = File.CreateText(filePath))
+                {
+                    string mensaje_creacion = "Este es un nuevo archivo creado.";
+
+                    string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
+                    writer.WriteLine($"[{timestamp}] - {mensaje_creacion}");
+                }
+
+                Console.WriteLine("Archivo creado exitosamente.");
+            }
+
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
+                writer.WriteLine($"[{timestamp}] - {mensaje}");
+            }
+        }
+        catch (Exception ex)
+        {
+            //MessageBox.Show(ex.Message.ToString(), "Error al crear el archivo logs");
+        }
+
     }
 }
 

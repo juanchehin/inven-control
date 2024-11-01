@@ -546,21 +546,29 @@ namespace CapaPresentacion.Ventas
 
                 // https://www.afip.gob.ar/ws/WSFEV1/documentos/manual-desarrollador-COMPG-v3-4-2.pdf
                 // Detalles del comprobante
+
+                // El campo  'Importe Total' ImpTotal, debe ser igual  a la  suma de ImpTotConc + ImpNeto + ImpOpEx + ImpTrib + ImpIVA.
+                // https://www.afip.gob.ar/ws/WSFEV1/documentos/manual-desarrollador-COMPG-v3-4-2.pdf
+                var v_imp_total = 0 + Convert.ToInt32(txtImporteTotal.Text) + 0 + Convert.ToInt32(txtImporteTotal.Text) + 0;
+                double baseImponible = Convert.ToInt32(txtImporteTotal.Text) / (1 + (Convert.ToDouble(txtIva.Text) / 100));
+
                 AppendElement(feCAEDetRequest, "ar", "Concepto", "1");
                 AppendElement(feCAEDetRequest, "ar", "DocTipo", cbTipoDocSeleccionado);
                 AppendElement(feCAEDetRequest, "ar", "DocNro", txtDocComp.Text);
                 AppendElement(feCAEDetRequest, "ar", "CbteDesde", "1");
                 AppendElement(feCAEDetRequest, "ar", "CbteHasta", "1");
                 AppendElement(feCAEDetRequest, "ar", "CbteFch", fecha_actual.ToString("yyyyMMdd"));
-                AppendElement(feCAEDetRequest, "ar", "ImpTotal", txtImporteTotal.Text);
+                AppendElement(feCAEDetRequest, "ar", "ImpTotal", v_imp_total.ToString());     // El campo  'Importe Total' ImpTotal,
+                                                                                            // debe ser igual  a la  suma de ImpTotConc +
+                                                                                            // ImpNeto + ImpOpEx + ImpTrib + ImpIVA.
                 AppendElement(feCAEDetRequest, "ar", "ImpTotConc", "0");    // cero comprobante C
                 AppendElement(feCAEDetRequest, "ar", "ImpNeto", txtImporteTotal.Text);
                 AppendElement(feCAEDetRequest, "ar", "ImpOpEx", "0");
                 AppendElement(feCAEDetRequest, "ar", "ImpTrib", txtImporteTotal.Text);
                 AppendElement(feCAEDetRequest, "ar", "ImpIVA", txtImporteTotal.Text);
-                AppendElement(feCAEDetRequest, "ar", "FchServDesde", fecha_actual.ToString("yyyyMMdd"));
-                AppendElement(feCAEDetRequest, "ar", "FchServHasta", fecha_actual.ToString("yyyyMMdd"));
-                AppendElement(feCAEDetRequest, "ar", "FchVtoPago", fecha_actual.ToString("yyyyMMdd"));
+                //AppendElement(feCAEDetRequest, "ar", "FchServDesde", fecha_actual.ToString("yyyyMMdd"));
+                //AppendElement(feCAEDetRequest, "ar", "FchServHasta", fecha_actual.ToString("yyyyMMdd"));
+                //AppendElement(feCAEDetRequest, "ar", "FchVtoPago", fecha_actual.ToString("yyyyMMdd"));
                 AppendElement(feCAEDetRequest, "ar", "MonId", "1");
                 AppendElement(feCAEDetRequest, "ar", "MonCotiz", "1");
 
@@ -586,7 +594,7 @@ namespace CapaPresentacion.Ventas
 
                 AppendElement(tributo, "ar", "Id", "1");
                 AppendElement(tributo, "ar", "Desc", "0");
-                AppendElement(tributo, "ar", "BaseImp", "1");
+                AppendElement(tributo, "ar", "BaseImp", baseImponible.ToString());
                 AppendElement(tributo, "ar", "Alic", "1");
                 AppendElement(tributo, "ar", "Importe", txtImporteTotal.Text);
 
@@ -597,7 +605,7 @@ namespace CapaPresentacion.Ventas
                 XmlElement alicIva = xmlDoc.CreateElement("ar", "AlicIva", "http://ar.gov.afip.dif.FEV1/");
                 iva.AppendChild(alicIva);
 
-                AppendElement(alicIva, "ar", "Id", txtIva.Text);
+                AppendElement(alicIva, "ar", "Id", "0005");
                 AppendElement(alicIva, "ar", "BaseImp", "0");
                 AppendElement(alicIva, "ar", "Importe", "1");
 
@@ -654,8 +662,40 @@ namespace CapaPresentacion.Ventas
                     // Verificar si la respuesta es exitosa
                     if (response.IsSuccessStatusCode)
                     {
-                        // Leer el contenido de la respuesta
+                        // Leer el contenido de la respuesta -XML
                         string responseContent = await response.Content.ReadAsStringAsync();
+                        string code;
+                        string msg;
+
+                        XmlDocument xmlDocResponse = new XmlDocument();
+                        xmlDocResponse.LoadXml(responseContent);
+
+                        // Definir el espacio de nombres
+                        XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDocResponse.NameTable);
+                        nsmgr.AddNamespace("soap", "http://schemas.xmlsoap.org/soap/envelope/");
+                        nsmgr.AddNamespace("ar", "http://ar.gov.afip.dif.FEV1/");
+
+                        // Seleccionar los nodos de observación
+                        XmlNodeList observations = xmlDocResponse.SelectNodes("//ar:Observaciones/ar:Obs", nsmgr);
+
+                        code = "";
+                        // Construir el mensaje para mostrar
+                        string message = "Observaciones encontradas:\n\n";
+                        foreach (XmlNode observation in observations)
+                        {
+                            code = observation.SelectSingleNode("ar:Code", nsmgr)?.InnerText ?? "No disponible";
+                            msg = observation.SelectSingleNode("ar:Msg", nsmgr)?.InnerText ?? "No disponible";
+                            message += $"Code: {code}\nMsg: {msg}\n\n";
+                        }
+
+                        if (code != "")
+                        {
+                            // Mostrar el mensaje en un MessageBox
+                            MessageBox.Show(message, "Observaciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            alta_log("solicitar_caeAsync - responseContent  - " + message);
+
+                        }
+
                         Console.WriteLine("Respuesta de AFIP: ");
                         Console.WriteLine(responseContent);
                     }
