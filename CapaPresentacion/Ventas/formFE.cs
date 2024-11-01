@@ -98,52 +98,6 @@ namespace CapaPresentacion.Ventas
             this.Close();
         }
 
-        private void alta_log(string mensaje)
-        {
-            try
-            {
-                // Obtiene la ruta de acceso a la carpeta AppData del usuario actual
-                string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-                // Crea la ruta completa para tu archivo dentro de la carpeta AppData
-                string filePath = System.IO.Path.Combine(appDataFolder, "store-soft", "logs_facturacion_elect.txt");
-
-                // Verifica si el directorio del archivo existe, si no, lo crea
-                string directoryPath = System.IO.Path.GetDirectoryName(filePath);
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
-
-
-                // Verifica si el archivo existe
-                if (!File.Exists(filePath))
-                {
-                    // Si el archivo no existe, lo crea y escribe contenido
-                    using (StreamWriter writer = File.CreateText(filePath))
-                    {
-                        string mensaje_creacion = "Este es un nuevo archivo creado.";
-
-                        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
-                        writer.WriteLine($"[{timestamp}] - {mensaje_creacion}");
-                    }
-
-                    Console.WriteLine("Archivo creado exitosamente.");
-                }
-
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
-                    writer.WriteLine($"[{timestamp}] - {mensaje}");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString(), "Error al crear el archivo logs");
-            }
-
-        }
-
         // ==============================================
         // Retorna el ultimo comprobante autorizado para el tipo de comprobante / cuit / punto de venta ingresado / Tipo de Emisión
         // ==============================================
@@ -162,7 +116,7 @@ namespace CapaPresentacion.Ventas
                                 <ar:Cuit>20296243230</ar:Cuit>
                             </ar:Auth>
                             <ar:PtoVta>00016</ar:PtoVta>
-                            <ar:CbteTipo>011</ar:CbteTipo>
+                            <ar:CbteTipo>{cbTipoComp.Text}</ar:CbteTipo>
                         </ar:FECompUltimoAutorizado>
                     </soapenv:Body>
                 </soapenv:Envelope>";
@@ -251,14 +205,11 @@ namespace CapaPresentacion.Ventas
                     {
                         // Leer el contenido de la respuesta
                         string responseContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("Respuesta de AFIP: ");
-                        Console.WriteLine(responseContent);
                     }
                     else
                     {
-                        // Imprimir el error en caso de fallo
-                        Console.WriteLine("Error: " + response.StatusCode);
-                        Console.WriteLine("Detalle: " + await response.Content.ReadAsStringAsync());
+                        alta_log("Error get_last_comprobante - " + response.StatusCode + " - " + await response.Content.ReadAsStringAsync());
+                        MessageBox.Show("Error get_last_comprobante " + response.StatusCode);
                     }
                 }
 
@@ -266,98 +217,97 @@ namespace CapaPresentacion.Ventas
             catch (Exception ex)
             {
                 alta_log("Error get_last_comprobante - " + ex.Message);
-
                 MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
             }
 
         }
 
-        private async Task obtener_caeAsync(string p_token,string p_sign)
+        // ==============================================
+        // Recupera el listado de puntos de venta registrados y su estado
+        // FEParamGetPtosVenta 
+        // ==============================================
+        private async Task get_ptos_venta_Async(string p_token, string p_sign)
         {
-            // Valores obtenidos de los campos de tu formulario
-            string token = "valorToken"; // txtToken.Text
-            string sign = "valorSign";   // txtSign.Text
-            string cuit = CUIT;   // txtCuit.Text
-
-            string tipoDoc = "valorTipoDoc"; // txtTipoDoc.Text
-            string nroDoc = "valorNroDoc";   // txtNroDoc.Text
-
             try
             {
+                var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx";
 
-                /// XML que enviarás en la solicitud
-                string xmlData = @"<?xml version=""1.0"" encoding=""utf-8""?>
-                    <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+                // Crear el XML usando interpolación de cadenas
+                var xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
+                    <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
+                                   xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
+                                   xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
                       <soap:Body>
-                        <FEAutRequest xmlns=""http://ar.gov.afip.dif.facturaelectronica/"">
-                          <argAuth>
-                            <Token>{0}</Token>
-                            <Sign>{1}</Sign>
-                            <cuit>{2}</cuit>
-                          </argAuth>
-                          <Fer>
-                            <Fecr>
-                              <id>1</id>
-                              <cantidadreg>1</cantidadreg>
-                              <presta_serv>1</presta_serv>
-                            </Fecr>
-                            <Fedr>
-                              <FEDetalleRequest>
-                                <tipo_doc>80</tipo_doc>
-                                <nro_doc>2034561258</nro_doc>
-                                <tipo_cbte>int</tipo_cbte>
-                                <punto_vta>int</punto_vta>
-                                <cbt_desde>long</cbt_desde>
-                                <cbt_hasta>long</cbt_hasta>
-                                <imp_total>double</imp_total>
-                                <imp_tot_conc>double</imp_tot_conc>
-                                <imp_neto>double</imp_neto>
-                                <impto_liq>double</impto_liq>
-                                <impto_liq_rni>double</impto_liq_rni>
-                                <imp_op_ex>double</imp_op_ex>
-                                <fecha_cbte>string</fecha_cbte>
-                                <fecha_serv_desde>string</fecha_serv_desde>
-                                <fecha_serv_hasta>string</fecha_serv_hasta>
-                                <fecha_venc_pago>string</fecha_venc_pago>
-                              </FEDetalleRequest>
-                            </Fedr>
-                          </Fer>
-                        </FEAutRequest>
+                        <FEParamGetPtosVenta xmlns=""http://ar.gov.afip.dif.FEV1/"">
+                          <Auth>
+                            <Token>{p_token}</Token>
+                            <Sign>{p_sign}</Sign>
+                            <Cuit>20296243230</Cuit>
+                          </Auth>
+                        </FEParamGetPtosVenta>
                       </soap:Body>
                     </soap:Envelope>";
 
-                using (HttpClient client = new HttpClient())
+                using (var client = new HttpClient())
                 {
-                    // Configurar el contenido de la solicitud
-                    HttpContent content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
-                    content.Headers.Add("SOAPAction", "http://ar.gov.afip.dif.facturaelectronica/FEAutRequest");
+                    // Configurar los encabezados de la solicitud
+                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.FEV1/FEParamGetPtosVenta");
 
-                    // Enviar solicitud POST
-                    HttpResponseMessage response = await client.PostAsync(URL_WSDL, content);
+                    // Crear el contenido de la solicitud usando el XML
+                    var content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
 
-                    // Verificar la respuesta
+                    // Enviar la solicitud y obtener la respuesta
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+
+                    // Verificar si la respuesta es exitosa
                     if (response.IsSuccessStatusCode)
                     {
-                        string responseXml = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("Respuesta del servidor:");
-                        Console.WriteLine(responseXml);
+                        // Leer el contenido de la respuesta
+                        string responseContent = await response.Content.ReadAsStringAsync();
+
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.LoadXml(responseContent);
+
+                        XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+                        nsmgr.AddNamespace("soap", "http://schemas.xmlsoap.org/soap/envelope/");
+                        nsmgr.AddNamespace("fe", "http://ar.gov.afip.dif.FEV1/");
+
+                        // Extraer y construir el mensaje
+                        string ambiente = xmlDoc.SelectSingleNode("//fe:FEHeaderInfo/fe:ambiente", nsmgr)?.InnerText;
+                        string fecha = xmlDoc.SelectSingleNode("//fe:FEHeaderInfo/fe:fecha", nsmgr)?.InnerText;
+                        string id = xmlDoc.SelectSingleNode("//fe:FEHeaderInfo/fe:id", nsmgr)?.InnerText;
+                        string nroPuntoVenta = xmlDoc.SelectSingleNode("//fe:PtoVenta/fe:Nro", nsmgr)?.InnerText;
+                        string emisionTipo = xmlDoc.SelectSingleNode("//fe:PtoVenta/fe:EmisionTipo", nsmgr)?.InnerText;
+                        string bloqueado = xmlDoc.SelectSingleNode("//fe:PtoVenta/fe:Bloqueado", nsmgr)?.InnerText;
+                        string fchBaja = xmlDoc.SelectSingleNode("//fe:PtoVenta/fe:FchBaja", nsmgr)?.InnerText;
+
+                        string mensaje = $"Ambiente: {ambiente}\n" +
+                                         $"Fecha: {fecha}\n" +
+                                         $"ID: {id}\n\n" +
+                                         $"Punto de Venta:\n" +
+                                         $"  Número: {nroPuntoVenta}\n" +
+                                         $"  Tipo de Emisión: {emisionTipo}\n" +
+                                         $"  Bloqueado: {bloqueado}\n" +
+                                         $"  Fecha de Baja: {fchBaja}";
+
+                        // Mostrar el mensaje
+                        MessageBox.Show(mensaje, "Respuesta de AFIP", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        Console.WriteLine($"Error en la solicitud: {response.StatusCode}");
+                        alta_log("Error get_last_comprobante - " + response.StatusCode + " - " + await response.Content.ReadAsStringAsync());
+                        MessageBox.Show("Error get_last_comprobante " + response.StatusCode);
                     }
                 }
 
             }
             catch (Exception ex)
             {
-                alta_log("Error obtener_cae - " + ex.Message);
-
-                MessageBox.Show(ex.Message.ToString(), "Error obtener_cae");
+                alta_log("Error get_last_comprobante - " + ex.Message);
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
             }
 
         }
-
         private void funcion_base()
         {
             try
@@ -401,7 +351,7 @@ namespace CapaPresentacion.Ventas
                     if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
                         //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-                        this.fe_cae_solicitarAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                        this.get_ptos_venta_Async(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                     }
                     else
                     {
@@ -445,7 +395,7 @@ namespace CapaPresentacion.Ventas
                         }
 
                         //this.get_last_comprobanteAsync(token, sign);
-                        this.fe_cae_solicitarAsync(token, sign);
+                        this.get_ptos_venta_Async(token, sign);
 
 
                     }
@@ -504,6 +454,54 @@ namespace CapaPresentacion.Ventas
             secureString.MakeReadOnly(); // Opcional: marca el SecureString como de solo lectura
             return secureString;
         }
+
+
+        private void alta_log(string mensaje)
+        {
+            try
+            {
+                // Obtiene la ruta de acceso a la carpeta AppData del usuario actual
+                string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+                // Crea la ruta completa para tu archivo dentro de la carpeta AppData
+                string filePath = System.IO.Path.Combine(appDataFolder, "store-soft", "logs_facturacion_elect.txt");
+
+                // Verifica si el directorio del archivo existe, si no, lo crea
+                string directoryPath = System.IO.Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+
+                // Verifica si el archivo existe
+                if (!File.Exists(filePath))
+                {
+                    // Si el archivo no existe, lo crea y escribe contenido
+                    using (StreamWriter writer = File.CreateText(filePath))
+                    {
+                        string mensaje_creacion = "Este es un nuevo archivo creado.";
+
+                        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
+                        writer.WriteLine($"[{timestamp}] - {mensaje_creacion}");
+                    }
+
+                    Console.WriteLine("Archivo creado exitosamente.");
+                }
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Obtiene la fecha y hora actual
+                    writer.WriteLine($"[{timestamp}] - {mensaje}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error al crear el archivo logs");
+            }
+
+        }
+
     }
 
 
