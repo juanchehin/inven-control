@@ -40,6 +40,7 @@ namespace CapaPresentacion.Ventas
         string razon_social;
         string pto_venta;
         DateTime fecha_actual = DateTime.Now;
+        string cbTipoCompSeleccionado = "0";
 
 
         public formFE()
@@ -47,15 +48,17 @@ namespace CapaPresentacion.Ventas
             InitializeComponent();
 
             // Crear una lista de ítems clave-valor
+            // Tipos documento
+            // https://drive.google.com/file/d/1-E02cH-uJRVNkelBTHN5vlj8zWI7wgRc/view
             List<ComboBoxItem> items_tipos_doc = new List<ComboBoxItem>
             {
-                new ComboBoxItem("1", "CUIT"),
-                new ComboBoxItem("2", "CUIL"),
-                new ComboBoxItem("3", "CDI"),
-                new ComboBoxItem("4", "LE"),
-                new ComboBoxItem("5", "LC"),
-                new ComboBoxItem("6", "DNI"),
-                new ComboBoxItem("7", "Sin identificar"),
+                new ComboBoxItem("80", "CUIT"),
+                new ComboBoxItem("86", "CUIL"),
+                new ComboBoxItem("87", "CDI"),
+                new ComboBoxItem("89", "LE"),
+                new ComboBoxItem("90", "LC"),
+                new ComboBoxItem("96", "DNI"),
+                new ComboBoxItem("99", "Sin identificar"),
             };
 
             // Crear una lista de ítems clave-valor
@@ -72,7 +75,13 @@ namespace CapaPresentacion.Ventas
 
             // Llenar el ComboBox con la lista de ítems
             cbTipoDoc.DataSource = items_tipos_doc;
+            cbTipoDoc.DisplayMember = "Value";
+            cbTipoDoc.ValueMember = "Key";
+
             cbTipoComp.DataSource = items_tipos_fact_comp;
+            cbTipoComp.DisplayMember = "Value";
+            cbTipoComp.ValueMember = "Key";
+
             dame_info_contribuyente();
         }
 
@@ -473,7 +482,8 @@ namespace CapaPresentacion.Ventas
         {
             try
             {
-                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
+                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Key;
+                string cbTipoDocSeleccionado = ((ComboBoxItem)cbTipoDoc.SelectedItem).Key;
 
                 // Construcción del XML
                 XmlDocument xmlDoc = new XmlDocument();
@@ -537,20 +547,20 @@ namespace CapaPresentacion.Ventas
                 // https://www.afip.gob.ar/ws/WSFEV1/documentos/manual-desarrollador-COMPG-v3-4-2.pdf
                 // Detalles del comprobante
                 AppendElement(feCAEDetRequest, "ar", "Concepto", "1");
-                AppendElement(feCAEDetRequest, "ar", "DocTipo", cbTipoDoc.ToString());
+                AppendElement(feCAEDetRequest, "ar", "DocTipo", cbTipoDocSeleccionado);
                 AppendElement(feCAEDetRequest, "ar", "DocNro", txtDocComp.Text);
                 AppendElement(feCAEDetRequest, "ar", "CbteDesde", "1");
                 AppendElement(feCAEDetRequest, "ar", "CbteHasta", "1");
-                AppendElement(feCAEDetRequest, "ar", "CbteFch", fecha_actual.ToString());
-                AppendElement(feCAEDetRequest, "ar", "ImpTotal", txtImporteTotal.ToString());
+                AppendElement(feCAEDetRequest, "ar", "CbteFch", fecha_actual.ToString("yyyyMMdd"));
+                AppendElement(feCAEDetRequest, "ar", "ImpTotal", txtImporteTotal.Text);
                 AppendElement(feCAEDetRequest, "ar", "ImpTotConc", "0");    // cero comprobante C
-                AppendElement(feCAEDetRequest, "ar", "ImpNeto", txtImporteTotal.ToString());
+                AppendElement(feCAEDetRequest, "ar", "ImpNeto", txtImporteTotal.Text);
                 AppendElement(feCAEDetRequest, "ar", "ImpOpEx", "0");
-                AppendElement(feCAEDetRequest, "ar", "ImpTrib", txtImporteTotal.ToString());
-                AppendElement(feCAEDetRequest, "ar", "ImpIVA", txtImporteTotal.ToString());
-                AppendElement(feCAEDetRequest, "ar", "FchServDesde", fecha_actual.ToString());
-                AppendElement(feCAEDetRequest, "ar", "FchServHasta", fecha_actual.ToString());
-                AppendElement(feCAEDetRequest, "ar", "FchVtoPago", fecha_actual.ToString());
+                AppendElement(feCAEDetRequest, "ar", "ImpTrib", txtImporteTotal.Text);
+                AppendElement(feCAEDetRequest, "ar", "ImpIVA", txtImporteTotal.Text);
+                AppendElement(feCAEDetRequest, "ar", "FchServDesde", fecha_actual.ToString("yyyyMMdd"));
+                AppendElement(feCAEDetRequest, "ar", "FchServHasta", fecha_actual.ToString("yyyyMMdd"));
+                AppendElement(feCAEDetRequest, "ar", "FchVtoPago", fecha_actual.ToString("yyyyMMdd"));
                 AppendElement(feCAEDetRequest, "ar", "MonId", "1");
                 AppendElement(feCAEDetRequest, "ar", "MonCotiz", "1");
 
@@ -561,13 +571,11 @@ namespace CapaPresentacion.Ventas
                 XmlElement cbteAsoc = xmlDoc.CreateElement("ar", "CbteAsoc", "http://ar.gov.afip.dif.FEV1/");
                 cbtesAsoc.AppendChild(cbteAsoc);
 
-                //string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
-
                 AppendElement(cbteAsoc, "ar", "Tipo", cbTipoCompSeleccionado);
                 AppendElement(cbteAsoc, "ar", "PtoVta", pto_venta);
                 AppendElement(cbteAsoc, "ar", "Nro","1");
                 AppendElement(cbteAsoc, "ar", "Cuit", cuit);
-                AppendElement(cbteAsoc, "ar", "CbteFch", fecha_actual.ToString());
+                AppendElement(cbteAsoc, "ar", "CbteFch", fecha_actual.ToString("yyyyMMdd"));
 
                 // Tributos
                 XmlElement tributos = xmlDoc.CreateElement("ar", "Tributos", "http://ar.gov.afip.dif.FEV1/");
@@ -580,7 +588,7 @@ namespace CapaPresentacion.Ventas
                 AppendElement(tributo, "ar", "Desc", "0");
                 AppendElement(tributo, "ar", "BaseImp", "1");
                 AppendElement(tributo, "ar", "Alic", "1");
-                AppendElement(tributo, "ar", "Importe", txtImporteTotal.ToString());
+                AppendElement(tributo, "ar", "Importe", txtImporteTotal.Text);
 
                 // IVA
                 XmlElement iva = xmlDoc.CreateElement("ar", "Iva", "http://ar.gov.afip.dif.FEV1/");
@@ -589,7 +597,7 @@ namespace CapaPresentacion.Ventas
                 XmlElement alicIva = xmlDoc.CreateElement("ar", "AlicIva", "http://ar.gov.afip.dif.FEV1/");
                 iva.AppendChild(alicIva);
 
-                AppendElement(alicIva, "ar", "Id", txtIva.ToString());
+                AppendElement(alicIva, "ar", "Id", txtIva.Text);
                 AppendElement(alicIva, "ar", "BaseImp", "0");
                 AppendElement(alicIva, "ar", "Importe", "1");
 
@@ -607,16 +615,16 @@ namespace CapaPresentacion.Ventas
                 XmlElement comprador = xmlDoc.CreateElement("ar", "Comprador", "http://ar.gov.afip.dif.FEV1/");
                 feCAEDetRequest.AppendChild(comprador);
 
-                AppendElement(comprador, "ar", "DocTipo", cbTipoDoc.ToString());
-                AppendElement(comprador, "ar", "DocNro", txtDocComp.ToString());
+                AppendElement(comprador, "ar", "DocTipo", cbTipoDocSeleccionado);
+                AppendElement(comprador, "ar", "DocNro", txtDocComp.Text);
                 AppendElement(comprador, "ar", "Porcentaje", "1");
 
                 // Filtro
                 XmlElement filtro = xmlDoc.CreateElement("ar", "Filtro", "http://ar.gov.afip.dif.FEV1/");
                 feCAEDetRequest.AppendChild(filtro);
 
-                AppendElement(filtro, "ar", "FchDesde", fecha_actual.ToString());
-                AppendElement(filtro, "ar", "FchHasta", fecha_actual.ToString());
+                AppendElement(filtro, "ar", "FchDesde", fecha_actual.ToString("yyyyMMdd"));
+                AppendElement(filtro, "ar", "FchHasta", fecha_actual.ToString("yyyyMMdd"));
 
                 // Actividad
                 XmlElement actividad = xmlDoc.CreateElement("ar", "Actividad", "http://ar.gov.afip.dif.FEV1/");
@@ -628,14 +636,14 @@ namespace CapaPresentacion.Ventas
                 string xmlString = xmlDoc.OuterXml;
 
                 // Mostrar el XML en un MessageBox
-                MessageBox.Show(xmlString, "XML Solicitud Comprobante", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show(xmlString, "XML Solicitud Comprobante", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx";
 
                 // Crear un objeto HttpClient
                 using (var client = new HttpClient())
                 {
                     // Configurar los encabezados de la solicitud
-                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.FEV1/FEParamGetPtosVenta");
+                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.FEV1/FECAESolicitar");
 
                     // Crear el contenido de la solicitud usando el XML
                     var content = new StringContent(xmlString, Encoding.UTF8, "text/xml");
@@ -754,6 +762,24 @@ namespace CapaPresentacion.Ventas
             parent.AppendChild(element);
         }
 
+        private void cbTipoComp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
+        }
+
+        private void txtImporteTotal_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Verifica si la tecla presionada es Enter
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnEnviarFE.PerformClick();
+
+                // Evita el sonido de "ding" cuando se presiona Enter
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+            }
+        }
     }
 
 

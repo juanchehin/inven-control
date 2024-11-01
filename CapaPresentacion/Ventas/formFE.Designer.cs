@@ -99,7 +99,7 @@
             this.txtDocComp.Location = new System.Drawing.Point(209, 104);
             this.txtDocComp.Name = "txtDocComp";
             this.txtDocComp.Size = new System.Drawing.Size(181, 20);
-            this.txtDocComp.TabIndex = 82;
+            this.txtDocComp.TabIndex = 2;
             // 
             // txtNombreCliente
             // 
@@ -116,14 +116,15 @@
             this.txtImporteTotal.Location = new System.Drawing.Point(209, 261);
             this.txtImporteTotal.Name = "txtImporteTotal";
             this.txtImporteTotal.Size = new System.Drawing.Size(181, 20);
-            this.txtImporteTotal.TabIndex = 80;
+            this.txtImporteTotal.TabIndex = 6;
+            this.txtImporteTotal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtImporteTotal_KeyDown);
             // 
             // txtIva
             // 
             this.txtIva.Location = new System.Drawing.Point(209, 222);
             this.txtIva.Name = "txtIva";
             this.txtIva.Size = new System.Drawing.Size(181, 20);
-            this.txtIva.TabIndex = 79;
+            this.txtIva.TabIndex = 5;
             this.txtIva.Text = "21";
             // 
             // txtPtoVenta
@@ -131,7 +132,7 @@
             this.txtPtoVenta.Location = new System.Drawing.Point(209, 145);
             this.txtPtoVenta.Name = "txtPtoVenta";
             this.txtPtoVenta.Size = new System.Drawing.Size(181, 20);
-            this.txtPtoVenta.TabIndex = 78;
+            this.txtPtoVenta.TabIndex = 3;
             this.txtPtoVenta.Text = "00016";
             // 
             // label6
@@ -211,7 +212,8 @@
             this.cbTipoComp.Location = new System.Drawing.Point(209, 176);
             this.cbTipoComp.Name = "cbTipoComp";
             this.cbTipoComp.Size = new System.Drawing.Size(181, 21);
-            this.cbTipoComp.TabIndex = 1;
+            this.cbTipoComp.TabIndex = 4;
+            this.cbTipoComp.SelectedIndexChanged += new System.EventHandler(this.cbTipoComp_SelectedIndexChanged);
             // 
             // cbTipoDoc
             // 
@@ -220,7 +222,7 @@
             this.cbTipoDoc.Location = new System.Drawing.Point(209, 71);
             this.cbTipoDoc.Name = "cbTipoDoc";
             this.cbTipoDoc.Size = new System.Drawing.Size(181, 21);
-            this.cbTipoDoc.TabIndex = 0;
+            this.cbTipoDoc.TabIndex = 1;
             this.cbTipoDoc.SelectedIndexChanged += new System.EventHandler(this.cbTipoDoc_SelectedIndexChanged);
             // 
             // btnEnviarFE
