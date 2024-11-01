@@ -290,9 +290,9 @@
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(439, 60);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(97, 17);
+            this.label15.Size = new System.Drawing.Size(212, 51);
             this.label15.TabIndex = 92;
-            this.label15.Text = "Razon social: ";
+            this.label15.Text = "AV PTE PERON 1646 CP: 1663 \r\nLocalidad: SAN MIGUEL \r\nProvincia: BUENOS AIRES";
             // 
             // label13
             // 
@@ -300,9 +300,9 @@
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(439, 26);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(97, 17);
+            this.label13.Size = new System.Drawing.Size(152, 17);
             this.label13.TabIndex = 91;
-            this.label13.Text = "Razon social: ";
+            this.label13.Text = "64 - AGENCIA NRO 64";
             // 
             // label12
             // 
@@ -320,9 +320,9 @@
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(122, 26);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(97, 17);
+            this.label7.Size = new System.Drawing.Size(149, 17);
             this.label7.TabIndex = 89;
-            this.label7.Text = "Razon social: ";
+            this.label7.Text = "GONZALEZ JOAQUIN";
             // 
             // label14
             // 
@@ -372,7 +372,6 @@
             this.txtTestServer.TabIndex = 77;
             this.txtTestServer.Text = "Test server AFIP";
             this.txtTestServer.UseVisualStyleBackColor = true;
-            //this.txtTestServer.Click += new System.EventHandler(this.txtTestServer_ClickAsync);
             // 
             // formFE
             // 
