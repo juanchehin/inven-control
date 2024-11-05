@@ -15,6 +15,8 @@ using CapaNegocio;
 using System.Security;
 using System.Security.Policy;
 using AfipServiceReference;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace CapaPresentacion.Ventas
 {
@@ -701,9 +703,9 @@ namespace CapaPresentacion.Ventas
                     }
                     else
                     {
-                        // Imprimir el error en caso de fallo
-                        Console.WriteLine("Error: " + response.StatusCode);
-                        Console.WriteLine("Detalle: " + await response.Content.ReadAsStringAsync());
+                        alta_log("get_last_comprobante - " + response.StatusCode);
+                        MessageBox.Show("get_last_comprobante - " + response.StatusCode);
+
                     }
                 }
 
@@ -818,6 +820,72 @@ namespace CapaPresentacion.Ventas
                 e.Handled = true;
                 e.SuppressKeyPress = true;
 
+            }
+        }
+
+        private void txtTestServer_Click(object sender, EventArgs e)
+        {
+            test_serverAsync();
+        }
+
+        private async Task test_serverAsync()
+        {
+            // Define la URL del servicio web
+            string url = "https://servicios1.afip.gov.ar/wsfe/service.asmx";
+
+            // Crea el contenido XML para la solicitud SOAP
+            string soapEnvelope = @"<?xml version=""1.0"" encoding=""utf-8""?>
+            <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" 
+                           xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
+                           xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+              <soap:Body>
+                <FEDummy xmlns=""http://ar.gov.afip.dif.facturaelectronica/"" />
+              </soap:Body>
+            </soap:Envelope>";
+
+            // Configura el contenido de la solicitud
+            HttpContent content = new StringContent(soapEnvelope, Encoding.UTF8, "text/xml");
+            content.Headers.Add("SOAPAction", "\"http://ar.gov.afip.dif.facturaelectronica/FEDummy\"");
+
+            try
+            {
+                // Envía la solicitud POST
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                // Verifica si la respuesta fue exitosa
+                if (response.IsSuccessStatusCode)
+                {
+                    // Lee el contenido de la respuesta
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    // Cargar la respuesta en un objeto XElement para análisis
+                    XElement xmlResponse = XElement.Parse(responseBody);
+
+                    // Extraer los valores de appserver, dbserver y authserver
+                    var appserver = xmlResponse.Descendants()
+                        .FirstOrDefault(x => x.Name.LocalName == "appserver")?.Value;
+                    var dbserver = xmlResponse.Descendants()
+                        .FirstOrDefault(x => x.Name.LocalName == "dbserver")?.Value;
+                    var authserver = xmlResponse.Descendants()
+                        .FirstOrDefault(x => x.Name.LocalName == "authserver")?.Value;
+
+                    // Crear el mensaje para mostrar en el MessageBox
+                    string message = $"App Server: {appserver}\nDB Server: {dbserver}\nAuth Server: {authserver}";
+
+                    // Mostrar el mensaje en un MessageBox
+                    MessageBox.Show(message, "Respuesta Server AFIP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    alta_log("message response server AFIP : " + message);
+
+                }
+                else
+                {
+                    string errorResponse = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(errorResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                alta_log($"Exception: {ex.Message}");
             }
         }
     }

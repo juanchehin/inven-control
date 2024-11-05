@@ -326,6 +326,7 @@
             this.txtTestServer.TabIndex = 77;
             this.txtTestServer.Text = "Test server AFIP";
             this.txtTestServer.UseVisualStyleBackColor = true;
+            this.txtTestServer.Click += new System.EventHandler(this.txtTestServer_Click);
             // 
             // formFE
             // 
