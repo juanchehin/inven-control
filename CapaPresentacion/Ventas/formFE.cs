@@ -66,13 +66,13 @@ namespace CapaPresentacion.Ventas
             // Crear una lista de ítems clave-valor
             List<ComboBoxItem> items_tipos_fact_comp = new List<ComboBoxItem>
             {
-                new ComboBoxItem("1", "Factura A"),
-                new ComboBoxItem("2", "Factura B"),
-                new ComboBoxItem("3", "Factura C"),
-                new ComboBoxItem("4", "Ticket factura A"),
-                new ComboBoxItem("5", "Nota debito A"),
-                new ComboBoxItem("6", "Nota credito A"),
-                new ComboBoxItem("7", "Consumidor final"),
+                new ComboBoxItem("001", "Factura A"),
+                new ComboBoxItem("006", "Factura B"),
+                new ComboBoxItem("011", "Factura C"),
+                new ComboBoxItem("081", "Ticke factura A"),
+                new ComboBoxItem("002", "Nota debito A"),
+                new ComboBoxItem("003", "Nota credito A"),
+                //new ComboBoxItem("7", "Consumidor final"),
             };
 
             // Llenar el ComboBox con la lista de ítems
@@ -124,7 +124,8 @@ namespace CapaPresentacion.Ventas
         {
             try
             {
-                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Value;
+                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Key;
+                var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx";
 
                 string xmlData = $@"<?xml version=""1.0"" encoding=""utf-8""?>
                 <soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ar=""http://ar.gov.afip.dif.FEV1/"">
@@ -142,29 +143,27 @@ namespace CapaPresentacion.Ventas
                     </soapenv:Body>
                 </soapenv:Envelope>";
 
-                using (HttpClient client = new HttpClient())
+                using (var client = new HttpClient())
                 {
-                    // Configurar la URL y los encabezados
-                    client.BaseAddress = new Uri("https://servicios1.afip.gov.ar/");
-                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.facturaelectronica/FEConsultaCAERequest");
+                    // Configurar los encabezados de la solicitud
+                    client.DefaultRequestHeaders.Add("SOAPAction", "http://ar.gov.afip.dif.FEV1/FECompUltimoAutorizado");
 
-                    // Crear el contenido HTTP con el XML
-                    HttpContent content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
+                    // Crear el contenido de la solicitud usando el XML
+                    var content = new StringContent(xmlData, Encoding.UTF8, "text/xml");
 
-                    // Enviar el POST
-                    HttpResponseMessage response = await client.PostAsync("wsfe/service.asmx", content);
+                    // Enviar la solicitud y obtener la respuesta
+                    HttpResponseMessage response = await client.PostAsync(url, content);
 
-                    // Verificar la respuesta
+                    // Verificar si la respuesta es exitosa
                     if (response.IsSuccessStatusCode)
                     {
-                        string result = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("Respuesta del servidor:");
-                        Console.WriteLine(result);
+                        // Leer el contenido de la respuesta
+                        string responseContent = await response.Content.ReadAsStringAsync();
                     }
                     else
                     {
-                        MessageBox.Show("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
-                        alta_log("Error al enviar la solicitud. Código de estado: " + response.StatusCode);
+                        alta_log("Error get_last_comprobante - " + response.StatusCode + " - " + await response.Content.ReadAsStringAsync());
+                        MessageBox.Show("Error get_last_comprobante " + response.StatusCode);
                     }
                 }
 
@@ -172,7 +171,6 @@ namespace CapaPresentacion.Ventas
             catch (Exception ex)
             {
                 alta_log("Error get_last_comprobante - " + ex.Message);
-
                 MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
             }
 
@@ -372,7 +370,7 @@ namespace CapaPresentacion.Ventas
                     if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
                         //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-                        this.solicitar_caeAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                        this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                     }
                     else
                     {
@@ -568,9 +566,9 @@ namespace CapaPresentacion.Ventas
                 AppendElement(feCAEDetRequest, "ar", "ImpOpEx", "0");
                 AppendElement(feCAEDetRequest, "ar", "ImpTrib", txtImporteTotal.Text);
                 AppendElement(feCAEDetRequest, "ar", "ImpIVA", txtImporteTotal.Text);
-                //AppendElement(feCAEDetRequest, "ar", "FchServDesde", fecha_actual.ToString("yyyyMMdd"));
-                //AppendElement(feCAEDetRequest, "ar", "FchServHasta", fecha_actual.ToString("yyyyMMdd"));
-                //AppendElement(feCAEDetRequest, "ar", "FchVtoPago", fecha_actual.ToString("yyyyMMdd"));
+                AppendElement(feCAEDetRequest, "ar", "FchServDesde", "");
+                AppendElement(feCAEDetRequest, "ar", "FchServHasta", "");
+                AppendElement(feCAEDetRequest, "ar", "FchVtoPago", "");
                 AppendElement(feCAEDetRequest, "ar", "MonId", "1");
                 AppendElement(feCAEDetRequest, "ar", "MonCotiz", "1");
 
@@ -827,7 +825,9 @@ namespace CapaPresentacion.Ventas
         {
             test_serverAsync();
         }
-
+        // ==============================================
+        // Testeo de servers AFIP
+        // ==============================================
         private async Task test_serverAsync()
         {
             // Define la URL del servicio web
