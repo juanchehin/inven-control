@@ -1,9 +1,6 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -13,15 +10,21 @@ using System.Xml;
 
 using CapaNegocio;
 using System.Security;
-using System.Security.Policy;
-using AfipServiceReference;
 using System.Xml.Linq;
 using System.Linq;
+using CapaPresentacion.WSFEv1_afip;
+using AfipWsfeClient;
+using AfipServiceReference;
+using System.ServiceModel; // La referencia agregada al WSFEv1
 
 namespace CapaPresentacion.Ventas
 {
     public partial class formFE : Form
     {
+        //Conexión servicio web de la AFIP
+        Service ServiceConect { get; set; }
+        AfipServiceReference.FEAuthRequest AuthAutorizar { get; set; }
+
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
         private static readonly string baseDir = @" D:\dev\inven-control\CapaPresentacion\Resources\afip\{cuit}"; // Cambiar por la ruta de tu base de directorios
@@ -48,6 +51,19 @@ namespace CapaPresentacion.Ventas
         public formFE()
         {
             InitializeComponent();
+
+            try
+            {
+                ServiceConect = new Service();
+                //AuthAutorizar = new FEAuthRequest();
+
+                //CargarAuthRequest(cuit, sign, token);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return;
+            }
 
             // Crear una lista de ítems clave-valor
             // Tipos documento
@@ -370,7 +386,7 @@ namespace CapaPresentacion.Ventas
                     if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
                         //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-                        this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                        this.FECAESolicitarAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                     }
                     else
                     {
@@ -645,7 +661,7 @@ namespace CapaPresentacion.Ventas
 
                 // Mostrar el XML en un MessageBox
                 //MessageBox.Show(xmlString, "XML Solicitud Comprobante", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx";
+                var url = "https://servicios1.afip.gov.ar/wsfev1/service.asmx?WSDL";
 
                 // Crear un objeto HttpClient
                 using (var client = new HttpClient())
@@ -887,6 +903,151 @@ namespace CapaPresentacion.Ventas
             {
                 alta_log($"Exception: {ex.Message}");
             }
+        }
+        // ==============================================
+        // 
+        // ==============================================
+        private async Task FECAESolicitarAsync(string p_token, string p_sign)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://servicios1.afip.gov.ar/wsfev1/service.asmx?op=FECAESolicitar");
+
+                // https://wswhomo.afip.gov.ar/wsfev1/service.asmx?op=FECAESolicitar
+
+                string xmlTemplate = @"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
+                                    xmlns:ar=""http://ar.gov.afip.dif.FEV1/"">
+                                    <soapenv:Header/>
+                                    <soapenv:Body>
+                                        <ar:FECAESolicitar>
+                                            <ar:Auth>
+                                                <ar:Token>?</ar:Token>
+                                                <ar:Sign>?</ar:Sign>
+                                                <ar:Cuit>20296243230</ar:Cuit>
+                                            </ar:Auth>
+                                            <ar:FeCAEReq>
+                                                <ar:FeCabReq>
+                                                    <ar:CantReg>1</ar:CantReg>
+                                                    <ar:PtoVta>16</ar:PtoVta>
+                                                    <ar:CbteTipo>049</ar:CbteTipo>
+                                                </ar:FeCabReq>
+                                                <ar:FeDetReq>
+                                                    <ar:FECAEDetRequest>
+                                                        <ar:Concepto>1</ar:Concepto>
+                                                        <ar:DocTipo>80</ar:DocTipo>
+                                                        <ar:DocNro>20296243230</ar:DocNro>
+                                                        <ar:CbteDesde>1010</ar:CbteDesde>
+                                                        <ar:CbteHasta>1010</ar:CbteHasta>
+                                                        <ar:CbteFch>20241106</ar:CbteFch>
+                                                        <ar:ImpTotal>10</ar:ImpTotal>
+                                                        <ar:ImpTotConc>10</ar:ImpTotConc>
+                                                        <ar:ImpNeto>10</ar:ImpNeto>
+                                                        <ar:ImpOpEx>0</ar:ImpOpEx>
+                                                        <ar:ImpTrib>0</ar:ImpTrib>
+                                                        <ar:ImpIVA>0</ar:ImpIVA>
+                                                        <ar:MonId>PES</ar:MonId>
+                                                        <ar:MonCotiz>1</ar:MonCotiz>
+                                                        <ar:Compradores>
+                                                            <ar:Comprador>
+                                                                <ar:DocTipo>80</ar:DocTipo>
+                                                                <ar:DocNro>20233237540</ar:DocNro>
+                                                                <ar:Porcentaje>0</ar:Porcentaje>
+                                                            </ar:Comprador>
+                                                        </ar:Compradores>
+                                                    </ar:FECAEDetRequest>
+                                                </ar:FeDetReq>
+                                            </ar:FeCAEReq>
+                                        </ar:FECAESolicitar>
+                                    </soapenv:Body>
+                                </soapenv:Envelope>";
+
+                // Cargar el XML en un XDocument
+                XDocument xmlDoc = XDocument.Parse(xmlTemplate);
+
+                // Definir el espacio de nombres
+                XNamespace arNamespace = "http://ar.gov.afip.dif.FEV1/";
+                XNamespace soapenvNamespace = "http://schemas.xmlsoap.org/soap/envelope/";
+
+                // Reemplazar los valores en el XML
+                //xmlDoc.Descendants("ar:Token").First().Value = p_token;
+                //xmlDoc.Descendants("ar:Sign").First().Value = p_sign;
+                //xmlDoc.Descendants("ar:CbteFch").First().Value = DateTime.Now.ToString("yyyyMMdd"); // Fecha actual en formato YYYYMMDD
+
+                // Reemplazar los valores en el XML utilizando el espacio de nombres
+                xmlDoc.Descendants(arNamespace + "Token").First().Value = p_token;
+                xmlDoc.Descendants(arNamespace + "Sign").First().Value = p_sign;
+                xmlDoc.Descendants(arNamespace + "CbteFch").First().Value = DateTime.Now.ToString("yyyyMMdd"); // Fecha actual en formato YYYYMMDD
+
+
+                // Convertir el XML modificado a cadena
+                string modifiedXml = xmlDoc.ToString();
+
+
+                var content = new StringContent(modifiedXml);
+
+                request.Content = content;
+
+                var response = await client.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                // Verificar si la respuesta es exitosa
+                if (response.IsSuccessStatusCode)
+                {
+                    // Leer el contenido de la respuesta -XML
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    string code;
+                    string msg;
+
+                    XmlDocument xmlDocResponse = new XmlDocument();
+                    xmlDocResponse.LoadXml(responseContent);
+
+                    // Definir el espacio de nombres
+                    XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDocResponse.NameTable);
+                    nsmgr.AddNamespace("soap", "http://schemas.xmlsoap.org/soap/envelope/");
+                    nsmgr.AddNamespace("ar", "http://ar.gov.afip.dif.FEV1/");
+
+                    // Seleccionar los nodos de observación
+                    XmlNodeList observations = xmlDocResponse.SelectNodes("//ar:Observaciones/ar:Obs", nsmgr);
+
+                    code = "";
+                    // Construir el mensaje para mostrar
+                    string message = "Observaciones encontradas:\n\n";
+                    foreach (XmlNode observation in observations)
+                    {
+                        code = observation.SelectSingleNode("ar:Code", nsmgr)?.InnerText ?? "No disponible";
+                        msg = observation.SelectSingleNode("ar:Msg", nsmgr)?.InnerText ?? "No disponible";
+                        message += $"Code: {code}\nMsg: {msg}\n\n";
+                    }
+
+                    if (code != "")
+                    {
+                        // Mostrar el mensaje en un MessageBox
+                        MessageBox.Show(message, "Observaciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        alta_log("solicitar_caeAsync - responseContent  - " + message);
+
+                    }
+
+                    Console.WriteLine("Respuesta de AFIP: ");
+                    Console.WriteLine(responseContent);
+                }
+                else
+                {
+                    alta_log("get_last_comprobante - " + response.StatusCode);
+                    MessageBox.Show("get_last_comprobante - " + response.StatusCode);
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
         }
     }
 
