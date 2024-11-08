@@ -91,7 +91,7 @@ namespace CapaDatos
             return tabla;
         }
 
-       
+
 
         public DataTable dameArticulosComprados(string FechaInicio, string FechaFin)
         {

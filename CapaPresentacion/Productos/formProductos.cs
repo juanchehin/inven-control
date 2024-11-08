@@ -1,18 +1,14 @@
-﻿using System;
+﻿// Agregados
+using CapaNegocio;
+using CapaPresentacion.Productos;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-// Agregados
-using CapaNegocio;
-using CapaPresentacion.Productos;
-using OfficeOpenXml;
-using SpreadsheetLight;
 using MessageBox = System.Windows.Forms.MessageBox;
-using Excel = Microsoft.Office.Interop.Excel;
-using OfficeOpenXml.Style;
-using System.Net.NetworkInformation;
-using ZXing;
 
 namespace CapaPresentacion
 {
@@ -20,7 +16,7 @@ namespace CapaPresentacion
     {
         CN_Productos objetoCN_productos = new CN_Productos();
 
-        private int  IdProducto;
+        private int IdProducto;
         private string g_barcode;
         int desde = 0;
         int totalProductos = 0;
@@ -64,7 +60,7 @@ namespace CapaPresentacion
         {
             MessageBox.Show(mensaje, "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        
+
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             try
@@ -78,7 +74,7 @@ namespace CapaPresentacion
                     this.ListarProductos(0);
                     this.MensajeOk("Se elimino de forma correcta el producto");
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -88,14 +84,14 @@ namespace CapaPresentacion
 
         private void btnNuevoProducto_Click(object sender, EventArgs e)
         {
-            formNuevoEditarProducto frm = new formNuevoEditarProducto(this.IdProducto,true);
+            formNuevoEditarProducto frm = new formNuevoEditarProducto(this.IdProducto, true);
             frm.MdiParent = this.MdiParent;
             frm.Show();
         }
 
         private void botonEditarListado_Click(object sender, EventArgs e)
         {
-            formNuevoEditarProducto frm = new formNuevoEditarProducto(this.IdProducto,false);
+            formNuevoEditarProducto frm = new formNuevoEditarProducto(this.IdProducto, false);
             frm.MdiParent = this.MdiParent;
             frm.Show();
         }
@@ -308,7 +304,7 @@ namespace CapaPresentacion
                     MessageBox.Show("Archivo guardado exitosamente en: " + fileInfo.FullName);
                 }
 
-            }           
+            }
         }
 
         private void btnBarcode_Click(object sender, EventArgs e)

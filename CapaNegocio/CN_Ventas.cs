@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CapaDatos;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CapaDatos;
 
 namespace CapaNegocio
 {
@@ -22,22 +16,22 @@ namespace CapaNegocio
             tabla = objetoCD.dame_info_contribuyente();
             return tabla;
         }
-        public static string AltaVenta(int pIdUsuario, int pIdCliente,string tipoPago,DataTable pListadoProductos,decimal pMontoTotal)
+        public static string AltaVenta(int pIdUsuario, int pIdCliente, string tipoPago, DataTable pListadoProductos, decimal pMontoTotal)
         {
             CD_Ventas Obj = new CD_Ventas();
 
-            return Obj.AltaVenta(pIdUsuario,pIdCliente,tipoPago, pListadoProductos, pMontoTotal);
+            return Obj.AltaVenta(pIdUsuario, pIdCliente, tipoPago, pListadoProductos, pMontoTotal);
             //return null;
         }
 
-        public static string alta_credencial_afip(string unique_id,string token,string sign,string expiration_time,string generation_time)
+        public static string alta_credencial_afip(string unique_id, string token, string sign, string expiration_time, string generation_time)
         {
             CD_Ventas Obj = new CD_Ventas();
 
             return Obj.alta_credencial_afip(unique_id, token, sign, expiration_time, generation_time);
             //return null;
         }
-        
+
         public static string check_expiration_time()
         {
             CD_Ventas Obj = new CD_Ventas();

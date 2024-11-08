@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-// Agregados
+﻿// Agregados
 using CapaDatos;
+using System.Data;
 
 namespace CapaNegocio
 {
@@ -19,7 +14,7 @@ namespace CapaNegocio
 
             Obj.Usuario = usuario;
             Obj.Password = password;
-            
+
             tabla = Obj.Login(Obj);
             return tabla;
         }
@@ -38,5 +33,5 @@ namespace CapaNegocio
             return Obj.activar_producto(pCodigo);
         }
     }
-    
+
 }

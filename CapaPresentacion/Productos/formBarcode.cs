@@ -18,13 +18,13 @@ namespace CapaPresentacion.Productos
         private void generar_barcode()
         {
             Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
-            pbBarcode.Image = barcode.Draw(this.p_barcode,350, 4);
+            pbBarcode.Image = barcode.Draw(this.p_barcode, 350, 4);
             lbl_barcode.Text = this.p_barcode;
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            PrintDialog pd = new PrintDialog(); 
+            PrintDialog pd = new PrintDialog();
             PrintDocument pDoc = new PrintDocument();
             pDoc.PrintPage += PrintPicture;
             pd.Document = pDoc;

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CapaDatos;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CapaDatos;
 
 namespace CapaNegocio
 {
@@ -51,17 +45,17 @@ namespace CapaNegocio
             return tabla;
         }
 
-        public DataSet buscar_clientes_paginado(string pTextoBuscar,int pDesde)
+        public DataSet buscar_clientes_paginado(string pTextoBuscar, int pDesde)
         {
 
             DataSet tabla = new DataSet();
-            tabla = objetoCD.buscar_clientes_paginado(pTextoBuscar,pDesde);
+            tabla = objetoCD.buscar_clientes_paginado(pTextoBuscar, pDesde);
             return tabla;
         }
 
         public static string Editar(int IdCliente, string Transporte, string Titular, string Telefono)
         {
-            
+
             CD_Clientes Obj = new CD_Clientes();
             Obj.IdCliente = IdCliente;
 
@@ -91,7 +85,7 @@ namespace CapaNegocio
         {
             CD_Clientes Obj = new CD_Clientes();
 
-            return Obj.alta_deposito(p_id_cliente,p_monto, p_fecha_gasto, p_id_tipo_pago, p_concepto);
+            return Obj.alta_deposito(p_id_cliente, p_monto, p_fecha_gasto, p_id_tipo_pago, p_concepto);
             //return null;
         }
     }

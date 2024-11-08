@@ -35,7 +35,7 @@ namespace CapaDatos
 
         }
 
-        public CD_Empleados(int IdEmpleado, string Nombre, string Apellidos, string DNI, string EstadoEmp, string Direccion,string Telefono, string FechaNac)
+        public CD_Empleados(int IdEmpleado, string Nombre, string Apellidos, string DNI, string EstadoEmp, string Direccion, string Telefono, string FechaNac)
         {
             this.IdEmpleado = IdEmpleado;
             this.Nombre = Nombre;
@@ -159,7 +159,7 @@ namespace CapaDatos
                 pPassword.MySqlDbType = MySqlDbType.VarChar;
                 pPassword.Size = 60;
                 pPassword.Value = Password;
-                comando.Parameters.Add(pPassword);                       
+                comando.Parameters.Add(pPassword);
 
                 // Console.WriteLine("rpta es : " + rpta);
 

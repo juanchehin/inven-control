@@ -18,7 +18,7 @@ namespace CapaPresentacion.Ventas
         int p_id_venta;
         int p_id_tipo_pago_seleccionado = 0;
 
-        public formVentas(int IdUsuario,string Usuario)
+        public formVentas(int IdUsuario, string Usuario)
         {
             InitializeComponent();
 
@@ -51,7 +51,7 @@ namespace CapaPresentacion.Ventas
             var diaFin = dtFechaFin.Value.Day;
             var fechaFin = añoFin + "-" + mesFin + "-" + diaFin;
 
-            transacciones = objeto_ventas.listarTransacciones(this.desde, fechaInicio, fechaFin,this.p_id_tipo_pago_seleccionado);
+            transacciones = objeto_ventas.listarTransacciones(this.desde, fechaInicio, fechaFin, this.p_id_tipo_pago_seleccionado);
 
             dataListadoVentas.DataSource = transacciones.Tables[0];
 
@@ -203,7 +203,7 @@ namespace CapaPresentacion.Ventas
 
         private void btn_detalle_venta_Click(object sender, EventArgs e)
         {
-            if((p_id_venta == null) || p_id_venta.Equals("") || (p_id_venta <= 0))
+            if ((p_id_venta == null) || p_id_venta.Equals("") || (p_id_venta <= 0))
             {
                 MessageBox.Show("No se selecciono ninguna venta", "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

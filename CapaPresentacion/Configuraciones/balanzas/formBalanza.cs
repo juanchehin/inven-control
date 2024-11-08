@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CapaPresentacion.Configuraciones.balanzas
 {
@@ -58,7 +57,7 @@ namespace CapaPresentacion.Configuraciones.balanzas
         {
             DelegadoAcceso var_delegado_acceso;
             var_delegado_acceso = new DelegadoAcceso(acceso_form);
-            object[] arg = {accion };
+            object[] arg = { accion };
             base.Invoke(var_delegado_acceso, arg);
         }
 
@@ -163,14 +162,15 @@ namespace CapaPresentacion.Configuraciones.balanzas
                             Console.WriteLine("Debe seleccionar un metodo de conexion");
                             break;
                     }
-                    
+
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 alta_log("excepcion btnConectar_Click + " + ex.Message.ToString());
                 MessageBox.Show(ex.Message.ToString());
             }
-           
+
         }
 
         private void conectar_metodo_uno()
@@ -192,7 +192,7 @@ namespace CapaPresentacion.Configuraciones.balanzas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Problema con conexion metodo uno : " + ex.Message.ToString(),"Problema InvenControl");
+                MessageBox.Show("Problema con conexion metodo uno : " + ex.Message.ToString(), "Problema InvenControl");
                 alta_log(ex.Message.ToString());
                 btnConectar.Text = "Conectar";
             }
@@ -308,7 +308,7 @@ namespace CapaPresentacion.Configuraciones.balanzas
         {
             try
             {
-            
+
                 // Obtiene la ruta de acceso a la carpeta AppData del usuario actual
                 string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 

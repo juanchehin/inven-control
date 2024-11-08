@@ -2,7 +2,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
-using System.IO;
 
 namespace CapaPresentacion.Reportes
 {
@@ -10,7 +9,7 @@ namespace CapaPresentacion.Reportes
     {
         DataGridView dataListadoProductos = new DataGridView();
         decimal precio_total;
-        public formTicket(int pIdUsuario,int IdCliente, DataGridView pProductos,decimal p_precio_total)
+        public formTicket(int pIdUsuario, int IdCliente, DataGridView pProductos, decimal p_precio_total)
         {
             InitializeComponent();
             this.dataListadoProductos = pProductos;
@@ -34,12 +33,12 @@ namespace CapaPresentacion.Reportes
 
             // this.reportViewer1.LocalReport.ReportPath = "../../Reportes/TicketVenta.rdlc";
             // this.reportViewer1.LocalReport.ReportPath = "TicketVenta.rdlc"; // Para publicacion del soft
-                                                                            // Obtener la ruta del directorio donde se encuentra el ensamblado actual (la clase desde donde se llama)
-            
+            // Obtener la ruta del directorio donde se encuentra el ensamblado actual (la clase desde donde se llama)
+
             // string directorioActual = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             // Construir la ruta completa del archivo "TicketVenta.rdlc"
-            
+
             /*
             string rutaCompleta = Path.Combine(directorioActual, "TicketVenta.rdlc");
             this.reportViewer1.LocalReport.ReportPath = rutaCompleta;

@@ -1,5 +1,4 @@
-﻿using LibUsbDotNet;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
@@ -212,7 +211,7 @@ namespace CapaPresentacion.Configuraciones.balanzas
                 alta_log("Problema btnEnviarDatos_Click " + ex.Message);
                 MessageBox.Show(ex.Message, "Problema btnEnviarDatos_Click");
             }
-           
+
         }
 
         private void si_DataReceived(string accion)

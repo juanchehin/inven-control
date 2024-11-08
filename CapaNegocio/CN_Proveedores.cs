@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CapaDatos;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CapaDatos;
 
 namespace CapaNegocio
 {
@@ -13,14 +7,14 @@ namespace CapaNegocio
     {
         private CD_Proveedores objetoCD = new CD_Proveedores();
 
-        public static string InsertarProveedor(string Proveedor,string Nombres, string Apellidos, string CUIL, string Direccion, string Telefono,
-                            string DNI,string Email)
+        public static string InsertarProveedor(string Proveedor, string Nombres, string Apellidos, string CUIL, string Direccion, string Telefono,
+                            string DNI, string Email)
         {
             // Console.WriteLine("En insertar , nombre es " + nombre);
 
             CD_Proveedores Obj = new CD_Proveedores();
 
-            return Obj.InsertarProveedor(Proveedor,Nombres, Apellidos, CUIL, Direccion, Telefono,
+            return Obj.InsertarProveedor(Proveedor, Nombres, Apellidos, CUIL, Direccion, Telefono,
                             DNI, Email);
         }
 

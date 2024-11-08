@@ -45,17 +45,17 @@ namespace CapaPresentacion.Configuraciones.Empresa
             {
                 string rpta = "";
 
-                    rpta = CN_Configuraciones.InsertarDatosEmpresa(this.txtNombreEmpresa.Text.Trim(),this.rutaImagen, this.txtDomicilio.Text.Trim(), this.txtTelefono.Text.Trim(), this.txtCUIT.Text.Trim(), this.txtIngBrutos.Text.Trim());
-                    
+                rpta = CN_Configuraciones.InsertarDatosEmpresa(this.txtNombreEmpresa.Text.Trim(), this.rutaImagen, this.txtDomicilio.Text.Trim(), this.txtTelefono.Text.Trim(), this.txtCUIT.Text.Trim(), this.txtIngBrutos.Text.Trim());
 
-                    if (rpta.Equals("Ok"))
-                    {
-                        this.MensajeOk("Se Insertó de forma correcta el registro");
-                    }
-                    else
-                    {
-                        this.MensajeError(rpta);
-                    }
+
+                if (rpta.Equals("Ok"))
+                {
+                    this.MensajeOk("Se Insertó de forma correcta el registro");
+                }
+                else
+                {
+                    this.MensajeError(rpta);
+                }
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace CapaPresentacion.Configuraciones.Empresa
 
         private void btnCargarFoto_Click(object sender, EventArgs e)
         {
-            
+
             try
             {
                 OpenFileDialog dialog = new OpenFileDialog();
@@ -89,11 +89,11 @@ namespace CapaPresentacion.Configuraciones.Empresa
                     pbEmpresa.ImageLocation = this.rutaImagen;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void formEmpresa_Load(object sender, EventArgs e)

@@ -1,10 +1,5 @@
 ﻿using CapaDatos;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
@@ -14,7 +9,7 @@ namespace CapaNegocio
 
         //Método Insertar que llama al método Insertar de la clase
         //de la CapaDatos
-        public static string alta_gasto(string p_gasto, string p_fecha_gasto,int p_id_tipo_pago,string p_concepto)
+        public static string alta_gasto(string p_gasto, string p_fecha_gasto, int p_id_tipo_pago, string p_concepto)
         {
             CD_Gastos Obj = new CD_Gastos();
 

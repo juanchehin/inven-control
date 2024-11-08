@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
 using System.IO;
-using Microsoft.VisualBasic;
+using System.Windows.Forms;
 
 namespace CapaPresentacion
 {
@@ -14,7 +13,7 @@ namespace CapaPresentacion
             InitializeComponent();
             panelCargando.Visible = false;
         }
-		private void textBox1_Click(object sender, EventArgs e)
+        private void textBox1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog ofd = new FolderBrowserDialog();
 
@@ -41,22 +40,22 @@ namespace CapaPresentacion
             }
         }
 
-		public void executa()
-		{
-			string miCarpeta = "backup_InvenControl_" + DateTime.Now.Day + "_" + (DateTime.Now.Month) + "_" + DateTime.Now.Year + "_" + Convert.ToDateTime(DateAndTime.TimeOfDay).Hour + "_" + Convert.ToDateTime(DateAndTime.TimeOfDay).Minute;
-			
-			if (!Directory.Exists(txtRuta.Text + miCarpeta))
-			{
-				Directory.CreateDirectory(txtRuta.Text + miCarpeta);
-			}
+        public void executa()
+        {
+            string miCarpeta = "backup_InvenControl_" + DateTime.Now.Day + "_" + (DateTime.Now.Month) + "_" + DateTime.Now.Year + "_" + Convert.ToDateTime(DateAndTime.TimeOfDay).Hour + "_" + Convert.ToDateTime(DateAndTime.TimeOfDay).Minute;
 
-			string ruta_completa = txtRuta.Text + "\\" + miCarpeta;
+            if (!Directory.Exists(txtRuta.Text + miCarpeta))
+            {
+                Directory.CreateDirectory(txtRuta.Text + miCarpeta);
+            }
+
+            string ruta_completa = txtRuta.Text + "\\" + miCarpeta;
 
             try
             {
                 string v_nombre_respaldo = ruta_completa + ".sql";
 
-                if(CapaNegocio.CN_Configuraciones.Backup(v_nombre_respaldo) == "Ok")
+                if (CapaNegocio.CN_Configuraciones.Backup(v_nombre_respaldo) == "Ok")
                 {
                     MensajeOk("Backup creado con exito");
                 }
@@ -67,7 +66,7 @@ namespace CapaPresentacion
                 MensajeError(ex.Message);
             }
 
-		}
+        }
 
         private void MensajeOk(string mensaje)
         {

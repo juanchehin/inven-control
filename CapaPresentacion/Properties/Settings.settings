@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CapaPresentacion.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="inven_control_WSFEv1_afip_Service" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://servicios1.afip.gov.ar/wsfe/service.asmx</Value>
+    <Setting Name="inven_control_WebReference_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://servicios1.afip.gov.ar/wsfev1/service.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

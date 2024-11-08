@@ -1,21 +1,22 @@
-﻿using System;
+﻿using CapaNegocio;
+//using CapaPresentacion.WSFEv1_afip;
+using CapaPresentacion.wsfe_afip;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Security;
+//using AfipWsfeClient;
+//using AfipServiceReference;
+using System.ServiceModel; // La referencia agregada al WSFEv1
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-
-using CapaNegocio;
-using System.Security;
 using System.Xml.Linq;
-using System.Linq;
-using CapaPresentacion.WSFEv1_afip;
-using AfipWsfeClient;
-using AfipServiceReference;
-using System.ServiceModel; // La referencia agregada al WSFEv1
+using AfipServiceReference; // Ajusta esto según el nombre de tu referencia
 
 namespace CapaPresentacion.Ventas
 {
@@ -23,7 +24,7 @@ namespace CapaPresentacion.Ventas
     {
         //Conexión servicio web de la AFIP
         Service ServiceConect { get; set; }
-        AfipServiceReference.FEAuthRequest AuthAutorizar { get; set; }
+        wsfe_afip.FEAuthRequest AuthAutorizar { get; set; }
 
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
@@ -134,9 +135,10 @@ namespace CapaPresentacion.Ventas
         }
 
         // ==============================================
-        // Retorna el ultimo comprobante autorizado para el tipo de comprobante / cuit / punto de venta ingresado / Tipo de Emisión
+        // Retorna el ultimo comprobante autorizado para el
+        // tipo de comprobante / cuit / punto de venta ingresado / Tipo de Emisión
         // ==============================================
-        private async Task get_last_comprobanteAsync(string p_token,string p_sign)
+        private async Task get_last_comprobanteAsync(string p_token, string p_sign)
         {
             try
             {
@@ -365,12 +367,12 @@ namespace CapaPresentacion.Ventas
             string rutaCertificado = @"C:\afip\certificado.pfx";
 
             // cheqeuar expiration time
-            if(this.check_expiration_time())
+            if (this.check_expiration_time())
             {
-               string ticket_response = login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL",
-               rutaCertificado,
-               ConvertToSecureString("20351975"),
-               null, null, null, true);
+                string ticket_response = login_ticket.ObtenerLoginTicketResponse("wsfe", "https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL",
+                rutaCertificado,
+                ConvertToSecureString("20351975"),
+                null, null, null, true);
 
                 XmlLoginTicketResponse = new XmlDocument();
                 XmlLoginTicketResponse.LoadXml(ticket_response);
@@ -383,7 +385,7 @@ namespace CapaPresentacion.Ventas
                     string Sign = XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText;
                     string Token = XmlLoginTicketResponse.SelectSingleNode("//token").InnerText;
 
-                    if(CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
+                    if (CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
                         //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                         this.FECAESolicitarAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
@@ -411,7 +413,7 @@ namespace CapaPresentacion.Ventas
                 var sign = "";
                 var expiration_time = "";
 
-                if(data_set_result != null && data_set_result.Tables.Count > 0 && data_set_result.Tables[0].Rows.Count > 0)
+                if (data_set_result != null && data_set_result.Tables.Count > 0 && data_set_result.Tables[0].Rows.Count > 0)
                 {
                     // Verificar si hay tablas en el DataSet
                     if (data_set_result.Tables.Count > 0)
@@ -455,11 +457,12 @@ namespace CapaPresentacion.Ventas
         {
             try
             {
-                if(CN_Ventas.check_expiration_time() == "OK")
+                if (CN_Ventas.check_expiration_time() == "OK")
                 {
                     return true;
                 }
-                else {
+                else
+                {
                     return false;
                 }
 
@@ -575,8 +578,8 @@ namespace CapaPresentacion.Ventas
                 AppendElement(feCAEDetRequest, "ar", "CbteHasta", "1");
                 AppendElement(feCAEDetRequest, "ar", "CbteFch", fecha_actual.ToString("yyyyMMdd"));
                 AppendElement(feCAEDetRequest, "ar", "ImpTotal", v_imp_total.ToString());     // El campo  'Importe Total' ImpTotal,
-                                                                                            // debe ser igual  a la  suma de ImpTotConc +
-                                                                                            // ImpNeto + ImpOpEx + ImpTrib + ImpIVA.
+                                                                                              // debe ser igual  a la  suma de ImpTotConc +
+                                                                                              // ImpNeto + ImpOpEx + ImpTrib + ImpIVA.
                 AppendElement(feCAEDetRequest, "ar", "ImpTotConc", "0");    // cero comprobante C
                 AppendElement(feCAEDetRequest, "ar", "ImpNeto", txtImporteTotal.Text);
                 AppendElement(feCAEDetRequest, "ar", "ImpOpEx", "0");
@@ -597,7 +600,7 @@ namespace CapaPresentacion.Ventas
 
                 AppendElement(cbteAsoc, "ar", "Tipo", cbTipoCompSeleccionado);
                 AppendElement(cbteAsoc, "ar", "PtoVta", pto_venta);
-                AppendElement(cbteAsoc, "ar", "Nro","1");
+                AppendElement(cbteAsoc, "ar", "Nro", "1");
                 AppendElement(cbteAsoc, "ar", "Cuit", cuit);
                 AppendElement(cbteAsoc, "ar", "CbteFch", fecha_actual.ToString("yyyyMMdd"));
 
@@ -1049,6 +1052,62 @@ namespace CapaPresentacion.Ventas
             }
 
         }
+
+        private void solicitar_cae(string p_token, string p_sign)
+        {
+            try
+            {
+                var caeRequest = new wsfe_afip.FECAERequest
+                {
+                    FeCabReq = new wsfe_afip.FECAECabRequest
+                    {
+                        CantReg = 1,
+                        PtoVta = 1,
+                        CbteTipo = 1
+                    },
+                    FeDetReq = new[]
+                    {
+                        new wsfe_afip.FECAEDetRequest // Coloca el objeto dentro de un arreglo
+                        {
+                            Concepto = 1,
+                            DocTipo = 80,
+                            DocNro = 12345678901,
+                            CbteDesde = 1,
+                            CbteHasta = 1,
+                            CbteFch = DateTime.Now.ToString("yyyyMMdd"),
+                            ImpTotal = 121,
+                            ImpNeto = 100,
+                            ImpIVA = 21,
+                            MonId = "PES",
+                            MonCotiz = 1,
+                            Iva = new wsfe_afip.AlicIva[] // Usa un arreglo de AlicIva
+                            {
+                                new wsfe_afip.AlicIva { Id = 5, BaseImp = 100, Importe = 21 }
+                            }
+                        }
+                    }
+                };
+
+                FECAEResponse response = service.SolicitarCAE(authRequest, caeRequest);
+
+                if (response.FeDetResp[0].CAE != null)
+                {
+                    Console.WriteLine("El CAE es: " + response.FeDetResp[0].CAE);
+                }
+                else
+                {
+                    Console.WriteLine("Error al obtener el CAE: " + response.Errors[0].Msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                alta_log("Error get_last_comprobante - " + ex.Message);
+
+                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+            }
+
+        }
+
     }
 
 

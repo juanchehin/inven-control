@@ -5,7 +5,7 @@ namespace CapaNegocio
 {
     public class CN_Estadisticas
     {
-        public DataTable dameVentasVendedor(string pFechaInicio, string pFechaFin )
+        public DataTable dameVentasVendedor(string pFechaInicio, string pFechaFin)
         {
             CD_Estadisticas Obj = new CD_Estadisticas();
 

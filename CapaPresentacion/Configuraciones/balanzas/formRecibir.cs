@@ -1,14 +1,8 @@
-﻿using LibUsbDotNet.LibUsb;
-using LibUsbDotNet.Main;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Windows.Forms;
-
-using System;
-using LibUsbDotNet;
-using LibUsbDotNet.Main;
 
 namespace CapaPresentacion.Configuraciones.balanzas
 {
@@ -190,7 +184,7 @@ namespace CapaPresentacion.Configuraciones.balanzas
                     }
 
                     //string data = port.ReadLine();
-                    
+
                     contador_limite -= 1;
                 }
 

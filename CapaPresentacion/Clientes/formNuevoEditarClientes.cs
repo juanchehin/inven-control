@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using CapaNegocio;
+using System;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using CapaNegocio;
 
 namespace CapaPresentacion
 {
@@ -108,7 +101,7 @@ namespace CapaPresentacion
                 {
                     if (this.IsNuevo)
                     {
-                        rpta = CN_Clientes.Insertar(this.txtApellidos.Text.Trim(),this.txtNombres.Text.Trim(), this.txtCorreo.Text.Trim());
+                        rpta = CN_Clientes.Insertar(this.txtApellidos.Text.Trim(), this.txtNombres.Text.Trim(), this.txtCorreo.Text.Trim());
                     }
                     else
                     {

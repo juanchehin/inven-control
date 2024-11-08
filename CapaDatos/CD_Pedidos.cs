@@ -18,7 +18,7 @@ namespace CapaDatos
 
 
         // bsp_listar_ventas
-        public DataSet listar_pedidos(int pDesde, string FechaInicio, string FechaFin,string p_estado_pedido)
+        public DataSet listar_pedidos(int pDesde, string FechaInicio, string FechaFin, string p_estado_pedido)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion
@@ -62,7 +62,7 @@ namespace CapaDatos
         }
 
         public string alta_pedido(string fechaPedido, string p_direccion_envio, string p_cliente,
-                    string p_estado_pedido, int p_tipo_pago,string p_descripcion)
+                    string p_estado_pedido, int p_tipo_pago, string p_descripcion)
         {
             string rpta = "";
             try

@@ -254,7 +254,7 @@ namespace CapaDatos
             return rpta;
         }
 
-        public string abrirCaja(int IdUsuario,decimal montoInicial)
+        public string abrirCaja(int IdUsuario, decimal montoInicial)
         {
             string rpta = "";
             comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion

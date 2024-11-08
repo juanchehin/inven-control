@@ -1,6 +1,5 @@
 ﻿using CapaNegocio;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -9,7 +8,7 @@ namespace CapaPresentacion.Ventas
     public partial class formValidacionEliminacionVenta : Form
     {
         int id_venta_a_eliminar;
-        
+
         public formValidacionEliminacionVenta(int p_id_venta)
         {
             InitializeComponent();
@@ -19,7 +18,7 @@ namespace CapaPresentacion.Ventas
 
         private void btnAceptarElimVenta_Click(object sender, EventArgs e)
         {
-            if(this.txtContraDeleteVenta.Text == "sanjorge3")
+            if (this.txtContraDeleteVenta.Text == "sanjorge3")
             {
                 CN_Ventas.Eliminar(this.id_venta_a_eliminar);
                 MessageBox.Show("Se elimino de forma correcta la venta, recuerde refrescar el listado", "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Information);

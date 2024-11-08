@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CapaNegocio;
+using System;
 using System.Windows.Forms;
-
-using CapaNegocio;
 
 namespace CapaPresentacion
 {
@@ -95,7 +87,7 @@ namespace CapaPresentacion
                     this.MostrarProveedores();
                     this.MensajeOk("Se elimino de forma correcta el proveedor");
                 }
-                
+
             }
             catch (Exception ex)
             {

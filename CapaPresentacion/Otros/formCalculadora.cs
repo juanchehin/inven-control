@@ -60,12 +60,12 @@ namespace CapaPresentacion.Otros
                 cuotas = Convert.ToDecimal(resultado) / Convert.ToDecimal(this.cbCuotas.Text);
                 this.lblCuotas.Text = cuotas.ToString();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MensajeError(e.Message);
                 MensajeError("Compruebe los campos del formulario");
             }
-           
+
         }
 
         private void rellenarCbCuotas()
@@ -136,7 +136,7 @@ namespace CapaPresentacion.Otros
             {
                 this.panelCalculo.Visible = false;
             }
-            
+
         }
 
         private void cbCuotas_KeyDown(object sender, KeyEventArgs e)

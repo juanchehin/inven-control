@@ -1,5 +1,4 @@
-﻿using Devart.Common;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.IO;
@@ -50,7 +49,7 @@ namespace CapaDatos
 
         }
         // bsp_listar_ventas
-        public DataSet ListarTransacciones(int pDesde, string FechaInicio, string FechaFin,int p_id_tipo_pago_seleccionado)
+        public DataSet ListarTransacciones(int pDesde, string FechaInicio, string FechaFin, int p_id_tipo_pago_seleccionado)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.Parameters.Clear();// si no ponerlo al comienzo de esta funcion
@@ -93,7 +92,7 @@ namespace CapaDatos
 
         }
 
-        
+
         public DataSet dame_info_contribuyente()
         {
             try
@@ -189,7 +188,7 @@ namespace CapaDatos
             return tabla;
 
         }
-        
+
         // Devuelve un solo compra dado un ID
         public DataSet listar_detalle_venta(int IdVenta)
         {
@@ -218,7 +217,7 @@ namespace CapaDatos
         }
         //Métodos
         //Insertar
-        public string AltaVenta(int pIdUsuario, int pIdCliente,string pTipoPago, DataTable pListadoProductos,decimal pMontoTotal)
+        public string AltaVenta(int pIdUsuario, int pIdCliente, string pTipoPago, DataTable pListadoProductos, decimal pMontoTotal)
         {
             int idVenta;
             string rpta = "";
@@ -262,9 +261,9 @@ namespace CapaDatos
                 comando.Parameters.Clear();
 
 
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 rpta = ex.Message;
                 conexion.CerrarConexion();
@@ -414,7 +413,7 @@ namespace CapaDatos
             return rpta;
         }
 
-        
+
         // Metodo
         public string check_expiration_time()
         {

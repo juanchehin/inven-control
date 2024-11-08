@@ -43,7 +43,7 @@ namespace CapaDatos
         DataTable tabla = new DataTable();
         MySqlCommand comando = new MySqlCommand();
 
-        public DataSet buscar_clientes_paginado(string p_pTextoBuscar,int p_pDesde)
+        public DataSet buscar_clientes_paginado(string p_pTextoBuscar, int p_pDesde)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandType = CommandType.StoredProcedure;
@@ -103,7 +103,7 @@ namespace CapaDatos
 
             tabla.Clear();
             leer = comando.ExecuteReader();
-            tabla.Load(leer);            
+            tabla.Load(leer);
             comando.Parameters.Clear();
             conexion.CerrarConexion();
 

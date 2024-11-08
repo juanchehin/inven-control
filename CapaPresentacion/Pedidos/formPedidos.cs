@@ -1,5 +1,4 @@
 ﻿using CapaNegocio;
-using CapaPresentacion.Ventas;
 using System;
 using System.Data;
 using System.Windows.Forms;

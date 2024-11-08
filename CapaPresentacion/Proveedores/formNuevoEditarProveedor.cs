@@ -1,8 +1,7 @@
-﻿using System;
+﻿using CapaNegocio;
+using System;
 using System.Data;
 using System.Windows.Forms;
-
-using CapaNegocio;
 
 namespace CapaPresentacion
 {
@@ -98,7 +97,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        rpta = CN_Proveedores.EditarProveedor(this.IdProveedor, this.txtProveedor.Text.Trim(), this.txtNombres.Text.Trim(), this.txtApellidos.Text.Trim(), 
+                        rpta = CN_Proveedores.EditarProveedor(this.IdProveedor, this.txtProveedor.Text.Trim(), this.txtNombres.Text.Trim(), this.txtApellidos.Text.Trim(),
                             this.txtCUIL.Text, this.txtDireccion.Text.Trim(), this.txtTelefono.Text.Trim(), this.txtDNI.Text.Trim(),
                             this.txtEmail.Text
                             );

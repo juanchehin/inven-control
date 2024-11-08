@@ -1,9 +1,8 @@
-﻿using System;
+﻿using CapaNegocio;
+using CapaPresentacion.Clientes;
+using System;
 using System.Data;
 using System.Windows.Forms;
-
-using CapaNegocio;
-using CapaPresentacion.Clientes;
 
 namespace CapaPresentacion
 {

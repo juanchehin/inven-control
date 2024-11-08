@@ -89,7 +89,7 @@ namespace CapaPresentacion
                     MessageBox.Show("Ocurrio un error, contactese con el administrador", "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show("Ocurrio un error, contactese con el administrador", "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

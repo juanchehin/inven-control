@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-// Agregados
+﻿// Agregados
 using CapaDatos;
+using System.Data;
 
 namespace CapaNegocio
 {
@@ -15,9 +10,9 @@ namespace CapaNegocio
 
         //Método Insertar que llama al método Insertar de la clase DArticulo
         //de la CapaDatos
-        public static string InsertarUsuario(string Nombre, string Apellidos,string DNI,
-                            string Direccion,string Telefono,string fechaNac,string Usuario,string Password,
-                            string Email,string rol)
+        public static string InsertarUsuario(string Nombre, string Apellidos, string DNI,
+                            string Direccion, string Telefono, string fechaNac, string Usuario, string Password,
+                            string Email, string rol)
         {
             CD_Empleados Obj = new CD_Empleados();
 
@@ -56,7 +51,7 @@ namespace CapaNegocio
             return tabla;
         }
 
-        public static string Editar(int IdEmpleado, string Nombre, string Apellidos, string DNI, string Direccion, string Telefono,string FechaNac)
+        public static string Editar(int IdEmpleado, string Nombre, string Apellidos, string DNI, string Direccion, string Telefono, string FechaNac)
         {
             CD_Empleados Obj = new CD_Empleados();
             Obj.IdEmpleado = IdEmpleado;

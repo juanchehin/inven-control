@@ -67,8 +67,8 @@ namespace CapaPresentacion.Gastos
                 }
                 else
                 {
-                    rpta = CN_Gastos.alta_gasto(this.txtMontoGasto.Text.Trim(), fechaGasto, this.p_id_tipo_pago_seleccionado,this.txtDescripcion.Text.Trim());
-                    
+                    rpta = CN_Gastos.alta_gasto(this.txtMontoGasto.Text.Trim(), fechaGasto, this.p_id_tipo_pago_seleccionado, this.txtDescripcion.Text.Trim());
+
                     if (rpta.Equals("Ok"))
                     {
                         this.MensajeOk("Se Insertó de forma correcta el registro");

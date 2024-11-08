@@ -1,5 +1,4 @@
 ﻿using CapaNegocio;
-using CapaPresentacion.Caja;
 using CapaPresentacion.Compras;
 using CapaPresentacion.Estadisticas;
 using CapaPresentacion.Gastos;
@@ -23,7 +22,7 @@ namespace CapaPresentacion
         DataTable resp;
         string rutaImagen = "";
 
-        public frmPrincipal(int IdUsuario,string usuario,int IdRol)
+        public frmPrincipal(int IdUsuario, string usuario, int IdRol)
         {
             InitializeComponent();
 

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using CapaDatos;
+using System;
 using System.Data;
-
-using CapaDatos;
 
 namespace CapaNegocio
 {
@@ -40,7 +39,7 @@ namespace CapaNegocio
             return Obj.BuscarCliente(Obj);
         }
 
-        public DataSet listarTransacciones(int pDesde,string pFechaInicio, string pFechaFin)
+        public DataSet listarTransacciones(int pDesde, string pFechaInicio, string pFechaFin)
         {
             DataSet tabla = new DataSet();
             tabla = objetoCD_caja.ListarTransacciones(pDesde, pFechaInicio, pFechaFin);
@@ -52,9 +51,9 @@ namespace CapaNegocio
             estadoCaja = objetoCD_caja.dameEstadoCaja();
             return estadoCaja;
         }
-        public string abrirCaja(int IdUsuario,decimal montoInicial)
+        public string abrirCaja(int IdUsuario, decimal montoInicial)
         {
-            resp = objetoCD_caja.abrirCaja(IdUsuario,montoInicial);
+            resp = objetoCD_caja.abrirCaja(IdUsuario, montoInicial);
             return resp;
         }
         public string cerrarCaja(int IdUsuario)

@@ -1,13 +1,6 @@
-﻿using CapaDatos;
-using CapaNegocio;
+﻿using CapaNegocio;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CapaPresentacion.Clientes
@@ -28,11 +21,11 @@ namespace CapaPresentacion.Clientes
         public formCuentasCorrientes(int p_id_cliente)
         {
             this.id_cliente = p_id_cliente;
-            
+
 
             InitializeComponent();
 
-            
+
             cargar_movimientos_cuenta();
         }
 

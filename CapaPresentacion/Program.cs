@@ -1,5 +1,4 @@
-﻿using CapaPresentacion.Reportes;
-using CapaPresentacion.Ventas;
+﻿using CapaPresentacion.Ventas;
 using System;
 using System.Windows.Forms;
 

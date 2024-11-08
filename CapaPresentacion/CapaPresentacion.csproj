@@ -541,7 +541,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Web References\WSFEv1_afip\Reference.cs">
+    <Compile Include="Web References\wsfe_afip\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -736,34 +736,80 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Web References\WSFEv1_afip\DummyResponse.datasource">
+    <None Include="Web References\wsfe_afip\CbteTipoResponse1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSFEv1_afip\FEConsultaCAEResponse.datasource">
+    <None Include="Web References\wsfe_afip\ConceptoTipoResponse1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSFEv1_afip\FERecuperaLastCMPResponse.datasource">
+    <None Include="Web References\wsfe_afip\DocTipoResponse1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSFEv1_afip\FERecuperaQTYResponse.datasource">
+    <None Include="Web References\wsfe_afip\DummyResponse1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSFEv1_afip\FEResponse.datasource">
+    <None Include="Web References\wsfe_afip\FEActividadesResponse1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSFEv1_afip\FEUltNroResponse.datasource">
+    <None Include="Web References\wsfe_afip\FECAEAGetResponse1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WSFEv1_afip\Reference.map">
+    <None Include="Web References\wsfe_afip\FECAEAResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FECAEASinMovConsResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FECAEASinMovResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FECAEResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FECompConsultaResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FECotizacionResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FEPaisResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FEPtoVentaResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FERecuperaLastCbteResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FERegXReqResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\FETributoResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\IvaTipoResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\MonedaResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\OpcionalTipoResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsfe_afip\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\WSFEv1_afip\wsdl.wsdl" />
+    <None Include="Web References\wsfe_afip\wsdl2.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lazaro\Afip.Ws\Afip.Ws.csproj">
+      <Project>{1a57768a-7dc2-4832-90da-5b613c208816}</Project>
+      <Name>Afip.Ws</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
       <Project>{77210942-3543-403d-a5cf-f3c25f2c171c}</Project>
       <Name>CapaDatos</Name>
@@ -917,16 +963,16 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="D:\dev\inven-control\wsdl.xml">
+    <WebReferenceUrl Include="D:\dev\inven-control\wsdl2.xml">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WSFEv1_afip\</RelPath>
-      <UpdateFromURL>D:\dev\inven-control\wsdl.xml</UpdateFromURL>
+      <RelPath>Web References\wsfe_afip\</RelPath>
+      <UpdateFromURL>D:\dev\inven-control\wsdl2.xml</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>inven_control_WSFEv1_afip_Service</CachedSettingsPropName>
+      <CachedSettingsPropName>inven_control_WebReference_Service</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

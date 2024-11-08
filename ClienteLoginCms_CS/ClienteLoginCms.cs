@@ -1,17 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Text;
-using System.Xml;
+using System.IO;
 using System.Net;
 using System.Security;
-using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
-using System.IO;
-using System.Runtime.InteropServices;
+using System.Text;
+using System.Xml;
 
 /// <summary>
 /// Clase para crear objetos Login Tickets
@@ -23,7 +18,7 @@ using System.Runtime.InteropServices;
 ///    Departamento de Seguridad Informatica - AFIP
 /// </remarks>
 public class LoginTicket
-{ 
+{
     public UInt32 UniqueId; // Entero de 32 bits sin signo que identifica el requerimiento
     public DateTime GenerationTime; // Momento en que fue generado el requerimiento
     public DateTime ExpirationTime; // Momento en el que expira la solicitud
@@ -82,7 +77,7 @@ public class LoginTicket
 
             if (this._verboseMode) Console.WriteLine(XmlLoginTicketRequest.OuterXml);
         }
-        catch (Exception excepcionAlGenerarLoginTicketRequest) 
+        catch (Exception excepcionAlGenerarLoginTicketRequest)
         {
             alta_log(ID_FNC + "***Error GENERANDO el LoginTicketRequest : " + excepcionAlGenerarLoginTicketRequest.Message + excepcionAlGenerarLoginTicketRequest.StackTrace);
             throw new Exception(ID_FNC + "***Error GENERANDO el LoginTicketRequest : " + excepcionAlGenerarLoginTicketRequest.Message + excepcionAlGenerarLoginTicketRequest.StackTrace);
@@ -394,7 +389,7 @@ class ProgramaPrincipal
                 }
                 else
                 {
-                    foreach (char c in args[i+1]) strPasswordSecureString.AppendChar(c);
+                    foreach (char c in args[i + 1]) strPasswordSecureString.AppendChar(c);
                     strPasswordSecureString.MakeReadOnly();
                     i = i + 1;
                 }

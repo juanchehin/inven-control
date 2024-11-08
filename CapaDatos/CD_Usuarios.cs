@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Data;
 // Agregados
 
@@ -12,7 +11,7 @@ namespace CapaDatos
         private string _Password;
         private string _Estado;
 
-        
+
 
         public int IdUsuario { get => _IdUsuario; set => _IdUsuario = value; }
         public string Usuario { get => _Usuario; set => _Usuario = value; }
@@ -42,30 +41,30 @@ namespace CapaDatos
 
         public DataTable Login(CD_Usuarios Usuario)
         {
-                comando.Connection = conexion.AbrirConexion();
-                comando.CommandType = CommandType.StoredProcedure;
-                comando.CommandText = "bsp_login";
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "bsp_login";
 
-                MySqlParameter pUsuario = new MySqlParameter();
-                pUsuario.ParameterName = "@pUsuario";
-                pUsuario.MySqlDbType = MySqlDbType.VarChar;
-                pUsuario.Size = 30;
-                pUsuario.Value = Usuario.Usuario;
-                comando.Parameters.Add(pUsuario);
+            MySqlParameter pUsuario = new MySqlParameter();
+            pUsuario.ParameterName = "@pUsuario";
+            pUsuario.MySqlDbType = MySqlDbType.VarChar;
+            pUsuario.Size = 30;
+            pUsuario.Value = Usuario.Usuario;
+            comando.Parameters.Add(pUsuario);
 
-                MySqlParameter pPassword = new MySqlParameter();
-                pPassword.ParameterName = "@pPassword";
-                pPassword.MySqlDbType = MySqlDbType.VarChar;
-                pPassword.Size = 30;
-                pPassword.Value = Usuario.Password;
-                comando.Parameters.Add(pPassword);
+            MySqlParameter pPassword = new MySqlParameter();
+            pPassword.ParameterName = "@pPassword";
+            pPassword.MySqlDbType = MySqlDbType.VarChar;
+            pPassword.Size = 30;
+            pPassword.Value = Usuario.Password;
+            comando.Parameters.Add(pPassword);
 
 
-                tabla.Clear();
-                leer = comando.ExecuteReader();
-                tabla.Load(leer);
-                conexion.CerrarConexion();
-                return tabla;
+            tabla.Clear();
+            leer = comando.ExecuteReader();
+            tabla.Load(leer);
+            conexion.CerrarConexion();
+            return tabla;
 
         }
 

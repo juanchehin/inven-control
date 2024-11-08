@@ -1,6 +1,6 @@
 ﻿using CapaNegocio;
-using OfficeOpenXml.Style;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Data;
 using System.Drawing;
@@ -77,8 +77,8 @@ namespace CapaPresentacion.Reportes
                 // Agrega puntos de datos a la serie
                 series.Points.AddXY("Rack : " + row["nro_rack"].ToString(), row["Porcentaje"].ToString()); //
 
-            }   
-            
+            }
+
             // Opcional: Configura el título del gráfico
             ct_torta_racks.Titles.Clear();
             ct_torta_racks.Titles.Add("Distribución de Productos por Rack");

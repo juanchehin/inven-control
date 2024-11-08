@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CapaNegocio;
+using ExcelDataReader;
+using System;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
-using CapaNegocio;
-using ExcelDataReader;
 
 namespace CapaPresentacion
 {
@@ -37,7 +37,7 @@ namespace CapaPresentacion
         private string NroRack;
         private string Nivel;
 
-        public formNuevoEditarProducto(int parametro,bool IsNuevoEditar)
+        public formNuevoEditarProducto(int parametro, bool IsNuevoEditar)
         {
             InitializeComponent();
             this.IdProducto = parametro;
@@ -68,7 +68,7 @@ namespace CapaPresentacion
                 this.IsNuevo = false;
                 this.IsEditar = true;
                 this.MostrarProducto(this.IdProducto);
-            }            
+            }
         }
 
         // Carga los valores en los campos de texto del formulario para que se modifiquen los que se desean
@@ -110,79 +110,79 @@ namespace CapaPresentacion
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-                try
+            try
+            {
+                string rpta = "";
+                DialogResult Opcion;
+
+                if (decimal.TryParse(txtPrecioVenta.Text, out decimal precio_venta) && decimal.TryParse(txtPrecioCompra.Text, out decimal precio_compra))
                 {
-                    string rpta = "";
-                    DialogResult Opcion;
-
-                    if (decimal.TryParse(txtPrecioVenta.Text, out decimal precio_venta) && decimal.TryParse(txtPrecioCompra.Text, out decimal precio_compra))
+                    if (precio_venta < precio_compra)
                     {
-                        if (precio_venta < precio_compra)
-                        {
-                            Opcion = MessageBox.Show("El precio de venta es menor al precio de compra, ¿Desea continuar?", "InvenControl", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        Opcion = MessageBox.Show("El precio de venta es menor al precio de compra, ¿Desea continuar?", "InvenControl", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
-                            if (Opcion != DialogResult.OK)
-                            {
-                                return;                            
-                            }
+                        if (Opcion != DialogResult.OK)
+                        {
+                            return;
                         }
                     }
+                }
 
-                    if (this.txtPrecioOferta.Text == string.Empty)
-                    {
-                        this.txtPrecioOferta.Text = "0";
-                    }
+                if (this.txtPrecioOferta.Text == string.Empty)
+                {
+                    this.txtPrecioOferta.Text = "0";
+                }
 
+                if (this.txtNombre.Text == string.Empty || this.txtStock.Text == string.Empty || this.txtPrecioCompra.Text == string.Empty || this.txtPrecioVenta.Text == string.Empty)
+                {
+                    MensajeError("Falta ingresar algunos datos");
+                }
+                else
+                {
                     if (this.txtNombre.Text == string.Empty || this.txtStock.Text == string.Empty || this.txtPrecioCompra.Text == string.Empty || this.txtPrecioVenta.Text == string.Empty)
                     {
                         MensajeError("Falta ingresar algunos datos");
                     }
+                    if (this.IsNuevo)
+                    {
+                        rpta = CN_Productos.Insertar(this.txtNombre.Text.Trim(), this.txtCodigo.Text.Trim(), this.txtPrecioCompra.Text.Trim(),
+                            this.txtPrecioVenta.Text.Trim(), this.txtPrecioOferta.Text.Trim(), this.txtDescripcion.Text.Trim(),
+                            this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text
+                            , this.txt_nro_rack.Text, this.txt_nivel.Text);
+                    }
                     else
                     {
-                        if (this.txtNombre.Text == string.Empty || this.txtStock.Text == string.Empty || this.txtPrecioCompra.Text == string.Empty || this.txtPrecioVenta.Text == string.Empty)
-                        {
-                            MensajeError("Falta ingresar algunos datos");
-                        }
+                        rpta = CN_Productos.Editar(this.IdProducto, this.txtNombre.Text.Trim(), this.txtCodigo.Text.Trim(),
+                            this.txtPrecioCompra.Text.Trim(), this.txtPrecioVenta.Text.Trim(), this.txtPrecioOferta.Text.Trim(), this.txtDescripcion.Text.Trim()
+                            , this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text
+                        , this.txt_nro_rack.Text, this.txt_nivel.Text);
+                    }
+
+                    if (rpta.Equals("OK"))
+                    {
                         if (this.IsNuevo)
                         {
-                            rpta = CN_Productos.Insertar(this.txtNombre.Text.Trim(), this.txtCodigo.Text.Trim(), this.txtPrecioCompra.Text.Trim(),
-                                this.txtPrecioVenta.Text.Trim(), this.txtPrecioOferta.Text.Trim(), this.txtDescripcion.Text.Trim(),
-                                this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text
-                                , this.txt_nro_rack.Text, this.txt_nivel.Text);
+                            this.MensajeOk("Se Insertó de forma correcta el registro");
                         }
                         else
                         {
-                            rpta = CN_Productos.Editar(this.IdProducto, this.txtNombre.Text.Trim(), this.txtCodigo.Text.Trim(),
-                                this.txtPrecioCompra.Text.Trim(), this.txtPrecioVenta.Text.Trim(), this.txtPrecioOferta.Text.Trim(), this.txtDescripcion.Text.Trim()
-                                , this.txtStock.Text.Trim(), this.txtStockAlerta.Text.Trim(), this.cbCategorias.Text, this.cbUnidad.Text
-                            , this.txt_nro_rack.Text, this.txt_nivel.Text);
+                            this.MensajeOk("Se Actualizó de forma correcta el registro");
                         }
-
-                        if (rpta.Equals("OK"))
-                        {
-                            if (this.IsNuevo)
-                            {
-                                this.MensajeOk("Se Insertó de forma correcta el registro");
-                            }
-                            else
-                            {
-                                this.MensajeOk("Se Actualizó de forma correcta el registro");
-                            }
-                        }
-                        else
-                        {
-                            this.MensajeError(rpta);
-                        }
-                        this.Close();
                     }
+                    else
+                    {
+                        this.MensajeError(rpta);
+                    }
+                    this.Close();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + ex.StackTrace);
-                }
-        
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+
         }
- 
+
         private void MensajeOk(string mensaje)
         {
             MessageBox.Show(mensaje, "InvenControl", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -204,7 +204,7 @@ namespace CapaPresentacion
 
             Char chr = e.KeyChar;
 
-            if(!Char.IsDigit(chr) && chr != 8 && chr != 8 && e.KeyChar != ',' && e.KeyChar != '.')
+            if (!Char.IsDigit(chr) && chr != 8 && chr != 8 && e.KeyChar != ',' && e.KeyChar != '.')
             {
                 e.Handled = true;
                 MessageBox.Show("Debe ingresar valores numericos ");
@@ -329,8 +329,8 @@ namespace CapaPresentacion
                         string nivel = dt.Rows[i][j].ToString();
                         j = j + 1;
 
-                        rpta = CN_Productos.Insertar(producto.Trim(), codigo.Trim(), preciocompra.Trim(), precioventa.Trim(),"0",
-                            descripcion.Trim(), stock.Trim(), "0", categoria.Trim(),"-", nro_rack.Trim(),nivel.Trim());
+                        rpta = CN_Productos.Insertar(producto.Trim(), codigo.Trim(), preciocompra.Trim(), precioventa.Trim(), "0",
+                            descripcion.Trim(), stock.Trim(), "0", categoria.Trim(), "-", nro_rack.Trim(), nivel.Trim());
 
                         if (rpta == "Ok" || rpta == "OK")
                         {
@@ -348,7 +348,7 @@ namespace CapaPresentacion
             {
                 MensajeError(ex.Message);
             }
-            
+
         }
 
         private void btnAgregarCategoria_Click(object sender, EventArgs e)

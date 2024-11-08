@@ -1,7 +1,6 @@
-﻿using System.Data;
+﻿using CapaNegocio;
 using System;
 using System.Windows.Forms;
-using CapaNegocio;
 
 namespace CapaPresentacion.Pedidos
 {
@@ -51,8 +50,8 @@ namespace CapaPresentacion.Pedidos
             {
                 string rpta = "";
 
-                rpta = CN_Pedidos.alta_pedido(fechaPedido,this.txtDireccionEnvio.Text.Trim(), this.txtCliente.Text.Trim(),
-                    this.p_estado_pedido, this.p_tipo_pago,this.txtDescripcion.Text.Trim());
+                rpta = CN_Pedidos.alta_pedido(fechaPedido, this.txtDireccionEnvio.Text.Trim(), this.txtCliente.Text.Trim(),
+                    this.p_estado_pedido, this.p_tipo_pago, this.txtDescripcion.Text.Trim());
 
                 if (rpta.Equals("ok"))
                 {
@@ -63,7 +62,7 @@ namespace CapaPresentacion.Pedidos
                     this.MensajeError(rpta);
                 }
                 this.Close();
-                
+
             }
             catch (Exception ex)
             {

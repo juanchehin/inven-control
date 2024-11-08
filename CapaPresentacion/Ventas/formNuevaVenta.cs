@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CapaNegocio;
+using System;
 using System.Data;
+// **
+using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using CapaNegocio;
-// **
-using System.Drawing;
 
 namespace CapaPresentacion.Ventas
 {
@@ -319,7 +319,7 @@ namespace CapaPresentacion.Ventas
                 return;
             }
 
-            if ((this.stock_pendiente_producto <= 0)  && (this.IdProducto != 1))
+            if ((this.stock_pendiente_producto <= 0) && (this.IdProducto != 1))
             {
                 MensajeError("El producto no cuenta con stock suficiente");
                 return;
@@ -421,7 +421,7 @@ namespace CapaPresentacion.Ventas
                             bandera_descuento_cargado = true;
 
                             break;
-                        }                       
+                        }
                     }
 
                     // Si no cargo la cantidad, cargo por defecto 1
@@ -429,8 +429,8 @@ namespace CapaPresentacion.Ventas
                     {
                         this.dataListadoProductos.Rows.Insert(this.dataListadoProductos.RowCount, this.IdProducto, codigo_pendiente_producto,
                             this.lblNombreProd.Text, 1, unidad_pendiente_producto, this.txtPrecioUnitario.Text, this.peso_pendiente);
-                        if(!bandera_descuento_cargado)
-                        { 
+                        if (!bandera_descuento_cargado)
+                        {
                             this.precioTotal += precio_unitario_prod;
                         }
                     }
@@ -470,7 +470,7 @@ namespace CapaPresentacion.Ventas
                     foreach (DataGridViewRow item in this.dataListadoProductos.SelectedRows)
                     {
                         // Chequeo si es un descuento
-                        if(this.dataListadoProductos.Rows[item.Index].Cells["IdProducto"].Value.ToString() == "1")
+                        if (this.dataListadoProductos.Rows[item.Index].Cells["IdProducto"].Value.ToString() == "1")
                         {
                             this.dataListadoProductos.Rows.RemoveAt(item.Index);
 
@@ -490,7 +490,7 @@ namespace CapaPresentacion.Ventas
                             this.precioTotal = this.precioTotal - (precio * cantidad);
                             this.lblSubTotal.Text = precioTotal.ToString();
                         }
-                        
+
                     }
 
                     this.MensajeOk("Se elimino de forma correcta el producto");
@@ -1158,7 +1158,7 @@ namespace CapaPresentacion.Ventas
 
                         btnAgregarProducto.PerformClick();
                         dgvAutocompleteProducto.Visible = false;
-                        
+
 
                     }
                     else

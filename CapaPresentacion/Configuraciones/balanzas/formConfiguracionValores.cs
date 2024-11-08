@@ -32,7 +32,7 @@ namespace CapaPresentacion.Configuraciones.balanzas
                 txtBaudRate.Text = Convert.ToString(row["baud_rate"]);
                 txtDataBits.Text = Convert.ToString(row["data_bits"]);
                 cbStopBits.Text = Convert.ToString(row["stop_bits"]);
-                cbParityBits.Text= Convert.ToString(row["parity_bits"]);
+                cbParityBits.Text = Convert.ToString(row["parity_bits"]);
 
             }
         }

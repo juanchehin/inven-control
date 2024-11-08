@@ -1,5 +1,5 @@
-﻿using System.Data;
-using CapaDatos;
+﻿using CapaDatos;
+using System.Data;
 
 namespace CapaNegocio
 {
@@ -9,19 +9,19 @@ namespace CapaNegocio
 
         //Método Insertar que llama al método Insertar de la clase
         //de la CapaDatos
-        public static string AltaCompra(int IdUsuario,int IdProveedor,string TipoPago, DataTable pListadoProductos,decimal MontoTotal)
+        public static string AltaCompra(int IdUsuario, int IdProveedor, string TipoPago, DataTable pListadoProductos, decimal MontoTotal)
         {
             CD_Compras Obj = new CD_Compras();
 
-            return Obj.AltaCompra(IdUsuario, IdProveedor, TipoPago, pListadoProductos,MontoTotal);
+            return Obj.AltaCompra(IdUsuario, IdProveedor, TipoPago, pListadoProductos, MontoTotal);
         }
 
         // Devuelve todas las compras habidas y por haber
-        public DataTable MostrarCompras(string FechaInicio,string FechaFin)
+        public DataTable MostrarCompras(string FechaInicio, string FechaFin)
         {
 
             DataTable tabla = new DataTable();
-            tabla = objetoCD.MostrarCompras(FechaInicio,FechaFin);
+            tabla = objetoCD.MostrarCompras(FechaInicio, FechaFin);
             return tabla;
         }
         // Devuelve una compra (unica) dado un Id

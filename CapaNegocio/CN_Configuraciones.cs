@@ -55,7 +55,7 @@ namespace CapaNegocio
             return Obj.cargarDatosConfiguracionBalanza();
         }
 
-        
+
         public DataTable dameDatosEmpresa()
         {
             CD_Configuraciones Obj = new CD_Configuraciones();
@@ -63,7 +63,7 @@ namespace CapaNegocio
             return Obj.dameDatosEmpresa();
         }
 
-        public static string InsertarDatosEmpresa(string NombreEmpresa, string rutaImagen, string Domicilio, string Telefono,string CUIT,string IngBrutos)
+        public static string InsertarDatosEmpresa(string NombreEmpresa, string rutaImagen, string Domicilio, string Telefono, string CUIT, string IngBrutos)
         {
             CD_Configuraciones Obj = new CD_Configuraciones();
 

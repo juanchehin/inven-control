@@ -26,10 +26,10 @@ namespace CapaPresentacion.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://servicios1.afip.gov.ar/wsfe/service.asmx")]
-        public string inven_control_WSFEv1_afip_Service {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://servicios1.afip.gov.ar/wsfev1/service.asmx")]
+        public string inven_control_WebReference_Service {
             get {
-                return ((string)(this["inven_control_WSFEv1_afip_Service"]));
+                return ((string)(this["inven_control_WebReference_Service"]));
             }
         }
     }

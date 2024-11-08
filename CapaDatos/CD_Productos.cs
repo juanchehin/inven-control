@@ -133,7 +133,7 @@ namespace CapaDatos
             tabla.Load(leer);
             comando.Parameters.Clear();
             conexion.CerrarConexion();
-            
+
             return tabla;
 
         }
@@ -201,13 +201,13 @@ namespace CapaDatos
                 pPrecioVenta.MySqlDbType = MySqlDbType.Decimal;
                 pPrecioVenta.Value = Producto.PrecioVenta;
                 comando.Parameters.Add(pPrecioVenta);
- 
+
                 MySqlParameter pPrecioOferta = new MySqlParameter();
                 pPrecioOferta.ParameterName = "@pPrecioOferta";
                 pPrecioOferta.MySqlDbType = MySqlDbType.Decimal;
                 pPrecioOferta.Value = Producto.PrecioOferta;
                 comando.Parameters.Add(pPrecioOferta);
-                
+
                 MySqlParameter pNroRack = new MySqlParameter();
                 pNroRack.ParameterName = "@pNroRack";
                 pNroRack.MySqlDbType = MySqlDbType.VarChar;
@@ -238,7 +238,7 @@ namespace CapaDatos
             {
                 conexion.CerrarConexion();
             }
-            
+
             return rpta;
 
         }
@@ -476,7 +476,7 @@ namespace CapaDatos
 
         }
 
-        public string ActualizacionPorcentual(decimal porcentaje,int desde,int hasta)
+        public string ActualizacionPorcentual(decimal porcentaje, int desde, int hasta)
         {
             string rpta = "";
             try
@@ -755,7 +755,7 @@ namespace CapaDatos
 
         }
 
-        public string EditarCategoria(int pIdCategoria,string pCategoria)
+        public string EditarCategoria(int pIdCategoria, string pCategoria)
         {
             string rpta = "";
             comando.Parameters.Clear();
@@ -847,7 +847,7 @@ namespace CapaDatos
                 rpta = ex.Message;
             }
             finally
-            { 
+            {
                 conexion.CerrarConexion();
             }
             comando.Parameters.Clear();
@@ -857,7 +857,7 @@ namespace CapaDatos
         // ========================
         // unidades
         // =======================
-        public string alta_unidad(string p_nombre_unidad,string p_nombre_corto_unidad)
+        public string alta_unidad(string p_nombre_unidad, string p_nombre_corto_unidad)
         {
             string rpta = "";
             try

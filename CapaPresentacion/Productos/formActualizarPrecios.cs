@@ -9,7 +9,7 @@ namespace CapaPresentacion
         public formActualizarPrecios()
         {
             InitializeComponent();
-            
+
         }
         private void formActualizarPrecios_Load(object sender, EventArgs e)
         {
@@ -24,7 +24,7 @@ namespace CapaPresentacion
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Close();                        
+            this.Close();
         }
 
 
@@ -40,7 +40,7 @@ namespace CapaPresentacion
                 tbDesdeArticulo.ReadOnly = true;
                 tbHastaArticulo.ReadOnly = true;
             }
-            
+
         }
 
         private void lblPorcentual_Click(object sender, EventArgs e)
@@ -104,10 +104,10 @@ namespace CapaPresentacion
                             }
                             Decimal dValue = -1;
                             decimal.TryParse(this.tbPorcentual.Text, out dValue);
-                            rpta = CN_Productos.ActualizacionPorcentual(dValue, 0,0);
+                            rpta = CN_Productos.ActualizacionPorcentual(dValue, 0, 0);
                             if (rpta.Equals("OK"))
                             {
-                                this.MensajeOk("Se Actualizaron todos los precios");    
+                                this.MensajeOk("Se Actualizaron todos los precios");
                             }
                             else
                             {
@@ -184,7 +184,7 @@ namespace CapaPresentacion
                             }
                             Decimal dValue = -1;
                             decimal.TryParse(this.tbPorcentual.Text, out dValue);
-                            rpta = CN_Productos.ActualizacionPorcentual(dValue, Convert.ToInt32(tbDesdeArticulo.Text) , Convert.ToInt32(this.tbHastaArticulo.Text) );
+                            rpta = CN_Productos.ActualizacionPorcentual(dValue, Convert.ToInt32(tbDesdeArticulo.Text), Convert.ToInt32(this.tbHastaArticulo.Text));
                             if (rpta.Equals("OK"))
                             {
                                 this.MensajeOk("Se Actualizaron todos los precios");
@@ -217,7 +217,7 @@ namespace CapaPresentacion
                                 }
                                 Decimal dValue = -1;
                                 decimal.TryParse(this.tbLineal.Text, out dValue);
-                                rpta = CN_Productos.ActualizacionLineal(dValue, Convert.ToInt32(tbDesdeArticulo.Text) , Convert.ToInt32(tbHastaArticulo.Text) );
+                                rpta = CN_Productos.ActualizacionLineal(dValue, Convert.ToInt32(tbDesdeArticulo.Text), Convert.ToInt32(tbHastaArticulo.Text));
                                 if (rpta.Equals("OK"))
                                 {
                                     this.MensajeOk("Se Actualizaron todos los precios");

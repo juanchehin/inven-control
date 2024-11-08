@@ -1,12 +1,5 @@
 ﻿using CapaNegocio;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CapaPresentacion.Clientes
@@ -75,7 +68,7 @@ namespace CapaPresentacion.Clientes
                 }
                 else
                 {
-                    rpta = CN_Clientes.alta_deposito(this.p_id_cliente,this.txtMontoGasto.Text.Trim(), fechaDeposito, this.p_id_tipo_pago_seleccionado, this.txtDescripcion.Text.Trim());
+                    rpta = CN_Clientes.alta_deposito(this.p_id_cliente, this.txtMontoGasto.Text.Trim(), fechaDeposito, this.p_id_tipo_pago_seleccionado, this.txtDescripcion.Text.Trim());
 
                     if (rpta.Equals("Ok"))
                     {

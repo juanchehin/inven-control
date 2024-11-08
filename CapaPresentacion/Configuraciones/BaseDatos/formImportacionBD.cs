@@ -32,7 +32,7 @@ namespace CapaPresentacion.Configuraciones
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
 
-            
+
             if (!string.IsNullOrEmpty(txtRuta.Text))
             {
                 if (!File.Exists(txtRuta.Text))
@@ -64,7 +64,7 @@ namespace CapaPresentacion.Configuraciones
 
         public void executa()
         {
-            
+
 
             string ruta_completa = txtRuta.Text;
 

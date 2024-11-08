@@ -77,7 +77,7 @@ namespace CapaPresentacion.Productos
 
                 if (Opcion == DialogResult.OK)
                 {
-                    if(CN_Productos.EliminarCategoria(this.IdCategoria).Equals("Ok"))
+                    if (CN_Productos.EliminarCategoria(this.IdCategoria).Equals("Ok"))
                     {
                         this.MensajeOk("Se elimino de forma correcta el producto");
                         this.MostrarCategorias();

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using CapaNegocio;
+using System;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using CapaNegocio;
 
 namespace CapaPresentacion
 {
@@ -68,7 +61,7 @@ namespace CapaPresentacion
                 {
                     FechaNac = Convert.ToDateTime(row["Fecha de nacimiento"]);
                     dtFechaNac.Value = FechaNac;
-                    
+
                 }
 
                 txtNombre.Text = Nombres;
@@ -102,8 +95,8 @@ namespace CapaPresentacion
                         var fechaNac = año + "-" + mes + "-" + dia;
 
                         rpta = CN_Empleados.InsertarUsuario(this.txtNombre.Text.Trim(), this.txtApellidos.Text.Trim(), this.txtDNI.Text.Trim(),
-                            this.txtDireccion.Text.Trim(),this.txtTelefono.Text.Trim(), fechaNac,this.txtUsuario.Text.Trim(),txtPassword.Text.Trim()
-                            ,txtEmail.Text.Trim(),cbRoles.Text.Trim());
+                            this.txtDireccion.Text.Trim(), this.txtTelefono.Text.Trim(), fechaNac, this.txtUsuario.Text.Trim(), txtPassword.Text.Trim()
+                            , txtEmail.Text.Trim(), cbRoles.Text.Trim());
                     }
                     else
                     {
@@ -113,7 +106,7 @@ namespace CapaPresentacion
                         var fecha = año + "-" + mes + "-" + dia;
 
                         rpta = CN_Empleados.Editar(this.IdEmpleado, this.txtNombre.Text.Trim(), this.txtApellidos.Text.Trim(),
-                            this.txtDNI.Text.Trim(),this.txtDireccion.Text.Trim(), this.txtTelefono.Text.Trim(), fecha);
+                            this.txtDNI.Text.Trim(), this.txtDireccion.Text.Trim(), this.txtTelefono.Text.Trim(), fecha);
                     }
 
                     if (rpta.Equals("Ok"))
@@ -128,7 +121,7 @@ namespace CapaPresentacion
                         }
                         this.Close();
                     }
-                    
+
                     else
                     {
                         this.MensajeError(rpta);
@@ -139,7 +132,7 @@ namespace CapaPresentacion
             {
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
-            
+
         }
 
         private void CargarRolesComboBox()

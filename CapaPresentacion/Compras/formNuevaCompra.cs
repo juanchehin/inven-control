@@ -58,8 +58,8 @@ namespace CapaPresentacion.Compras
             this.llenarCBTiposPago();
         }
 
-        
-        
+
+
         private void llenarCBTiposPago()
         {
             tiposPagos = objetoCN.DameTiposPago();

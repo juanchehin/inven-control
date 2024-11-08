@@ -152,11 +152,11 @@ namespace CapaDatos
                 else
                     return false;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
-           
+
         }
 
         public string dameDireccion()
@@ -190,7 +190,7 @@ namespace CapaDatos
 
         }
 
-        
+
 
         //Métodos
         //Insertar

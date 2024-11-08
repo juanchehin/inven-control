@@ -1,10 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CapaDatos
 {
@@ -165,7 +161,7 @@ namespace CapaDatos
 
                 rpta = (string)comando.ExecuteScalar();
 
-                if(rpta == "Ya existe un proveedor con ese CUIL")
+                if (rpta == "Ya existe un proveedor con ese CUIL")
                 {
                     rpta = "Ya existe un proveedor con ese CUIL";
                     return rpta;
@@ -182,8 +178,8 @@ namespace CapaDatos
                 comando.Parameters.Clear();
                 return rpta;
 
-                 // == "Ok" ? "OK" : "NO se Ingreso el Registro";
-                
+                // == "Ok" ? "OK" : "NO se Ingreso el Registro";
+
 
             }
             catch (Exception ex)
@@ -229,7 +225,7 @@ namespace CapaDatos
             return rpta;
         }
 
-        public string EditarProveedor(int IdProveedor,string Proveedor, string Nombres, string Apellidos, string CUIL, string Direccion, string Telefono,
+        public string EditarProveedor(int IdProveedor, string Proveedor, string Nombres, string Apellidos, string CUIL, string Direccion, string Telefono,
                             string DNI, string Email)
         {
             string rpta = "";
@@ -258,7 +254,7 @@ namespace CapaDatos
                 pNombres.MySqlDbType = MySqlDbType.VarChar;
                 pNombres.Size = 60;
                 pNombres.Value = Nombres;
-                comando.Parameters.Add(pNombres);                
+                comando.Parameters.Add(pNombres);
 
                 MySqlParameter pApellidos = new MySqlParameter();
                 pApellidos.ParameterName = "@pApellidos";
