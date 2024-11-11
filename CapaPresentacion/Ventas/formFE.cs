@@ -1,6 +1,7 @@
-﻿using CapaNegocio;
+﻿using AfipWsfeClient;
+using CapaNegocio;
 //using CapaPresentacion.WSFEv1_afip;
-using CapaPresentacion.wsfe_afip;
+//using CapaPresentacion.wsfe_afip;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,15 +17,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using AfipServiceReference; // Ajusta esto según el nombre de tu referencia
+//using AfipServiceReference; // Ajusta esto según el nombre de tu referencia
+//using System.Collections.Generic;
+using AfipWsfeClient;
 
 namespace CapaPresentacion.Ventas
 {
     public partial class formFE : Form
     {
         //Conexión servicio web de la AFIP
-        Service ServiceConect { get; set; }
-        wsfe_afip.FEAuthRequest AuthAutorizar { get; set; }
+        //Service ServiceConect { get; set; }
+        //FEAuthRequest AuthAutorizar { get; set; }
 
         //private static readonly string baseDir = AppDomain.CurrentDomain.BaseDirectory; // Cambiar por la ruta de tu base de directorios
         //D:\dev\inven-control\CapaPresentacion\Resources\afip\xml
@@ -55,7 +58,7 @@ namespace CapaPresentacion.Ventas
 
             try
             {
-                ServiceConect = new Service();
+                //ServiceConect = new Service();
                 //AuthAutorizar = new FEAuthRequest();
 
                 //CargarAuthRequest(cuit, sign, token);
@@ -388,7 +391,7 @@ namespace CapaPresentacion.Ventas
                     if (CN_Ventas.alta_credencial_afip(UniqueId, Token, Sign, ExpirationTime, GenerationTime) == "ok")
                     {
                         //this.get_last_comprobanteAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
-                        this.FECAESolicitarAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
+                        this.solicitar_caeAsync(XmlLoginTicketResponse.SelectSingleNode("//token").InnerText, XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText);
                     }
                     else
                     {
@@ -497,7 +500,7 @@ namespace CapaPresentacion.Ventas
         // Recibe la información de un comprobante o lote de comprobantes.
         // FECAESolicitar
         // ==============================================
-        private async Task solicitar_caeAsync(string p_token, string p_sign)
+        private async Task solicitar_caeAsync2(string p_token, string p_sign)
         {
             try
             {
@@ -1053,51 +1056,100 @@ namespace CapaPresentacion.Ventas
 
         }
 
-        private void solicitar_cae(string p_token, string p_sign)
+        private async Task solicitar_caeAsync(string p_token, string p_sign)
         {
             try
             {
-                var caeRequest = new wsfe_afip.FECAERequest
+                long cuit_long = long.Parse(cuit);
+                var wsfeClient = new WsfeClient
                 {
-                    FeCabReq = new wsfe_afip.FECAECabRequest
+                    IsProdEnvironment = true,
+                    Cuit = cuit_long,
+                    Sign = p_sign,
+                    Token = p_token
+                };
+
+                //Get next WSFE Comp. Number
+                //var compNumber = await wsfeClient.FECAESolicitarAsync();
+                    
+                    //.FECompUltimoAutorizadoAsync(1, 6).Body.FECompUltimoAutorizadoResult.CbteNro + 1;
+
+                //Build WSFE FECAERequest            
+                var feCaeReq = new AfipServiceReference.FECAERequest
+                {
+                    FeCabReq = new AfipServiceReference.FECAECabRequest
                     {
                         CantReg = 1,
-                        PtoVta = 1,
-                        CbteTipo = 1
+                        CbteTipo = 6,
+                        PtoVta = 1
                     },
-                    FeDetReq = new[]
+                    FeDetReq = new List<AfipServiceReference.FECAEDetRequest>
                     {
-                        new wsfe_afip.FECAEDetRequest // Coloca el objeto dentro de un arreglo
+                        new AfipServiceReference.FECAEDetRequest
                         {
-                            Concepto = 1,
+                            CbteDesde = 11,
+                            CbteHasta = 12,
+                            CbteFch = "20241111",
+                            Concepto = 2,
+                            DocNro = 20233237540,
                             DocTipo = 80,
-                            DocNro = 12345678901,
-                            CbteDesde = 1,
-                            CbteHasta = 1,
-                            CbteFch = DateTime.Now.ToString("yyyyMMdd"),
-                            ImpTotal = 121,
-                            ImpNeto = 100,
-                            ImpIVA = 21,
-                            MonId = "PES",
+                            FchVtoPago = "20241112",
+                            ImpNeto = 10,
+                            ImpTotal = 10,
+                            FchServDesde = "20241111",
+                            FchServHasta = "20241111",
                             MonCotiz = 1,
-                            Iva = new wsfe_afip.AlicIva[] // Usa un arreglo de AlicIva
+                            MonId = "PES",
+                            Iva = new List<AfipServiceReference.AlicIva>
                             {
-                                new wsfe_afip.AlicIva { Id = 5, BaseImp = 100, Importe = 21 }
+                                new AfipServiceReference.AlicIva
+                                {
+                                    BaseImp = 10,
+                                    Id = 3,
+                                    Importe = 0
+                                }
                             }
                         }
                     }
                 };
 
-                FECAEResponse response = service.SolicitarCAE(authRequest, caeRequest);
+                //Call WSFE FECAESolicitar
+                var compResult = await wsfeClient.FECAESolicitarAsync(feCaeReq);
 
-                if (response.FeDetResp[0].CAE != null)
+                // Accede al resultado, generalmente llamado 'Body' o similar
+                var responseBody = compResult.Body;
+
+                // Ahora, puedes acceder a los detalles específicos de la respuesta
+                if (responseBody.FECAESolicitarResult != null)
                 {
-                    Console.WriteLine("El CAE es: " + response.FeDetResp[0].CAE);
+                    var result = responseBody.FECAESolicitarResult;
+
+                    // Accede al estado de la respuesta
+                    //var estado = result.FeCabResp.Resultado; // "A" (aprobado), "R" (rechazado)
+
+                    // Código de CAE (si fue aprobado)
+                    //var cae = result.FeDetResp[0].CAE;
+
+                    //// Fecha de vencimiento del CAE (si aplica)
+                    //var caeFechaVencimiento = result.FeDetResp[0].CAEFchVto;
+
+                    if (result.Errors.Any())
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            Console.WriteLine($"Código de error: {error.Code}, Descripción: {error.Msg}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hubo errores en la respuesta.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Error al obtener el CAE: " + response.Errors[0].Msg);
+                    Console.WriteLine("La respuesta no contiene resultados válidos.");
                 }
+
             }
             catch (Exception ex)
             {
