@@ -1091,14 +1091,14 @@ namespace CapaPresentacion.Ventas
                         {
                             CbteDesde = compNumber,
                             CbteHasta = compNumber,
-                            CbteFch = "20241111",
+                            CbteFch = fecha_actual.ToString("yyyyMMdd"),
                             Concepto = 2,
                             DocNro = 20233237540,   // nro doc comprador (hugo)
                             DocTipo = 80,
-                            FchVtoPago = "20241112",
+                            FchVtoPago = "20241211",
                             ImpNeto = 10,
                             ImpTotal = 10,
-                            FchServDesde = "20241111",
+                            FchServDesde = fecha_actual.ToString("yyyyMMdd"),
                             FchServHasta = "20241111",
                             MonCotiz = 1,
                             MonId = "PES",
@@ -1127,10 +1127,10 @@ namespace CapaPresentacion.Ventas
                     var result = responseBody.FECAESolicitarResult;
 
                     // Accede al estado de la respuesta
-                    //var estado = result.FeCabResp.Resultado; // "A" (aprobado), "R" (rechazado)
+                    var estado = result.FeCabResp.Resultado; // "A" (aprobado), "R" (rechazado)
 
                     // Código de CAE (si fue aprobado)
-                    //var cae = result.FeDetResp[0].CAE;
+                    var cae = result.FeDetResp[0].CAE;
 
                     //// Fecha de vencimiento del CAE (si aplica)
                     //var caeFechaVencimiento = result.FeDetResp[0].CAEFchVto;
