@@ -104,6 +104,8 @@ namespace CapaPresentacion.Ventas
             cbTipoComp.DisplayMember = "Value";
             cbTipoComp.ValueMember = "Key";
 
+            pto_venta = "16";
+
             dame_info_contribuyente();
         }
 
@@ -1069,10 +1071,10 @@ namespace CapaPresentacion.Ventas
                     Token = p_token
                 };
 
-                //Get next WSFE Comp. Number
-                //var compNumber = await wsfeClient.FECAESolicitarAsync();
-                    
-                    //.FECompUltimoAutorizadoAsync(1, 6).Body.FECompUltimoAutorizadoResult.CbteNro + 1;
+                // Get next WSFE Comp. Number
+                var response = await wsfeClient.FECompUltimoAutorizadoAsync(16, 11);
+                var compNumber = response.Body.FECompUltimoAutorizadoResult.CbteNro + 1;
+
 
                 //Build WSFE FECAERequest            
                 var feCaeReq = new AfipServiceReference.FECAERequest
@@ -1081,17 +1083,17 @@ namespace CapaPresentacion.Ventas
                     {
                         CantReg = 1,
                         CbteTipo = 6,
-                        PtoVta = 1
+                        PtoVta = 16
                     },
                     FeDetReq = new List<AfipServiceReference.FECAEDetRequest>
                     {
                         new AfipServiceReference.FECAEDetRequest
                         {
-                            CbteDesde = 11,
-                            CbteHasta = 12,
+                            CbteDesde = compNumber,
+                            CbteHasta = compNumber,
                             CbteFch = "20241111",
                             Concepto = 2,
-                            DocNro = 20233237540,
+                            DocNro = 20233237540,   // nro doc comprador (hugo)
                             DocTipo = 80,
                             FchVtoPago = "20241112",
                             ImpNeto = 10,
@@ -1137,7 +1139,9 @@ namespace CapaPresentacion.Ventas
                     {
                         foreach (var error in result.Errors)
                         {
-                            Console.WriteLine($"Código de error: {error.Code}, Descripción: {error.Msg}");
+                            alta_log("Error solicitar_caeAsync " + error.Code + " - Descripción : " + error.Msg);
+
+                            MessageBox.Show("Error solicitar_caeAsync " + error.Code + " - Descripción : " + error.Msg);
                         }
                     }
                     else
