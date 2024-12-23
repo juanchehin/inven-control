@@ -1264,5 +1264,10 @@ namespace CapaPresentacion.Ventas
             }
             txtDescuento.Text = "0";
         }
+
+        private void btnLeerPeso_Click_1(object sender, EventArgs e)
+        {
+            leer_peso_balanza();
+        }
     }
 }

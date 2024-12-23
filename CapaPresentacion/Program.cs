@@ -18,11 +18,11 @@ namespace CapaPresentacion
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             OpenDetailFormOnClose = false;
-            Application.Run(new formFE());   // Cambiar por new formLogin()
+            Application.Run(new formLogin());   // Cambiar por new formLogin()
 
             if (OpenDetailFormOnClose)
             {
-                Application.Run(new formFE());
+                Application.Run(new formLogin());
             }
         }
     }

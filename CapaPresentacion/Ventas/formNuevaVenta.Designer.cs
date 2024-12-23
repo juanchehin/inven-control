@@ -69,7 +69,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
-            this.dgvAutocompleteProducto = new System.Windows.Forms.DataGridView();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -84,14 +83,6 @@
             this.panelVuelto = new System.Windows.Forms.Panel();
             this.btn_confirmar_venta = new System.Windows.Forms.Button();
             this.SerialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.dataListadoClientes = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnAgregarCliente = new System.Windows.Forms.Button();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.btnCerrarPanelClientes = new System.Windows.Forms.Button();
-            this.panelClientes = new System.Windows.Forms.Panel();
             this.dataListadoProductosPanel = new System.Windows.Forms.DataGridView();
             this.btnSeleccionarProducto = new System.Windows.Forms.Button();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -103,31 +94,41 @@
             this.label11 = new System.Windows.Forms.Label();
             this.btnCancelarPanelProductos = new System.Windows.Forms.Button();
             this.panelProductos = new System.Windows.Forms.Panel();
+            this.dataListadoClientes = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnAgregarCliente = new System.Windows.Forms.Button();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.btnCerrarPanelClientes = new System.Windows.Forms.Button();
+            this.panelClientes = new System.Windows.Forms.Panel();
+            this.dgvAutocompleteProducto = new System.Windows.Forms.DataGridView();
+            this.btnLeerPeso = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panelVuelto.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataListadoClientes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            this.panelClientes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductosPanel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panelProductos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataListadoClientes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.panelClientes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(570, 4);
+            this.label1.Location = new System.Drawing.Point(113, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(177, 64);
             this.label1.TabIndex = 34;
@@ -146,7 +147,7 @@
             this.groupBox1.Controls.Add(this.lblSubTotal);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Location = new System.Drawing.Point(332, 89);
+            this.groupBox1.Location = new System.Drawing.Point(799, 85);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(656, 430);
             this.groupBox1.TabIndex = 37;
@@ -368,6 +369,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnLeerPeso);
             this.groupBox2.Controls.Add(this.btnAplicarDescuento);
             this.groupBox2.Controls.Add(this.txtDescuento);
             this.groupBox2.Controls.Add(this.label15);
@@ -544,21 +546,6 @@
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // dgvAutocompleteProducto
-            // 
-            this.dgvAutocompleteProducto.AllowUserToAddRows = false;
-            this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
-            this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 150);
-            this.dgvAutocompleteProducto.MultiSelect = false;
-            this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
-            this.dgvAutocompleteProducto.ReadOnly = true;
-            this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(454, 192);
-            this.dgvAutocompleteProducto.TabIndex = 66;
-            this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
-            // 
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
@@ -677,7 +664,7 @@
             this.panelVuelto.Controls.Add(this.lblUsuario);
             this.panelVuelto.Controls.Add(this.groupBox4);
             this.panelVuelto.Controls.Add(this.groupBox5);
-            this.panelVuelto.Location = new System.Drawing.Point(236, 4);
+            this.panelVuelto.Location = new System.Drawing.Point(246, 12);
             this.panelVuelto.Name = "panelVuelto";
             this.panelVuelto.Size = new System.Drawing.Size(284, 408);
             this.panelVuelto.TabIndex = 51;
@@ -697,86 +684,6 @@
             this.SerialPort1.BaudRate = 115200;
             this.SerialPort1.PortName = "COM4";
             this.SerialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
-            // 
-            // dataListadoClientes
-            // 
-            this.dataListadoClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataListadoClientes.Location = new System.Drawing.Point(30, 152);
-            this.dataListadoClientes.Name = "dataListadoClientes";
-            this.dataListadoClientes.Size = new System.Drawing.Size(776, 272);
-            this.dataListadoClientes.TabIndex = 41;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(673, 430);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(133, 23);
-            this.button1.TabIndex = 42;
-            this.button1.Text = "Seleccionar Cliente";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnAgregarCliente
-            // 
-            this.btnAgregarCliente.Location = new System.Drawing.Point(673, 123);
-            this.btnAgregarCliente.Name = "btnAgregarCliente";
-            this.btnAgregarCliente.Size = new System.Drawing.Size(133, 23);
-            this.btnAgregarCliente.TabIndex = 43;
-            this.btnAgregarCliente.Text = "Agregar Cliente";
-            this.btnAgregarCliente.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox4.TabIndex = 46;
-            this.pictureBox4.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(264, 19);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(267, 64);
-            this.label6.TabIndex = 45;
-            this.label6.Text = "Clientes";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::CapaPresentacion.Properties.Resources.segment;
-            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            // 
-            // btnCerrarPanelClientes
-            // 
-            this.btnCerrarPanelClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCerrarPanelClientes.Location = new System.Drawing.Point(807, 4);
-            this.btnCerrarPanelClientes.Name = "btnCerrarPanelClientes";
-            this.btnCerrarPanelClientes.Size = new System.Drawing.Size(34, 23);
-            this.btnCerrarPanelClientes.TabIndex = 70;
-            this.btnCerrarPanelClientes.Text = "X";
-            this.btnCerrarPanelClientes.UseVisualStyleBackColor = true;
-            this.btnCerrarPanelClientes.Click += new System.EventHandler(this.btnCerrarPanelClientes_Click);
-            // 
-            // panelClientes
-            // 
-            this.panelClientes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelClientes.Controls.Add(this.btnCerrarPanelClientes);
-            this.panelClientes.Controls.Add(this.pictureBox3);
-            this.panelClientes.Controls.Add(this.label6);
-            this.panelClientes.Controls.Add(this.pictureBox4);
-            this.panelClientes.Controls.Add(this.btnAgregarCliente);
-            this.panelClientes.Controls.Add(this.button1);
-            this.panelClientes.Controls.Add(this.dataListadoClientes);
-            this.panelClientes.Location = new System.Drawing.Point(46, 8);
-            this.panelClientes.Name = "panelClientes";
-            this.panelClientes.Size = new System.Drawing.Size(851, 484);
-            this.panelClientes.TabIndex = 50;
             // 
             // dataListadoProductosPanel
             // 
@@ -884,10 +791,115 @@
             this.panelProductos.Controls.Add(this.pictureBox6);
             this.panelProductos.Controls.Add(this.btnSeleccionarProducto);
             this.panelProductos.Controls.Add(this.dataListadoProductosPanel);
-            this.panelProductos.Location = new System.Drawing.Point(106, 4);
+            this.panelProductos.Location = new System.Drawing.Point(116, 12);
             this.panelProductos.Name = "panelProductos";
             this.panelProductos.Size = new System.Drawing.Size(851, 484);
             this.panelProductos.TabIndex = 63;
+            // 
+            // dataListadoClientes
+            // 
+            this.dataListadoClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataListadoClientes.Location = new System.Drawing.Point(30, 152);
+            this.dataListadoClientes.Name = "dataListadoClientes";
+            this.dataListadoClientes.Size = new System.Drawing.Size(776, 272);
+            this.dataListadoClientes.TabIndex = 41;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(673, 430);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(133, 23);
+            this.button1.TabIndex = 42;
+            this.button1.Text = "Seleccionar Cliente";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnAgregarCliente
+            // 
+            this.btnAgregarCliente.Location = new System.Drawing.Point(673, 123);
+            this.btnAgregarCliente.Name = "btnAgregarCliente";
+            this.btnAgregarCliente.Size = new System.Drawing.Size(133, 23);
+            this.btnAgregarCliente.TabIndex = 43;
+            this.btnAgregarCliente.Text = "Agregar Cliente";
+            this.btnAgregarCliente.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox4.TabIndex = 46;
+            this.pictureBox4.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(264, 19);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(267, 64);
+            this.label6.TabIndex = 45;
+            this.label6.Text = "Clientes";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::CapaPresentacion.Properties.Resources.segment;
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            // 
+            // btnCerrarPanelClientes
+            // 
+            this.btnCerrarPanelClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCerrarPanelClientes.Location = new System.Drawing.Point(807, 4);
+            this.btnCerrarPanelClientes.Name = "btnCerrarPanelClientes";
+            this.btnCerrarPanelClientes.Size = new System.Drawing.Size(34, 23);
+            this.btnCerrarPanelClientes.TabIndex = 70;
+            this.btnCerrarPanelClientes.Text = "X";
+            this.btnCerrarPanelClientes.UseVisualStyleBackColor = true;
+            this.btnCerrarPanelClientes.Click += new System.EventHandler(this.btnCerrarPanelClientes_Click);
+            // 
+            // panelClientes
+            // 
+            this.panelClientes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelClientes.Controls.Add(this.btnCerrarPanelClientes);
+            this.panelClientes.Controls.Add(this.pictureBox3);
+            this.panelClientes.Controls.Add(this.label6);
+            this.panelClientes.Controls.Add(this.pictureBox4);
+            this.panelClientes.Controls.Add(this.btnAgregarCliente);
+            this.panelClientes.Controls.Add(this.button1);
+            this.panelClientes.Controls.Add(this.dataListadoClientes);
+            this.panelClientes.Location = new System.Drawing.Point(56, 16);
+            this.panelClientes.Name = "panelClientes";
+            this.panelClientes.Size = new System.Drawing.Size(851, 484);
+            this.panelClientes.TabIndex = 50;
+            // 
+            // dgvAutocompleteProducto
+            // 
+            this.dgvAutocompleteProducto.AllowUserToAddRows = false;
+            this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
+            this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 146);
+            this.dgvAutocompleteProducto.MultiSelect = false;
+            this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
+            this.dgvAutocompleteProducto.ReadOnly = true;
+            this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(382, 163);
+            this.dgvAutocompleteProducto.TabIndex = 66;
+            this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
+            // 
+            // btnLeerPeso
+            // 
+            this.btnLeerPeso.Location = new System.Drawing.Point(233, 131);
+            this.btnLeerPeso.Name = "btnLeerPeso";
+            this.btnLeerPeso.Size = new System.Drawing.Size(75, 39);
+            this.btnLeerPeso.TabIndex = 68;
+            this.btnLeerPeso.Text = "Leer\r\nPeso";
+            this.btnLeerPeso.UseVisualStyleBackColor = true;
+            this.btnLeerPeso.Click += new System.EventHandler(this.btnLeerPeso_Click_1);
             // 
             // formNuevaVenta
             // 
@@ -921,7 +933,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox5.ResumeLayout(false);
@@ -932,16 +943,17 @@
             this.groupBox3.PerformLayout();
             this.panelVuelto.ResumeLayout(false);
             this.panelVuelto.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataListadoClientes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.panelClientes.ResumeLayout(false);
-            this.panelClientes.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductosPanel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panelProductos.ResumeLayout(false);
             this.panelProductos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataListadoClientes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.panelClientes.ResumeLayout(false);
+            this.panelClientes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -988,7 +1000,6 @@
         private System.Windows.Forms.Button btnCerrarPanelVuelto;
         private System.Windows.Forms.Panel panelVuelto;
         private System.Windows.Forms.Button btn_confirmar_venta;
-        private System.Windows.Forms.DataGridView dgvAutocompleteProducto;
         private System.Windows.Forms.TextBox txtPrecioUnitario;
         private System.Windows.Forms.TextBox txtPesoBalanza;
         private System.Windows.Forms.Label label12;
@@ -1003,14 +1014,6 @@
         private System.Windows.Forms.Label lblDescuento;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnAplicarDescuento;
-        private System.Windows.Forms.DataGridView dataListadoClientes;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnAgregarCliente;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button btnCerrarPanelClientes;
-        private System.Windows.Forms.Panel panelClientes;
         private System.Windows.Forms.DataGridView dataListadoProductosPanel;
         private System.Windows.Forms.Button btnSeleccionarProducto;
         private System.Windows.Forms.PictureBox pictureBox6;
@@ -1022,5 +1025,15 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnCancelarPanelProductos;
         private System.Windows.Forms.Panel panelProductos;
+        private System.Windows.Forms.DataGridView dataListadoClientes;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAgregarCliente;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button btnCerrarPanelClientes;
+        private System.Windows.Forms.Panel panelClientes;
+        private System.Windows.Forms.DataGridView dgvAutocompleteProducto;
+        private System.Windows.Forms.Button btnLeerPeso;
     }
 }

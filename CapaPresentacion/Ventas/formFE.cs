@@ -1063,6 +1063,13 @@ namespace CapaPresentacion.Ventas
             try
             {
                 long cuit_long = long.Parse(cuit);
+                string cbTipoCompSeleccionado = ((ComboBoxItem)cbTipoComp.SelectedItem).Key;
+                string cbTipoDocSeleccionado = ((ComboBoxItem)cbTipoDoc.SelectedItem).Key;
+
+                DateTime fecha_con_un_mes_mas = fecha_actual.AddMonths(1);
+                string fecha_con_un_mes_mas_formateada = fecha_con_un_mes_mas.ToString("yyyyMMdd");
+
+
                 var wsfeClient = new WsfeClient
                 {
                     IsProdEnvironment = true,
@@ -1072,8 +1079,8 @@ namespace CapaPresentacion.Ventas
                 };
 
                 // Get next WSFE Comp. Number
-                var response = await wsfeClient.FECompUltimoAutorizadoAsync(16, 11);
-                var compNumber = response.Body.FECompUltimoAutorizadoResult.CbteNro + 1;
+                var response = await wsfeClient.FECompUltimoAutorizadoAsync(Convert.ToInt32(txtPtoVenta.Text), Convert.ToInt32(cbTipoCompSeleccionado));
+                var compNumber = response.Body.FECompUltimoAutorizadoResult.CbteNro + 4;
 
 
                 //Build WSFE FECAERequest            
@@ -1094,12 +1101,12 @@ namespace CapaPresentacion.Ventas
                             CbteFch = fecha_actual.ToString("yyyyMMdd"),
                             Concepto = 2,
                             DocNro = 20233237540,   // nro doc comprador (hugo)
-                            DocTipo = 80,
-                            FchVtoPago = "20241211",
+                            DocTipo = Convert.ToInt32(cbTipoDocSeleccionado),
+                            FchVtoPago = fecha_con_un_mes_mas_formateada,
                             ImpNeto = 10,
                             ImpTotal = 10,
                             FchServDesde = fecha_actual.ToString("yyyyMMdd"),
-                            FchServHasta = "20241111",
+                            FchServHasta = fecha_con_un_mes_mas_formateada,
                             MonCotiz = 1,
                             MonId = "PES",
                             Iva = new List<AfipServiceReference.AlicIva>
@@ -1129,11 +1136,20 @@ namespace CapaPresentacion.Ventas
                     // Accede al estado de la respuesta
                     var estado = result.FeCabResp.Resultado; // "A" (aprobado), "R" (rechazado)
 
-                    // Código de CAE (si fue aprobado)
-                    var cae = result.FeDetResp[0].CAE;
+                    if (estado == "R")
+                    {
+                        alta_log("Factura rechazada ");
+                        MessageBox.Show("Factura rechazada ");
+                    }
+                    else
+                    {
+                        // Código de CAE (si fue aprobado)
+                        var cae = result.FeDetResp[0].CAE;
 
-                    //// Fecha de vencimiento del CAE (si aplica)
-                    //var caeFechaVencimiento = result.FeDetResp[0].CAEFchVto;
+                        //// Fecha de vencimiento del CAE (si aplica)
+                        //var caeFechaVencimiento = result.FeDetResp[0].CAEFchVto;
+                    }
+
 
                     if (result.Errors.Any())
                     {
@@ -1157,9 +1173,9 @@ namespace CapaPresentacion.Ventas
             }
             catch (Exception ex)
             {
-                alta_log("Error get_last_comprobante - " + ex.Message);
+                alta_log("Error solicitar_caeAsync - " + ex.Message);
 
-                MessageBox.Show(ex.Message.ToString(), "Error get_last_comprobante");
+                MessageBox.Show(ex.Message.ToString(), "Error solicitar_caeAsync");
             }
 
         }
