@@ -54,6 +54,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnLeerPeso = new System.Windows.Forms.Button();
             this.btnAplicarDescuento = new System.Windows.Forms.Button();
             this.txtDescuento = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -69,20 +70,21 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
-            this.lblUsuario = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.lblImporte = new System.Windows.Forms.Label();
+            this.SerialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.dgvAutocompleteProducto = new System.Windows.Forms.DataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtEntrega = new System.Windows.Forms.TextBox();
+            this.lblUsuario = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblVuelto = new System.Windows.Forms.Label();
             this.btnCerrarPanelVuelto = new System.Windows.Forms.Button();
-            this.panelVuelto = new System.Windows.Forms.Panel();
             this.btn_confirmar_venta = new System.Windows.Forms.Button();
-            this.SerialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.panelVuelto = new System.Windows.Forms.Panel();
+            this.lblImporte = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.dataListadoProductosPanel = new System.Windows.Forms.DataGridView();
             this.btnSeleccionarProducto = new System.Windows.Forms.Button();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -102,17 +104,16 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.btnCerrarPanelClientes = new System.Windows.Forms.Button();
             this.panelClientes = new System.Windows.Forms.Panel();
-            this.dgvAutocompleteProducto = new System.Windows.Forms.DataGridView();
-            this.btnLeerPeso = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductos)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panelVuelto.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductosPanel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -121,7 +122,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panelClientes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -397,6 +397,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Producto";
             // 
+            // btnLeerPeso
+            // 
+            this.btnLeerPeso.Location = new System.Drawing.Point(233, 131);
+            this.btnLeerPeso.Name = "btnLeerPeso";
+            this.btnLeerPeso.Size = new System.Drawing.Size(75, 39);
+            this.btnLeerPeso.TabIndex = 68;
+            this.btnLeerPeso.Text = "Leer\r\nPeso";
+            this.btnLeerPeso.UseVisualStyleBackColor = true;
+            this.btnLeerPeso.Click += new System.EventHandler(this.btnLeerPeso_Click_1);
+            // 
             // btnAplicarDescuento
             // 
             this.btnAplicarDescuento.Location = new System.Drawing.Point(212, 235);
@@ -546,16 +556,6 @@
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // lblUsuario
-            // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(166, 3);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(79, 20);
-            this.lblUsuario.TabIndex = 49;
-            this.lblUsuario.Text = "lblUsuario";
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -584,25 +584,26 @@
             this.pictureBox1.TabIndex = 65;
             this.pictureBox1.TabStop = false;
             // 
-            // groupBox5
+            // SerialPort1
             // 
-            this.groupBox5.Controls.Add(this.lblImporte);
-            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(42, 31);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(200, 100);
-            this.groupBox5.TabIndex = 4;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Importe";
+            this.SerialPort1.BaudRate = 115200;
+            this.SerialPort1.PortName = "COM8";
+            this.SerialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
             // 
-            // lblImporte
+            // dgvAutocompleteProducto
             // 
-            this.lblImporte.AutoSize = true;
-            this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImporte.Location = new System.Drawing.Point(99, 45);
-            this.lblImporte.Name = "lblImporte";
-            this.lblImporte.Size = new System.Drawing.Size(0, 20);
-            this.lblImporte.TabIndex = 0;
+            this.dgvAutocompleteProducto.AllowUserToAddRows = false;
+            this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
+            this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 146);
+            this.dgvAutocompleteProducto.MultiSelect = false;
+            this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
+            this.dgvAutocompleteProducto.ReadOnly = true;
+            this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(382, 163);
+            this.dgvAutocompleteProducto.TabIndex = 66;
+            this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
             // 
             // groupBox4
             // 
@@ -624,6 +625,16 @@
             this.txtEntrega.TabIndex = 0;
             this.txtEntrega.TextChanged += new System.EventHandler(this.txtEntrega_TextChanged);
             this.txtEntrega.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEntrega_KeyPress);
+            // 
+            // lblUsuario
+            // 
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Location = new System.Drawing.Point(166, 3);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(79, 20);
+            this.lblUsuario.TabIndex = 49;
+            this.lblUsuario.Text = "lblUsuario";
             // 
             // groupBox3
             // 
@@ -655,6 +666,16 @@
             this.btnCerrarPanelVuelto.UseVisualStyleBackColor = true;
             this.btnCerrarPanelVuelto.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // btn_confirmar_venta
+            // 
+            this.btn_confirmar_venta.Location = new System.Drawing.Point(167, 360);
+            this.btn_confirmar_venta.Name = "btn_confirmar_venta";
+            this.btn_confirmar_venta.Size = new System.Drawing.Size(75, 23);
+            this.btn_confirmar_venta.TabIndex = 9;
+            this.btn_confirmar_venta.Text = "Confirmar";
+            this.btn_confirmar_venta.UseVisualStyleBackColor = true;
+            this.btn_confirmar_venta.Click += new System.EventHandler(this.btn_confirmar_venta_Click);
+            // 
             // panelVuelto
             // 
             this.panelVuelto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -669,21 +690,25 @@
             this.panelVuelto.Size = new System.Drawing.Size(284, 408);
             this.panelVuelto.TabIndex = 51;
             // 
-            // btn_confirmar_venta
+            // lblImporte
             // 
-            this.btn_confirmar_venta.Location = new System.Drawing.Point(167, 360);
-            this.btn_confirmar_venta.Name = "btn_confirmar_venta";
-            this.btn_confirmar_venta.Size = new System.Drawing.Size(75, 23);
-            this.btn_confirmar_venta.TabIndex = 9;
-            this.btn_confirmar_venta.Text = "Confirmar";
-            this.btn_confirmar_venta.UseVisualStyleBackColor = true;
-            this.btn_confirmar_venta.Click += new System.EventHandler(this.btn_confirmar_venta_Click);
+            this.lblImporte.AutoSize = true;
+            this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImporte.Location = new System.Drawing.Point(99, 45);
+            this.lblImporte.Name = "lblImporte";
+            this.lblImporte.Size = new System.Drawing.Size(0, 20);
+            this.lblImporte.TabIndex = 0;
             // 
-            // SerialPort1
+            // groupBox5
             // 
-            this.SerialPort1.BaudRate = 115200;
-            this.SerialPort1.PortName = "COM4";
-            this.SerialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
+            this.groupBox5.Controls.Add(this.lblImporte);
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.Location = new System.Drawing.Point(42, 31);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(200, 100);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Importe";
             // 
             // dataListadoProductosPanel
             // 
@@ -876,31 +901,6 @@
             this.panelClientes.Size = new System.Drawing.Size(851, 484);
             this.panelClientes.TabIndex = 50;
             // 
-            // dgvAutocompleteProducto
-            // 
-            this.dgvAutocompleteProducto.AllowUserToAddRows = false;
-            this.dgvAutocompleteProducto.AllowUserToDeleteRows = false;
-            this.dgvAutocompleteProducto.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            this.dgvAutocompleteProducto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAutocompleteProducto.Location = new System.Drawing.Point(134, 146);
-            this.dgvAutocompleteProducto.MultiSelect = false;
-            this.dgvAutocompleteProducto.Name = "dgvAutocompleteProducto";
-            this.dgvAutocompleteProducto.ReadOnly = true;
-            this.dgvAutocompleteProducto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAutocompleteProducto.Size = new System.Drawing.Size(382, 163);
-            this.dgvAutocompleteProducto.TabIndex = 66;
-            this.dgvAutocompleteProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvAutocompleteProducto_KeyDown);
-            // 
-            // btnLeerPeso
-            // 
-            this.btnLeerPeso.Location = new System.Drawing.Point(233, 131);
-            this.btnLeerPeso.Name = "btnLeerPeso";
-            this.btnLeerPeso.Size = new System.Drawing.Size(75, 39);
-            this.btnLeerPeso.TabIndex = 68;
-            this.btnLeerPeso.Text = "Leer\r\nPeso";
-            this.btnLeerPeso.UseVisualStyleBackColor = true;
-            this.btnLeerPeso.Click += new System.EventHandler(this.btnLeerPeso_Click_1);
-            // 
             // formNuevaVenta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -935,14 +935,15 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.panelVuelto.ResumeLayout(false);
             this.panelVuelto.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListadoProductosPanel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
@@ -953,7 +954,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panelClientes.ResumeLayout(false);
             this.panelClientes.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAutocompleteProducto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -986,20 +986,10 @@
         private System.Windows.Forms.Label lblPrecioUnitario;
         private System.Windows.Forms.Label lblNombreProd;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnBuscarProd;
         private System.Windows.Forms.ComboBox cbTiposPago;
         private System.Windows.Forms.Label lblTipoPago;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label lblImporte;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TextBox txtEntrega;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label lblVuelto;
-        private System.Windows.Forms.Button btnCerrarPanelVuelto;
-        private System.Windows.Forms.Panel panelVuelto;
-        private System.Windows.Forms.Button btn_confirmar_venta;
         private System.Windows.Forms.TextBox txtPrecioUnitario;
         private System.Windows.Forms.TextBox txtPesoBalanza;
         private System.Windows.Forms.Label label12;
@@ -1014,6 +1004,18 @@
         private System.Windows.Forms.Label lblDescuento;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnAplicarDescuento;
+        private System.Windows.Forms.Button btnLeerPeso;
+        private System.Windows.Forms.DataGridView dgvAutocompleteProducto;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox txtEntrega;
+        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label lblVuelto;
+        private System.Windows.Forms.Button btnCerrarPanelVuelto;
+        private System.Windows.Forms.Button btn_confirmar_venta;
+        private System.Windows.Forms.Panel panelVuelto;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label lblImporte;
         private System.Windows.Forms.DataGridView dataListadoProductosPanel;
         private System.Windows.Forms.Button btnSeleccionarProducto;
         private System.Windows.Forms.PictureBox pictureBox6;
@@ -1033,7 +1035,5 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button btnCerrarPanelClientes;
         private System.Windows.Forms.Panel panelClientes;
-        private System.Windows.Forms.DataGridView dgvAutocompleteProducto;
-        private System.Windows.Forms.Button btnLeerPeso;
     }
 }

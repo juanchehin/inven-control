@@ -977,7 +977,7 @@ namespace CapaPresentacion.Ventas
                     // calculo
                     double calculo_precio = (pesoKg * Convert.ToDouble(txtPrecioUnitario.Text));
 
-                    txtPrecioUnitario.Text = calculo_precio.ToString();
+                    //txtPrecioUnitario.Text = calculo_precio.ToString();
                 }
                 else
                 {

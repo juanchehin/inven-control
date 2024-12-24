@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
@@ -139,73 +140,46 @@ namespace CapaPresentacion.Configuraciones.balanzas
 
         private void btnEnviarDatos_Click(object sender, EventArgs e)
         {
-            string IP;
-            string ORDEN;
-            string PARAMETROS = "";
-            string CRC = "0";
-            string TramaTX = "";
-            Int16 i;
-            string Temp;
+                // Función para enviar los datos por el puerto serie
+                string IP;
+                string ORDEN;
+                string PARAMETROS = "";
+                int CRC = 0;
+                string TramaTX = "";
+                int i;
+                string Temp;
 
-            IP = Text_IP.Text.ToString();
-            ORDEN = Text_Funcion.Text.ToString();
-            PARAMETROS = Text_Parametros.Text;
+                // Pasamos los datos IP, Función y Parámetros a variables locales para trabajarlas
+                IP = ((char)int.Parse(Text_IP.Text)).ToString(); // Convertimos el texto a carácter según su código ASCII
+                ORDEN = ((char)int.Parse(Text_Funcion.Text)).ToString();
+                PARAMETROS = Text_Parametros.Text;
 
-            // -------------- Calcula el CRC --------------------
-            Temp = Text_Parametros.Text;
-
-
-            //CRC = Text_IP.Text ^ Text_Funcion.Text;
-
-            // Convertir las cadenas de texto en arreglos de bytes
-            byte[] bytesIP = Encoding.UTF8.GetBytes(Text_IP.Text);
-            byte[] bytesFuncion = Encoding.UTF8.GetBytes(Text_Funcion.Text);
-
-            // Realizar la operación XOR byte a byte
-            byte[] resultBytes = new byte[Math.Min(bytesIP.Length, bytesFuncion.Length)];
-
-            for (int j = 0; j < resultBytes.Length; j++)
-            {
-                resultBytes[j] = (byte)(bytesIP[j] ^ bytesFuncion[j]);
-            }
-
-            // Convertir el resultado de bytes nuevamente a cadena
-            CRC = Encoding.UTF8.GetString(resultBytes);
-
-            for (int j = 0; j <= PARAMETROS.Length - 1; j++)
-            {
-                //CRC = CRC ^ Convert.ToInt64("0x" + Ascii_a_Hexadecimal(PARAMETROS[j].ToString()), 16);
-
-                string valorHexadecimal = Ascii_a_Hexadecimal(PARAMETROS[j].ToString());
-                long valorConvertido = Convert.ToInt64(valorHexadecimal, 16);
-
-                // Convertir la cadena a un arreglo de bytes
-                byte[] bytesCadena = Encoding.UTF8.GetBytes(CRC);
-
-                // Realizar la operación XOR byte a byte entre la cadena y el número
-                //long resultado = 12345;
-                for (int k = 0; k < bytesCadena.Length; k++)
+                //.................... Calcula el CRC ......................
+                Temp = Text_Parametros.Text;
+                CRC = int.Parse(Text_IP.Text) ^ int.Parse(Text_Funcion.Text); // Sacamos el CRC entre la IP y la Función
+                for (i = 0; i < PARAMETROS.Length; i++)                      // Recorre todo el parámetro, haciendo el CRC de cada carácter
                 {
-                    valorConvertido ^= bytesCadena[k];
+                    CRC ^= Convert.ToInt32(Ascii_a_Hexadecimal2(Temp[i]).ToString(), 16);
                 }
+                //...........................................................
 
-                //CRC = CRC ^ valorConvertido;
-            }
+                TramaTX = IP + ORDEN + PARAMETROS + ((char)CRC).ToString();   // Armamos la trama completa a enviar
+                try
+                {
+                    SerialPort1.Write(TramaTX);                              // Lo enviamos por el puerto
+                    Text_Recibir.Clear();                                   // Borramos todo el texto recibido para mostrar de cero el nuevo texto
+                    TextBox_trama_enviada.Text = TramaTX;
+                }
+                catch (Exception ex)                                         // Manejo de errores
+                {
+                    MessageBox.Show(ex.Message);
+                }
+        }
 
-            // -------------- Armamos la trama completa a enviar --------------------
-            TramaTX = IP + ORDEN + PARAMETROS + CRC;
-
-            try
-            {
-                SerialPort1.Write(TramaTX);
-                Text_Recibir.Clear();
-                TextBox_trama_enviada.Text = TramaTX;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
+        // Función Ascii_a_Hexadecimal (debe implementarse)
+        private string Ascii_a_Hexadecimal2(char caracter)
+        {
+            return ((int)caracter).ToString("X2"); // Convertimos el carácter ASCII a su valor hexadecimal
         }
 
         private string Ascii_a_Hexadecimal(string Ascii)
@@ -247,13 +221,13 @@ namespace CapaPresentacion.Configuraciones.balanzas
                 //Dato_Recibido = SerialPort1.ReadExisting;
                 acceso_interrupcion(SerialPort1.ReadExisting());
 
-                //if (SerialPort1.BytesToRead == 0)
-                //{
-                //    string Temp1;
-                //    Temp1 = Strings.Replace(Dato_Recibido, Constants.vbNullChar, " ");
-                //    Text_Recibir.Text = Temp1;
-                //}
-                // Text_Recibir.Text += Dato_Recibido
+                if (SerialPort1.BytesToRead == 0)
+                {
+                    string Temp1;
+                    Temp1 = Strings.Replace(Dato_Recibido, Constants.vbNullChar, " ");
+                    Text_Recibir.Text = Temp1;
+                }
+                Text_Recibir.Text += Dato_Recibido;
             }
             catch (Exception ex)
             {
