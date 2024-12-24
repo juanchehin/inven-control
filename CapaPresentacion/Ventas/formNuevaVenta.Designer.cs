@@ -83,8 +83,8 @@
             this.btnCerrarPanelVuelto = new System.Windows.Forms.Button();
             this.btn_confirmar_venta = new System.Windows.Forms.Button();
             this.panelVuelto = new System.Windows.Forms.Panel();
-            this.lblImporte = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lblImporte = new System.Windows.Forms.Label();
             this.dataListadoProductosPanel = new System.Windows.Forms.DataGridView();
             this.btnSeleccionarProducto = new System.Windows.Forms.Button();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -147,7 +147,7 @@
             this.groupBox1.Controls.Add(this.lblSubTotal);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Location = new System.Drawing.Point(799, 85);
+            this.groupBox1.Location = new System.Drawing.Point(334, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(656, 430);
             this.groupBox1.TabIndex = 37;
@@ -685,19 +685,10 @@
             this.panelVuelto.Controls.Add(this.lblUsuario);
             this.panelVuelto.Controls.Add(this.groupBox4);
             this.panelVuelto.Controls.Add(this.groupBox5);
-            this.panelVuelto.Location = new System.Drawing.Point(246, 12);
+            this.panelVuelto.Location = new System.Drawing.Point(473, 12);
             this.panelVuelto.Name = "panelVuelto";
             this.panelVuelto.Size = new System.Drawing.Size(284, 408);
             this.panelVuelto.TabIndex = 51;
-            // 
-            // lblImporte
-            // 
-            this.lblImporte.AutoSize = true;
-            this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImporte.Location = new System.Drawing.Point(99, 45);
-            this.lblImporte.Name = "lblImporte";
-            this.lblImporte.Size = new System.Drawing.Size(0, 20);
-            this.lblImporte.TabIndex = 0;
             // 
             // groupBox5
             // 
@@ -709,6 +700,15 @@
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Importe";
+            // 
+            // lblImporte
+            // 
+            this.lblImporte.AutoSize = true;
+            this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImporte.Location = new System.Drawing.Point(99, 45);
+            this.lblImporte.Name = "lblImporte";
+            this.lblImporte.Size = new System.Drawing.Size(0, 20);
+            this.lblImporte.TabIndex = 0;
             // 
             // dataListadoProductosPanel
             // 
@@ -816,7 +816,7 @@
             this.panelProductos.Controls.Add(this.pictureBox6);
             this.panelProductos.Controls.Add(this.btnSeleccionarProducto);
             this.panelProductos.Controls.Add(this.dataListadoProductosPanel);
-            this.panelProductos.Location = new System.Drawing.Point(116, 12);
+            this.panelProductos.Location = new System.Drawing.Point(82, 12);
             this.panelProductos.Name = "panelProductos";
             this.panelProductos.Size = new System.Drawing.Size(851, 484);
             this.panelProductos.TabIndex = 63;
@@ -896,7 +896,7 @@
             this.panelClientes.Controls.Add(this.btnAgregarCliente);
             this.panelClientes.Controls.Add(this.button1);
             this.panelClientes.Controls.Add(this.dataListadoClientes);
-            this.panelClientes.Location = new System.Drawing.Point(56, 16);
+            this.panelClientes.Location = new System.Drawing.Point(22, 16);
             this.panelClientes.Name = "panelClientes";
             this.panelClientes.Size = new System.Drawing.Size(851, 484);
             this.panelClientes.TabIndex = 50;
@@ -906,9 +906,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 566);
-            this.Controls.Add(this.dgvAutocompleteProducto);
             this.Controls.Add(this.panelProductos);
             this.Controls.Add(this.panelClientes);
+            this.Controls.Add(this.dgvAutocompleteProducto);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.btnRegistrar);
             this.Controls.Add(this.groupBox2);
